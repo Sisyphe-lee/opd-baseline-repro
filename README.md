@@ -8,6 +8,9 @@ provides separate three-step and full-training launchers.
 It intentionally does not vendor upstream source, model weights, datasets, checkpoints,
 or logs.
 
+Project authority and the exact handoff state are recorded in
+[BASELINE_DECISIONS.md](BASELINE_DECISIONS.md) and [SETUP_STATUS.md](SETUP_STATUS.md).
+
 ## Frozen baseline
 
 - Upstream: `thunlp/OPD@4532fd35ccfdde82adc918b265e4c964534e83d1`
