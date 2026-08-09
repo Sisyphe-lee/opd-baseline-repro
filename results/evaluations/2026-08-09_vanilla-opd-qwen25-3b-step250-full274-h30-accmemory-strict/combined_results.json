@@ -1,0 +1,107 @@
+{
+  "diagnostic_rows": [
+    {
+      "method": "TCOD-F2B local, tolerant parser",
+      "note": "512-token diagnostic; parser differs from frozen protocol.",
+      "overall_rate": 0.843065693430657,
+      "seen_rate": 0.8714285714285714,
+      "seen_success_count": 122,
+      "seen_task_count": 140,
+      "success_count": 231,
+      "task_count": 274,
+      "unseen_rate": 0.8134328358208955,
+      "unseen_success_count": 109,
+      "unseen_task_count": 134
+    },
+    {
+      "method": "TCOD-F2B local, strict parser r4096",
+      "note": "4096-token diagnostic; distributed sampling realization differs.",
+      "overall_rate": 0.8394160583941606,
+      "seen_rate": 0.8714285714285714,
+      "seen_success_count": 122,
+      "seen_task_count": 140,
+      "success_count": 230,
+      "task_count": 274,
+      "unseen_rate": 0.8059701492537313,
+      "unseen_success_count": 108,
+      "unseen_task_count": 134
+    }
+  ],
+  "local_comparison": {
+    "tcod_minus_vanilla_overall_pp": 5.109489051094885,
+    "tcod_minus_vanilla_seen_pp": 5.000000000000004,
+    "tcod_minus_vanilla_unseen_pp": 5.223880597014929
+  },
+  "protocol": {
+    "accumulate_memory": true,
+    "engine_num": 4,
+    "max_env_steps": 30,
+    "max_prompt_tokens": 10240,
+    "max_response_tokens": 512,
+    "max_tokens": 512,
+    "runner_per_model": 16,
+    "seed": 42,
+    "strict_action_parser": true,
+    "temperature": 0.4,
+    "tensor_parallel_size": 1,
+    "top_k": -1,
+    "top_p": 1.0
+  },
+  "rows": [
+    {
+      "method": "Qwen2.5-7B RL teacher (paper)",
+      "note": "Paper reference; weighted overall is derived from rounded split rates.",
+      "overall_rate": 0.8138678832116788,
+      "seen_rate": 0.8571,
+      "unseen_rate": 0.7687
+    },
+    {
+      "method": "Vanilla OPD Qwen2.5-3B (paper)",
+      "note": "Paper Table 2; weighted overall is derived from rounded split rates.",
+      "overall_rate": 0.63142700729927,
+      "seen_rate": 0.6572,
+      "unseen_rate": 0.6045
+    },
+    {
+      "method": "TCOD-F2B eta=2 Qwen2.5-3B (paper)",
+      "note": "Paper Table 2; weighted overall is derived from rounded split rates.",
+      "overall_rate": 0.8033452554744526,
+      "seen_rate": 0.8143,
+      "unseen_rate": 0.7918999999999999
+    },
+    {
+      "method": "TCOD-F2B eta=2 Qwen2.5-3B (local)",
+      "note": "Frozen strict-parser 512-token protocol.",
+      "overall_rate": 0.8467153284671532,
+      "seen_rate": 0.8714285714285714,
+      "seen_success_count": 122,
+      "seen_task_count": 140,
+      "success_count": 232,
+      "task_count": 274,
+      "unseen_rate": 0.8208955223880597,
+      "unseen_success_count": 110,
+      "unseen_task_count": 134
+    },
+    {
+      "method": "Vanilla OPD Qwen2.5-3B (local)",
+      "note": "Frozen strict-parser 512-token protocol.",
+      "overall_rate": 0.7956204379562044,
+      "seen_rate": 0.8214285714285714,
+      "seen_success_count": 115,
+      "seen_task_count": 140,
+      "success_count": 218,
+      "task_count": 274,
+      "unseen_rate": 0.7686567164179104,
+      "unseen_success_count": 103,
+      "unseen_task_count": 134
+    }
+  ],
+  "schema_version": 1,
+  "sources": {
+    "paper_reference_record": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/VANILLA_OPD_4GPU.md",
+    "tcod_r4096_summary": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-08_tcod-f2b-qwen25-3b-step250-full274-h30-accmemory-strict-r4096/evaluation/full274_h30/summary.json",
+    "tcod_summary": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-08_tcod-f2b-qwen25-3b-step250-full274-h30-accmemory-strict/evaluation/full274_h30/summary.json",
+    "tcod_tolerant_summary": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-08_tcod-f2b-qwen25-3b-step250-full274-h30-accmemory/evaluation/full274_h30/summary.json",
+    "vanilla_summary": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-09_vanilla-opd-qwen25-3b-step250-full274-h30-accmemory-strict/evaluation/full274_h30/summary.json"
+  }
+}

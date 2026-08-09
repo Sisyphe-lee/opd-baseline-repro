@@ -1,0 +1,10 @@
+diff --git a/trinity/common/workflows/envs/TCOD/alfworld/eval_workflow.py b/trinity/common/workflows/envs/TCOD/alfworld/eval_workflow.py
+--- a/trinity/common/workflows/envs/TCOD/alfworld/eval_workflow.py
++++ b/trinity/common/workflows/envs/TCOD/alfworld/eval_workflow.py
+@@
+-                if len(history) < HISTORY_LENGTH:
++                # The initial TextWorld observation contains the task, but later
++                # observations do not. Switch to the history template as soon as
++                # one transition exists so step 2 still receives task_description.
++                if not history:
+                     user_content = ALFWORLD_TEMPLATE_NO_HIS.format(

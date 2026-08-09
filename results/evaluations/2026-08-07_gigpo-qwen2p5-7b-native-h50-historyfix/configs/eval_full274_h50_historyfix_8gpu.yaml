@@ -1,0 +1,93 @@
+project: "TCOD-F2B-REPRO"
+group: "full274-h50-gigpo-native-historyfix"
+name: "gigpo-qwen2p5-7b-rl-full274-historyfix-8gpu"
+checkpoint_root_dir: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-07_gigpo-qwen2p5-7b-native-h50-historyfix/evaluation/trinity_output
+continue_from_checkpoint: false
+mode: bench
+
+algorithm:
+  algorithm_type: grpo
+  repeat_times: 1
+  optimizer:
+    lr: 1.0e-6
+
+model:
+  model_path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/models/GiGPO-Qwen2.5-7B-Instruct-ALFWorld
+  max_prompt_tokens: 2048
+  max_response_tokens: 512
+
+cluster:
+  node_num: 1
+  gpu_per_node: 8
+
+buffer:
+  batch_size: 8
+  explorer_input:
+    taskset:
+      name: unused_train_set
+      storage_type: file
+      path: ./reproduction_data/alfworld/full_valid_seen.jsonl
+      split: train
+      format:
+        prompt_key: game_file
+    eval_tasksets:
+      - name: alfworld_full_seen_h50_historyfix
+        storage_type: file
+        path: ./reproduction_data/alfworld/full_valid_seen.jsonl
+        split: test
+        format:
+          prompt_key: game_file
+        rollout_args:
+          temperature: 0.4
+          top_p: 1.0
+          top_k: -1
+          max_tokens: 512
+        workflow_args:
+          max_env_steps: 50
+          result_dir: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-07_gigpo-qwen2p5-7b-native-h50-historyfix/evaluation/full274_h50/task_records
+          evaluation_id: full274_h50_gigpo_qwen2p5_7b_historyfix_seed42
+          checkpoint_label: gigpo_qwen2p5_7b_rl_historyfix
+      - name: alfworld_full_unseen_h50_historyfix
+        storage_type: file
+        path: ./reproduction_data/alfworld/full_valid_unseen.jsonl
+        split: test
+        format:
+          prompt_key: game_file
+        rollout_args:
+          temperature: 0.4
+          top_p: 1.0
+          top_k: -1
+          max_tokens: 512
+        workflow_args:
+          max_env_steps: 50
+          result_dir: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-07_gigpo-qwen2p5-7b-native-h50-historyfix/evaluation/full274_h50/task_records
+          evaluation_id: full274_h50_gigpo_qwen2p5_7b_historyfix_seed42
+          checkpoint_label: gigpo_qwen2p5_7b_rl_historyfix
+    default_workflow_type: TCOD_eval_alfworld_workflow
+
+explorer:
+  eval_on_startup: true
+  runner_per_model: 16
+  max_timeout: 7200
+  rollout_model:
+    engine_num: 8
+    tensor_parallel_size: 1
+    use_v1: false
+    enforce_eager: false
+    enable_prefix_caching: false
+    enable_chunked_prefill: true
+    gpu_memory_utilization: 0.45
+    dtype: bfloat16
+    seed: 42
+    enable_thinking: false
+  auxiliary_models: []
+  bench_on_latest_checkpoint: false
+
+monitor:
+  monitor_type: tensorboard
+
+synchronizer:
+  sync_method: checkpoint
+  sync_style: fixed
+  sync_interval: 1
+  sync_timeout: 7200

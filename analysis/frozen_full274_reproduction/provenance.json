@@ -1,0 +1,91 @@
+{
+  "tcod": {
+    "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/evaluations/2026-08-08_tcod-f2b-qwen25-3b-step250-full274-h30-accmemory-strict/evaluation/full274_h30/task_results.jsonl",
+    "sha256": "d59a7579e0b4892e999463ad70e39e3fe1c8a5a418c997d68b12d74b0db91658",
+    "protocol": {
+      "task_count": [
+        274
+      ],
+      "splits": [
+        "seen",
+        "unseen"
+      ],
+      "max_env_steps": [
+        30
+      ],
+      "action_parser": [
+        "strict_public_tcod"
+      ],
+      "sampling.max_tokens": [
+        512
+      ],
+      "sampling.temperature": [
+        0.4
+      ],
+      "sampling.top_k": [
+        -1
+      ],
+      "sampling.top_p": [
+        1.0
+      ]
+    }
+  },
+  "vanilla": {
+    "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/evaluations/2026-08-09_vanilla-opd-qwen25-3b-step250-full274-h30-accmemory-strict/evaluation/full274_h30/task_results.jsonl",
+    "sha256": "43cc3b3cc9d1fe3172ff09a5a259ace5217c0321650f3ad56381718a044a5875",
+    "protocol": {
+      "task_count": [
+        274
+      ],
+      "splits": [
+        "seen",
+        "unseen"
+      ],
+      "max_env_steps": [
+        30
+      ],
+      "action_parser": [
+        "strict_public_tcod"
+      ],
+      "sampling.max_tokens": [
+        512
+      ],
+      "sampling.temperature": [
+        0.4
+      ],
+      "sampling.top_k": [
+        -1
+      ],
+      "sampling.top_p": [
+        1.0
+      ]
+    }
+  },
+  "paper_source": "arXiv:2604.24005, Table 2",
+  "training_logs": {
+    "tcod": [
+      "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/training/tcod_f2b_step250/launcher_logs/f2b_resume80_20260808T0615Z.log"
+    ],
+    "vanilla": [
+      "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/training/vanilla_opd_step250/launcher_logs/vanilla_restart_20260808T0615Z.log",
+      "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/training/vanilla_opd_step250/launcher_logs/vanilla_resume100_20260808.log",
+      "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/training/vanilla_opd_step250/launcher_logs/vanilla_resume120_20260809.log"
+    ],
+    "tcod_model_version_range": [
+      80,
+      248
+    ],
+    "vanilla_model_version_range": [
+      0,
+      248
+    ]
+  },
+  "figures": [
+    "paper_vs_local_reproduction.png",
+    "task_type_success_heatmap.png",
+    "paired_outcome_heatmap.png",
+    "per_task_outcome_matrix.png",
+    "rounds_distribution.png",
+    "training_rollout_comparison.png"
+  ]
+}

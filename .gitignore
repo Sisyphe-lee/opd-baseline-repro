@@ -1,9 +1,58 @@
-.venv_opd_official/
-third_party/
-models/
-artifacts/
-.cache/
+# Python and test caches
 __pycache__/
 *.py[cod]
-*.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local Python environment
+/.venv_tcod/
+/.venv/
+/venv/
+
+# Large model and training artifacts
+/models/
+/checkpoints/
+/runs/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.incomplete
+
+# Generated ALFWorld runtime and distributed-worker caches
+/data/alfworld_runtime/
+**/ray_tmp/
+**/worker_tmp/
+
+# Local secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+*.token
+
+# Private remote-machine usage documentation
+/REMOTE_MACHINE.md
+/REMOTE_MACHINE_USAGE.md
+/remote_machine.md
+/remote_machine_usage.md
+/REMOTE_SERVER.md
+/REMOTE_SERVER_USAGE.md
+/remote_server.md
+/remote_server_usage.md
+/docs/REMOTE_MACHINE.md
+/docs/REMOTE_MACHINE_USAGE.md
+/docs/remote_machine.md
+/docs/remote_machine_usage.md
+/docs/REMOTE_SERVER.md
+/docs/REMOTE_SERVER_USAGE.md
+/docs/remote_server.md
+/docs/remote_server_usage.md
+/private/
+
+# Editor and OS files
 .DS_Store
+*.swp
+*.swo
+*~

@@ -1,0 +1,4 @@
+split,task_count,both_success,tcod_only_success,vanilla_only_success,both_failure
+seen,140,110,12,5,13
+unseen,134,98,12,5,19
+all,274,208,24,10,32

@@ -1,0 +1,999 @@
+                                                                                    April 30, 2026
+                          TCOD:ExploringTemporalCurriculuminOn-Policy
+                             Distillation for Multi-turn Autonomous Agents
+                                        ²                                             ²
+                               Jiaqi Wang, WenhaoZhang, WeijieShi, Yaliang Li, James Cheng
+                                              TongyiLab   , Alibaba Group
+                        Abstract
+                        On-policy distillation (OPD) has shown strong potential for transferring reasoning
+                        ability from frontier or domain-specific models to smaller students. While effec-
+                        tive on static single-turn tasks, its behavior in multi-turn agent settings remains
+                        underexplored. In this work, we identify a key limitation of vanilla OPD in such
+                        settings, which we term Trajectory-Level KL Instability. Specifically, we observe that
+                        KLdivergence increases together with a drop in success rate, and even after con-
+                        vergence, the KL remains high, leading to unstable training. This instability arises
+                        from inter-turn error compounding: as errors accumulate, the student is driven
+                        beyondtheteacher’seffective support, rendering the supervision signal unreliable.
+                        Toaddressthis, we propose TCOD(TemporalCurriculumOn-PolicyDistillation),
+                        a simple yet effective framework that controls the trajectory depth exposed to the
+                        student and progressively expands it from short to long with a curriculum schedule.
+                        Experimental results across four student±teacher pairs on three multi-turn agent
+                        benchmarks (ALFWorld, WebShop, ScienceWorld) show that TCOD mitigates KL
+                        escalation and enhances KL stability throughout training, improving agent performance
+                        by up to 18 points over vanilla OPD. Further evaluations show that TCOD can even
+                        surpass the teacher’s performance and generalize to tasks on which the teacher fails.
+                     1  Introduction
+                     On-policy distillation has recently emerged as a primary paradigm for transferring com-
+                     plex reasoning capabilities from frontier models to their smaller counterparts (Agarwal
+                     et al., 2024; Lu & Lab, 2025). These methods have demonstrated remarkable success in
+                     mathematicalorquestionansweringtasksbyminimizingtoken-levelKLdivergenceover
+                     student-generated rollouts (Jang et al., 2026; Ko et al., 2026; Jin et al., 2026). However,
+                     these approaches are inherently designed for static, single-turn reasoning. Consequently,
+                     they leave the more challenging multi-turn agent setting underexplored, where the model
+       arXiv:2604.24005v3  [cs.LG]  29 Apr 2026mustcontinuouslyreasonandactbasedonagrowinghistoryofsequentialinteractions. It
+                     remainsacritical open question whether the stability of vanilla OPD can safely generalize
+                     to such dynamic, long-horizon environments.
+                     In this work, we present empirical evidence that naively applying vanilla OPD in this
+                     multi-turn regime leads to a fundamental failure mode, which we term Trajectory-Level
+                     KLInstability. Through experiments on ALFWorld(Shridharet al., 2020), we find that (i)
+                     the student models suffer from simultaneous KL escalation and success rate collapse, and
+                     (ii) although they eventually converge, they begin with prohibitively high KL divergence,
+                     both of which induce training instability. Crucially, as shown in Figure 1(left), we reveal the
+                     underlying mechanism: Compoundingerrorsacrossturnsprogressivelypushthestudent
+                     into states outside the teacher’s effective support. As a result, the teacher assigns lower
+                     probabilities to tokens in student-generated responses, indicating increasing KL divergence
+                     at each turn and rendering its supervision signal unreliable.
+                        ² The Chinese University of Hong Kong.
+                                                          1
+                                                                                Full rollouts         Turn 1                                                OPD on all turns           Compounding errors
+                                                                                  Prompt 1              To   complete the    task    of    cleaning
+                                                    e                                                   0.00 0.70     0.61    0.86 0.92     0.98
+                                                    c                                 Answer 1
+                                                    n                                                  some     egg   and    putting  it       on   …...
+                                                    e                                                                                                      F2B start learning on the forward turns
+                                                    g
+                                                    r                            Observation 1          1.00   1.00   0.00    1.00  1.00    0.00
+                                                    e                                                   …
+                                                    v                                  …
+                                                    i                                                                                                                                          Not calculate
+                                                    d           KL 
+                                                                                  Prompt n            Turn 22
+                                                    KL       Increase                                  To   complete the    task    of    cleaning        B2F start learning on the backward turns
+                                                          Turn Step                   Answer n          0.00   0.00   1.00   0.96   1.00    0.00
+                                                                                 Observation n        some     egg   and    putting  it       on  …...                  Not calculate
+                                                                                                        0.00   0.00   0.00   0.00 0.00 0.00
+                                                                                                        …                                                     Success trajectories prefix
+                                                Figure 1: (left) In OPD for multi-turn agents, as the number of turns increases, the teacher
+                                                assigns progressively lower probabilities to tokens in student-generated responses, indi-
+                                                cating increasing KL divergence at each turn, rendering the supervision signal unreliable.
+                                                (right) OPD uses all turns and thus includes compounding errors, whereas TCOD-F2B/B2F
+                                                progressively expands from short to long trajectories, alleviating calculating the error turns.
+                                                Toaddressthis, we propose TCOD(TemporalCurriculumOn-PolicyDistillation), a simple
+                                                yet effective framework that controls the trajectory depth exposed to the student and
+                                                progressively expandsit fromshorttolongviaapacingstrategygovernedbyaconfigurable
+                                                curriculum growth rate. Based on this core idea, as shown in Figure 1(right), we introduce
+                                                twopracticalvariantswithonlyminimalcodemodifications: Forward-to-Backward(TCOD-
+                                                F2B), which restricts the student to the early steps of the trajectory and progressively
+                                                extends it to the maximum explore horizon; and Backward-to-Forward (TCOD-B2F),
+                                                whichleveragestheteachertonavigatetheagenttonear-terminalstates,alleviating error
+                                                accumulation in the early steps, while gradually extending the student’s rollout horizon
+                                                backwardtotheinitial stages.
+                                                Built on top of TCOD-F2B/B2F, we evaluate four student-teacher pairs on three multi-turn
+                                                agent benchmarks: ALFWorld (Shridhar et al., 2020), WebShop (Yao et al., 2022a), and
+                                                ScienceWorld(Wangetal.,2022). Overall, TCODalleviatesKLinstabilityandimproves
+                                                performancebyrecoveringQwen3-1.7Bfromnear-zerosuccessratesandboostingthelarger
+                                                one(e.g., Qwen2.5-7B) by up to 15.71 success rate points while reducing action rounds by
+                                                anaverageof2.97steps. Moreover, TCODdoesnotmerelyimitatetheteacherÐonthehard
+                                                split of ALFWorld where the teacher fails under pass@10 sampling, TCOD-B2F surpasses
+                                                the teacher’s success rate by up to 14 points, demonstrating generalization beyond the
+                                                teacher’s own capability boundary. Finally, TCOD-F2B/B2F are robust to the curriculum
+                                                growthratewithlessthan2%performancevariation,andreducetotaltrainingtimebyup
+                                                to 32% comparedtovanillaOPD.
+                                                2       Related Work
+                                                LLM-basedMulti-turnAgents. Largelanguagemodelshavedemonstratedstrongcapa-
+                                                bilities as multi-turn agents (OpenAI et al., 2024; Yang et al., 2025). A common paradigm
+                                                interleaves reasoningandactiongenerationviaframeworkssuchasReAct(Yaoetal.,2022b),
+                                                enabling agents to solve tasks in embodied planning, web navigation, and other interactive
+                                                environments(Shridharetal., 2020; Yao et al., 2022a; Wang et al., 2022; Merrill et al., 2026;
+                                                HKUDS,2026;Lietal.,2026). RecentsystemssuchasOpenClaw(Wangetal.,2026;Con-
+                                                tributors, 2026) further demonstrate the potential of LLM-based agents for long-horizon
+                                                tasks, motivating increasing interest in general-purpose agentic frameworks. Despite these
+                                                advances, training multi-turn agents remains challenging due to long-horizon credit assign-
+                                                ment(Guoetal.,2025),memorymanagement(Shietal.,2026),andthesampleinefficiency
+                                                of reinforcement learning in sparse-reward settings (Feng et al., 2025; Penaloza et al., 2026).
+                                                On-Policy Distillation and its Limitations. On-Policy Distillation (Agarwal et al., 2024;
+                                                Lu&Lab,2025)hasemergedasacompellingalternativetoon-policypost-trainingbyre-
+                                                placing sparse scalar rewards with dense distillation signals and thereby improving sample
+                                                efficiency. Existing work has improved OPD through several design choices, including
+                                                objective design (Jang et al., 2026; Jin et al., 2026), optimization heuristics (Ko et al., 2026),
+                                                andalternative supervision sources (Ye et al., 2026; Zhao et al., 2026). These methods, such
+                                                as balancing forward and backward KL terms (Jang et al., 2026; Jin et al., 2026) and incorpo-
+                                                                                                                                     2
+                         rating RL-style heuristics such as reward clipping (Ko et al., 2026), improve training stability
+                         andconvergence. However,theseapproachesareprimarilydesignedforsingle-turnsettings
+                         anddonotdirectlyaddressmulti-turnagentenvironments.
+                         CurriculumLearning. Curriculumlearning(Bengioetal., 2009) is a training strategy where
+                         amodelisexposedtoprogressivelymoredifficultexamplesasitscompetencegrows. Recent
+                         works(Zhangetal.,2026;Wangetal.,2025b)applythistothepre-trainingandpost-training
+                         of LLMs, respectively. Shi et al. (2025); Wang & Ammanabrolu (2025); Gong et al. (2026)
+                         further apply curriculum learning to reinforcement learning methods, such as GRPO Guo
+                         et al. (2025), but still rely on an external model to measure difficulty. Lauffer et al. (2025)
+                         trains the student only on the expert’s subsequent corrective actions, breaking the on-policy
+                         setting. Our approachavoidsbothbydefiningdifficultythroughincreasingtrajectorydepth,
+                         using only student-generated data, keeping training simple, on-policy, and more stable.
+                         3   Preliminary
+                         In this paper, we consider multi-turn autonomous agents interacting with an environment
+                         over a finite horizon. Let t ∈ {0,...,T − 1} denote the turn index within a trajectory,
+                         where T is the maximumnumberofinteractionsteps. Ateachturn t, the agent receives an
+                         observation ot, generates a response at, and the environment returns the next observation
+                         ot+1. Following the recent agent frameworks (Wang et al., 2025a), each response at consists
+                         of a chain-of-thought reasoning trace followed by an executable action.
+                         HistoryStateforMulti-turnAgent. Sincetheenvironmentisgenerallypartiallyobservable,
+                         wedefinetheagentstateasthefullinteractionhistory up to the current observation:
+                                                    ht = (o0,a0,o1,a1,...,ot−1,at−1,ot).                       (1)
+                         Acomplete trajectory is then τ = (h0,a0,h1,a1,...,hT−1,aT−1), which terminates either
+                         whenaterminationactionistakenorwhenthehorizon T isreached.
+                         On-Policy Distillation for Multi-turn Agent. Given a teacher policy πϕ and a student
+                         policy πθ, the goal of on-policy distillation is to align the student with the teacher under the
+                         student’s own state distribution. The objective is:
+                                          LOPD(θ) = Eτ∼π "T−1DKLπϕ(at | ht) ∥ πθ(at | ht)#,                  (2)
+                                                          θ   ∑
+                                                             t=0
+                         where DKL(πϕ ∥ πθ) = ∑a πϕ(at | ht)log πϕ(at|ht) is the KL divergence measuring the
+                                                     t               πθ(at|ht)
+                         discrepancy between the teacher policy πϕ and the student policy πθ.
+                         4   TCOD:TemporalCurriculumOn-PolicyDistillation
+                         In this section, we observe a key limitation of OPD in multi-turn agent settings, termed
+                         trajectory-level KL instability. Through empirical analysis, we show that OPD exhibits
+                         instability in long-horizon interactions, where compounding errors lead to escalating KL
+                         divergence and degraded performance. Motivated by these findings, we propose TCOD, a
+                         temporal curriculum strategy that progressively controls trajectory depth during training to
+                         improvestability and effectiveness in multi-turn distillation.
+                         4.1  Trajectory-Level KL Instability in Multi-Turn On-Policy Distillation
+                         In this section, we conduct a pilot study on ALFWorld to examine the behavior of OPD in
+                         multi-turn settings. We systematically evaluate student±teacher pairs across the Qwen3
+                         and Qwen2.5 model families, including both larger-scale and domain-adapted teachers.
+                         For Qwen3, we use Qwen3-30B-A3B-Instruct as the teacher and Qwen3-{0.6, 1.7, 4}B as
+                         students. For Qwen2.5, we adopt a GRPO-trained Qwen2.5-7B model as the teacher and
+                         Qwen2.5-{0.5, 1.5, 3, 7}B as students.
+                                                                    3
+                                                                                            rollout / kl_divergence / mean                                      rollout / env_done / mean                                                   Initial    final                                           KL Divergence by Turns
+                                                                                       S:1.7b_T:30b                                           0.25                                        S:1.7b_T:30b            1650                                                                         7B RL
+                                                                           3000        S:0.6b_T:30b                                                                                       S:0.6b_T:30b                                                                                40       30B
+                                                                                                                                              0.20                                                                e        1,223.0                                                    30
+                                                                           2500                                                                                                                                   c1250                    1,136.0 
+                                                                           gence Mean                                                         0.15                                                                en                                                               gence20
+                                                                           2000                                                                                                                                   g                                                                   10
+                                                                                                                                              0.10                                                                er850
+                                                                           1500                                                                                                                                   v                                                                KL Diver0
+                                                                                                                                             ollout Env Done Mean0.05                                             di                                                                  10
+                                                                           ollout Kl Diver1000                                               R                                                                      450                                    359.0 
+                                                                           R                                                                  0.00                                                                KL              97.0           97.0                                 20
+                                                                                0         10        20        30        40        50              0         10        20        30        40        50                50                                         62.0                    0       5      10       15      20      25      30
+                                                                                                  Training Steps                                                     Training Steps                                         3B <- 30B 3B <- 7B 7B <- 7B                                                         Turn
+                                                                        (a) Trajectory-level KL                                            (b) Success rate col-                                                        Different student-teacher pairs                          (d) Per-turn KL diver-
+                                                                        escalates during train-                                            lapses to zero as KL                                               (c) Initial and final KL                                           gence increases as er-
+                                                                        ing.                                                               spikes.                                                            duringOPDtraining.                                                 rors accumulate.
+                                                                        Figure2: Trajectory-level KL analysis across different teacher±student pairs on ALFWorld.
+                                                                        (a)(b) show that the KL divergence escalates throughout training and task completion rates
+                                                                        collapse. (c) shows the large gap between the initial and converged KL divergence during
+                                                                        OPDtraining. (d) reveals the underlying reason: the KL divergence grows with the turn
+                                                                        index, indicating compounding error amplification over the trajectory.
+                                                                        Observation1: KLescalationandsuccessratecollapseco-occurduringtraining. Unlike
+                                                                        prior workonsingle-turnsettingssuchasmathematicsorquestionanswering,wheretheKL
+                                                                        divergence consistently converges and decreases throughout training, we observe that the
+                                                                        KLdivergenceescalates with the number of training steps in multi-turn agent scenarios. As
+                                                                        showninFigure2a&2b,whenthestudentmodel(Qwen3-{0.6,1.7}B)istrainedundervanilla
+                                                                        OPDwithastrongteacher(Qwen3-30B-A3B-Instruct),thetrajectory-levelKLdivergence
+                                                                        escalates rapidly, and the task success rate collapses to near-zero.
+                                                                        Observation2: AlthoughKLdivergenceconverges,itsuffersfromaprohibitivelyhigh
+                                                                        initial value. Moreover, we conduct experiments on different student models and observe
+                                                                        that although their KL divergence eventually converges, they start with a prohibitively high
+                                                                        value. AsshowninFigure2c,acrossdifferentstudent-teacherpairs(Qwen3-3Bdistilledfrom
+                                                                        Qwen3-30B-A3B-Instruct, and Qwen2.5-{3,7}B distilled from a GRPO-trained Qwen2.5-7B
+                                                                        model), we consistently observe the initial KL divergence (∼ 1000) is typically orders of
+                                                                        magnitudelargerthanitsconvergedvalue(∼ 60),indicatingsevereinstability during the
+                                                                        training for multi-turn OPD. More details refer to Appendix B.
+                                                                        Theunderlyingmechanism: Compoundingerroramplificationoverthetrajectory. The
+                                                                        abovetwoobservationsmotivatedustoinvestigatewhydirectlyapplyingOPDtoagents
+                                                                        leads to such KL escalation and training instability. To this end, in Figure 2d, we visualize
+                                                                        the per-turn KL divergence for Qwen2.5-3B distilled from a GRPO-trained Qwen2.5-7B and
+                                                                        Qwen3-30B-A3B-Instruct, and observe a consistent increase with the turn index.
+                                                                        RegardlessofwhethertheincreasingKLdivergencereflectsthestudent’sinabilitytoimitate
+                                                                        the teacher or is a consequence of the student entering out-of-distribution states where the
+                                                                        teacher becomes uncertain, the underlying issue remains the sameÐerror accumulation over
+                                                                        turns. This is an inherent property of long-horizon multi-turn agents: student-generated
+                                                                        actions and observations are appended to the history ht, inducing causal coupling across
+                                                                        turns and resulting in an increasing trend in KL divergence. For small students, this is
+                                                                        catastrophic; for larger ones, it is partially tolerated but remains highly inefficient.
+                                                                        Remark 1. Note that Long-CoT increases the response length on the same environment state.
+                                                                        However, multi-turn agents update the environment state at each interaction by incorporating new
+                                                                        observations and actions, thereby amplifying compounding errors over the trajectory.
+                                                                        Theaboveobservationsandanalysisposeachallenge: howcanweretainthebenefitsof
+                                                                        OPD’sdensesignalwhileavoidingdestabilizationfromaccumulatederrorsinlong-horizon
+                                                                        interactions? To address this, we turn to curriculum learning, where the model is first
+                                                                        trained on easy problems and progressively exposed to hard ones.
+                                                                        4.2            OurProposal: TemporalCurriculumOn-PolicyDistillation
+                                                                        Building on the observations and insights from the previous section, we propose Temporal
+                                                                        CurriculumOn-PolicyDistillation(TCOD),aprincipledapproachthatcontrolsthetrajectory
+                                                                        depth of agent interactions during the training process. Specifically, we introduce two
+                                                                                                                                                                                                          4
+                                                                                                                                   TCOD (Forward-to-Backward)                                           TCOD (Backward-to-Forward)
+                                                                  Welcome! You are in the middle of the room. 
+                                                                  Looking around you, you see a dining table, 
+                                                                  a stove, a microwave, and a cabinet.                                                                                                         step1 …stepL-1
+                                                                  Your task is to: 
+                                                                  Put a pan on the dining table.                               k=1                                                          k=1                                             step L … end
+                                                                                                                                                step1
+                                                                  <think> The task   is   xxx      ,   I’m  xx                                                                               …         …
+                                                                     0.4     0.5 0.8 0.9 xxx   0.9  0.8  xx 
+                                                                  dining table   ,    to achieve this   ,   xxx               k=2
+                                                                     0.3 0.6 0.8 0.9 0.8     0.7  0.9 xxx                                      step1      step2                                                step1     step 2
+                                                                  </think>                                                                                                                  k=L-2
+                                                                     0.4                                                                                                                                                                   step 3 … end
+                                                                  <action> go    to     the  cabinet </action>
+                                                                     0.6     0.5 0.8    0.9     0.8        0.7
+                                                                                       …                                      k=3                                                                              step1
+                                                                                                                                                step1      step2      step3                 k=L-1                                                   …
+                                                                      Vanilla On-policy Distillation                           … …                                                                                               step 3    step2          end
+                                                          teacher                                                             k=T                                                           k=L
+                                                                         step1      step2      step3 … end                                      step1      step2     … end                                    step1       step2        step3      … end
+                                                          student        Complete Response (Full rollouts)
+                                                        Figure 3: Overview of our method TCOD-F2B/B2F. Comparison of vanilla on-policy
+                                                        distillation and TCOD. Left is the OPD, middle is the illustration of TCOD-F2B, and right is
+                                                        TCOD-B2F.kisthelinearpacingcontrolthetrajectorylength. Thebluestepisexecutedby
+                                                        the student, and the red step is executed by the teacher with a stop gradient.
+                                                        variants: TCOD-F2BandTCOD-B2F,whichexplicitlyimposestepconstraintsinforward
+                                                        andreversecurricula, respectively.
+                                                        Forward-to-BackwardInducedTemporalCurriculumOn-PolicyDistillation(TCOD-F2B).
+                                                        Weimplementaºshallow-to-deepºcurriculumbyrestrictingthemaximuminteractionsteps
+                                                        of a trajectory during the training process. As shown in Figure 3(middle), in our TCOD-F2B,
+                                                        the student policy πθ rolls out for maximum k steps to finish the task, where k starts from a
+                                                        small numberandprogressivelyincreasestoalargerone,theobjectiveisasfollows:
+                                                                                             LTCOD F2B(θ) = Eτ∼π "k−1DKLπϕ(at|ht) ∥ πθ(at|ht)#,                                                                                                              (3)
+                                                                                                                                               θ      ∑
+                                                                                                                                                     t=0
+                                                        wherethestudentfirstfocusesonearly-turnlearningsignals and then progressively com-
+                                                        pletes the task end-to-end, mitigating compounding errors and preventing horizon-induced
+                                                        KLcollapse. However, determining the optimal step size and starting point is challenging,
+                                                        as different environments and models exhibit varying reasoning capabilities. To address
+                                                        this, we begin with linear pacing across the training step:
+                                                                                                                        k = kstart + ⌊n/η⌋,                             n ∈ 1,...,N,                                                                           (4)
+                                                        where n represents the current training step and N is the total number of training steps,
+                                                        kstart defines the initial number of interaction steps and η controls the curriculum’s growth
+                                                        rate. This approach requires only minor code changes. The whole algorithm is as follows:
+                                                        Algorithm1:TemporalCurriculumOn-PolicyDistillation: TCOD-F2B
+                                                           1: Input: Student πθ, Teacher πϕ, Environment E, total steps N, curriculum parameters
+                                                                 kstart, η
+                                                           2: Output: Trained student policy πθ
+                                                           3: for n = 1,2,...,N do
+                                                           4:         k ←min(k                          +⌊n/η⌋, T                        )
+                                                                                               start                              max
+                                                           5:         Initialize s0 ∼ E, history h0 ← ∅
+                                                           6:         for t = 0,1,...,k −1 do
+                                                           7:              Sample at ∼ πθ(· | ht); execute at; update ht+1
+                                                           8:         endfor                                                                                 
+                                                           9:         L←∑k DKL πϕ(at |ht)∥π (at | ht)
+                                                                                      t=0                                                 θ
+                                                         10:          Updateθ ← θ−∇θL
+                                                         11: end for
+                                                         12: return πθ
+                                                        Furthermore, to better exploit the teacher model, we propose TCOD-B2F, which leverages
+                                                        the teacher to avoid early-turn error accumulation.
+                                                                                                                                                             5
+                     Backward-to-ForwardInducedTemporalCurriculumOn-PolicyDistillation(TCOD-B2F).
+                     In this variant, the teacher policy πϕ acts as a ªnavigator.º We initialize the environment to
+                     anintermediatestate obtained by executing the initial prefix of a pre-collected successful
+                     trajectory τ∗ using the teacher policy πϕ, and let the agent start interaction from this state.
+                     Specifically, as shown in Figure 3, the teacher executes the first L − k steps of its successful
+                     trajectory τ∗ in the environment, after which the student policy πθ takes over from this
+                     immediatestatetocontinueplanningandexecution. Theobjectiveisasfollows:
+                               LTCODB2F(θ) = E        " T−1 DKLπϕ(at|ht) ∥ πθ(at|ht)#,      (5)
+                                              τ∼(πϕ,πθ)  ∑
+                                                       t=L−k+1      ∗
+                     where L denotes the length of the successful trajectory τ for a given task, and k is defined
+                     as in Equation 4, monotonically expanding until the student completes the task end-to-end
+                     throughouttraining. This implementation is similarly lightweight, requiring only a simple
+                     warmuploopasshowninfollows.
+                     Algorithm2:TemporalCurriculumOn-PolicyDistillation: TCOD-B2F
+                      1: Input: Student πθ, Teacher πϕ, Environment E, total steps N, curriculum parameters
+                        kstart, η
+                      2: Output: Trained student policy πθ
+                      3: Pre-collect teacher successful trajectories T ∗ ← {τ∗}
+                      4: for n = 1,2,...,N do
+                      5:  k ←min(kstart +⌊n/η⌋, L)
+                      6:  Sampleτ∗ ∈ T ∗ with length L; initialize s0 ∼ E
+                      7:  for t = 0,1,...,L−k−1do
+                      8:    Execute teacher action a∗ (stop gradient); update ht+1
+                      9:  endfor                t
+                     10:  for t = L −k,...,L do
+                     11:    Sample at ∼ πθ(· | ht); execute at; update ht+1
+                     12:  endfor                           
+                     13:  L←∑L       DKL πϕ(at | ht)∥π (at | ht)
+                                t=L−k                θ
+                     14:  Updateθ ← θ−∇θL
+                     15: end for
+                     16: return πθ
+                     This mechanismeffectively bypasses compoundingactionerrors by ensuring the student
+                     onlyoptimizesontrajectories initiated from successful, teacher-vetted prefixes. Crucially,
+                     the teacher steps of the trajectory do not contribute to the gradient, serving only to place the
+                     student on the ªdoorstep of success.º Detailed algorithms are provided in Appendix C.
+                     Discussionofthetrain-test mismatchinTCOD-B2F.Duringtraining,thestudentstarts
+                     from a teacher-navigated checkpoint, whereas at test time it must act end-to-end from
+                     scratch. To this end, we gradually reduce the teacher’s prefix from L −1 steps down to
+                     zero, ensuring that by the end of training the student executes the full trajectory from the
+                     initial state with no teacher intervention, fully aligning the training and test distributions.
+                     AsshowninAppendixD.5,theend-to-endsuccessrateonthetestsetincreases steadily
+                     withtraining steps, confirming that the smooth curriculum transition effectively prevents
+                     catastrophic distribution shift in practice.
+                     4.3 AsynchronousTrainingDetailsforStability
+                     WhilethecoreTCODframeworkisconceptuallystraightforward,severalpracticaldesign
+                     choices significantly impact training stability and efficiency in real-world deployments.
+                     All experiments were conducted on 8× NVIDIA H20(96GB)GPUs. Wedescribeourkey
+                     implementationstrategies:
+                     AsynchronousRolloutandTraining. TomaximizeGPUutilization,wedecoupletrajec-
+                     tory collection and model optimization into separate asynchronous processes. We use a pool
+                                                          6
+                                    of actor processes for rollout to continuously sample trajectories, while a central learner
+                                    process for training uses these trajectories from a shared buffer and performs gradient
+                                    updates. We use a lock-free ring buffer to minimize synchronization overhead. In our
+                                    experiments, we allocate 4×H20 GPUs for actors and 2×H20 GPUs for learners. Moreover,
+                                    weusetheremaining2×H20GPUsfortheteachers.
+                                    Staleness-Aware Sub-trajectory Experience Replay.                                To maximize sample efficiency in
+                                    multi-turn environments, we decompose each complete trajectory into a set of recursive
+                                    sub-trajectories. Specifically, for a trajectory of length n, we store each prefix sequence τ                                  =
+                                                                                                                                                               1:t
+                                    (s0, a0, . . . , st) as an independent experience entry in the replay buffer for t ∈ {1,...,n}. To
+                                    prevent the input context from exceeding the model’s effective memory limit, leading to
+                                    training instability, we encapsulate the interaction history within the prompt as a structured
+                                    context. Consequently, the number of rollouts generated per batch is dynamic, depending
+                                    onthevaryinglengthsofcollectedtrajectories. In our asynchronous setting, each trajectory
+                                    is tagged with the version number n of the policy πθn used for collection. We implement a
+                                    staleness filter that discards any experience where ncurrent − nold > ∆max. Empirically, we
+                                    find that ∆max = 2 provides an optimal balance between sample efficiency and the strictness
+                                    of the on-policy constraint.
+                                    5     Experiments
+                                    In this section, we conduct experiments on various benchmarks to evaluate our approach.
+                                    Mainly, we design the experiments to study the following key questions:
+                                    Q1: Comparedtovanilla OPD, how does TCOD alleviate KL escalation and recover the
+                                    performanceforsmallstudentmodels,andhowdoesitenhancetrainingstabilityandthe
+                                    performanceforthelargerones?
+                                    Q2: CanTCODenablethestudenttogeneralizeeffectivelytotasksbeyondtheteacher’s
+                                    owncapabilityboundary?
+                                    Q3: HowsensitiveisTCODtothegrowthrateofthecurriculum,andhowdoesitcompare
+                                    to vanilla OPD in terms of training efficiency?
+                                    5.1    ExperimentalSetup
+                                    Benchmarks. Weconductexperimentson                                Table 1: Summaryofthebenchmarksused.
+                                    three benchmarks including the embodied
+                                    navigation environment ALFWorld(Shrid- Benchmark                                     OOD          Type        Difficulty Max Turns
+                                    har et al., 2020), e-commerce platform Web-                      ALFWorld-seen                 Embodied          Easy        30
+                                    Shop (Yao et al., 2022a), and scientific rea-                    ALFWorld-unseen       ✓       Embodied        Medium        30
+                                    soningScienceWorld(Wangetal.,2022)as                             ALFWorld-hard         ✓       Embodied         Hard         30
+                                                                                                     Webshop                      E-commerce       Medium        15
+                                    illustrated in Table 1, spanning a spectrum                      ScienceWorld               Scientific Reason   Hard         30
+                                    of reasoning levels from simple to complex.
+                                    Maxturnsmeansthemaximumexplorationstepsforeachtask. ForALFWorld,weevaluate
+                                    onboththeseenandunseensplits,wheretheunseensplitcontainsnovelroomlayoutsand
+                                    object combinations not encountered during training, serving as our OOD evaluation. We
+                                    additionally construct a Hard set comprising tasks where the teacher fails under pass@10
+                                    samplingonthetrainsplit, to test whether TCOD can generalize beyond the teacher’s own
+                                    capability boundary. More benchmark details refer to Appendix D.1.
+                                    TrainingDetails. ForthemainexperimentsonALFWorld,weuseQwen2.5-3BandQwen2.5-
+                                    7Basstudent models, with Qwen2.5-7B fine-tuned via GRPO on the ALFWorld domain
+                                    serving as the teacher. For the cross-benchmark evaluation, we adopt Qwen3-1.7B and
+                                    Qwen3-4Basstudents,withQwen3-30B-A3B-Instructastheteacher. Allexperimentsare
+                                    conductedon8×NVIDIAH20GPUs.WeimplementTCODbasedontheReinforcement
+                                    Fine-Tuning framework Trinity-RFT (Pan et al., 2025). For expert trajectory collection for
+                                    TCOD-B2Finitialization, we adopt a pass@10 sampling strategy using the teacher model,
+                                    retaining only successful trajectories. For simplicity, we fix kstart = 1 and η = 2 and examine
+                                    the impact of different η from {2,4,6} in Sec 5.4.
+                                                                                                    7
+                                                              Table 2: Out-of-domain and hard set performance comparison between TCOD and OPD
+                                                               on ALFWorld. SR is success rate (%) and Rounds is averge action rounds per task. The
+                                                               best result is bolded and the second-best is underlined. Green and red subscripts indicate
+                                                               improvementanddegradationoverVanillaOPD,respectively.
+                                                                   Method                                                                    Valid Seen                                          Valid Unseen                                                    Hard
+                                                                                                                                      SR↑                   Rounds↓                          SR↑                   Rounds↓                          SR↑                  Rounds↓
+                                                                   Qwen2.5-7B-RL(Teacher)                                             85.71                      10.61                       76.87                       13.06                      6.61                      27.31
+                                                                                                                                                          Qwen2.5-3B(Student)
+                                                                        Zero-Shot                                                      7.86                      28.73                        2.24                       29.63                      0.83                      29.88
+                                                                        SFT                                                           32.14                      22.85                       25.37                       24.16                      4.96                      29.12
+                                                                        Vanilla OPD                                                   65.72                      14.73                       60.45                       16.21                     10.74                      28.64
+                                                                        TCOD(B2F)                                                77.86↑12.14                 12.57↓2.16                 70.90↑10.45                 14.56↓1.65                 13.22↑2.48                28.16↓0.48
+                                                                        TCOD(F2B)                                                81.43↑15.71                 11.76↓2.97                 79.19↑18.74                 12.47↓3.74                  9.92↓0.82                28.57↓0.07
+                                                                                                                                                          Qwen2.5-7B(Student)
+                                                                        Zero-Shot                                                      9.29                      28.34                        8.96                       28.46                      1.65                      29.77
+                                                                        SFT                                                           54.29                      18.92                       48.73                       20.11                      8.26                      28.73
+                                                                        Vanilla OPD                                                   75.37                      13.18                       72.14                       13.37                     13.22                      27.89
+                                                                        TCOD(B2F)                                                86.43↑11.06                 11.06↓2.12                  77.61↑5.47                 13.16↓0.21                 20.66↑7.44                27.07↓0.82
+                                                                        TCOD(F2B)                                                82.14↑6.77                  13.22↑0.04                  76.12↑3.98                 13.22↓0.15                 18.18↑4.96                27.37↓0.52
+                                                                                 rollout / env_done / mean                               rollout / kl_divergence / mean                             rollout / env_done / mean                  800          rollout / kl_divergence / mean
+                                                                                                                                                                   OPD               0.5      step3_S:1.5b_T:7b_rl                                                             step3_S:1.5b_T:7b_rl
+                                                                  0.8                                                      1000                                    TCOD(B2F)                  step6_S:1.5b_T:7b_rl                             700                             step6_S:1.5b_T:7b_rl
+                                                                                                                                                                   TCOD(F2B)         0.4
+                                                                  0.6                                                       800                                                                                                                600
+                                                                                                                           gence Mean                                                0.3                                                      gence Mean500
+                                                                                                                            600
+                                                                  0.4                                                                                                                0.2                                                       400
+                                                                                                                            400
+                                                                  0.2                                                                                                                0.1                                                       300
+                                                                 ollout Env Done Mean                    OPD                200                                                     ollout Env Done Mean
+                                                                 R                                       TCOD(B2F)         ollout Kl Diver                                          R                                                         ollout Kl Diver200
+                                                                  0.0                                    TCOD(F2B)         R  0                                                      0.0                                                      R
+                                                                    0     25   50    75   100   125   150   175   200           0    25   50    75   100  125   150   175  200          0    25    50    75   100   125  150   175   200          0    25    50    75   100   125  150   175   200
+                                                                                     Training Steps                                            Training Steps                                           Training Steps                                            Training Steps
+                                                                       (a) Success Rates                                       (b) KL Divergence                                          (c) Success Rates                                       (d) KL Divergence
+                                                               Figure 4: Training Dynamics comparison of TCOD and OPD on ALFWorld. (a) and
+                                                              (b) show the success rate and KL divergence, respectively, for Qwen2.5-7B as the student.
+                                                              TCODmaintainsahighersuccessrate and more stable KL divergence. (c) and (d) show
+                                                               the success rate and KL divergence, respectively, for Qwen2.5-1.5B as the student model.
+                                                              TCOD-F2Bunderη =3,6mitigatethesuccessratecollapseandklescalation.
+                                                               For baselines, we report the zero-shot student as the empirical lower bound and the teacher
+                                                              policy as the theoretical upper bound (Oracle). Moreover, we compare TCOD with standard
+                                                               knowledgetransferparadigms,includingsupervisedfine-tuning(SFT)andvanillaon-policy
+                                                               distillation (OPD). For evaluation, we test all the benchmarks using success rate (SR), which
+                                                               measuresthepercentageoftaskscompletedsuccessfully,wheretaskcompletionistreated
+                                                               as a binary outcome. More details are provided in Appendix D.
+                                                               5.2          Q1: Alleviating KL Escalation and Improving Performance
+                                                               In Table 2, we present results of TCOD on ALFWorld with students (Qwen2.5-3B, Qwen2.5-
+                                                               7B) and a GRPO-trained Qwen2.5-7B teacher, reporting both success rate (SR) and average
+                                                               action steps. We find that TCOD-F2B and B2F substantially outperform vanilla OPD and
+                                                               SFT across model scales. Notably, TCOD reduces the average number of action steps
+                                                               by2.97 steps, while improving SR by up to 15.71 over OPD, suggesting that curriculum
+                                                               learning from the teacher over trajectories leads to better performance. Figure 4a&4b&5b
+                                                               further show that TCOD achieves faster convergence in success rate and advantage, while
+                                                               maintaining more stable KL divergence than vanilla OPD.
+                                                               Different BenchmarksandModelSizes. InTable3,weevaluateTCODacrossthreebench-
+                                                               marksusingstudentsQwen3-1.7BandQwen3-4BwithaQwen3-30B-A3B-Instructteacher.
+                                                               Overall, TCOD-F2B and TCOD-B2FachievecomparableperformancetovanillaOPD.More-
+                                                               over, as illustrated in Figure 4c&4d, TCOD-F2B under both η = {3,6} maintains stable KL
+                                                               throughouttrainingandachievesanincreasingsuccessrate,effectivelymitigatingKL
+                                                                                                                                                                               8
+                                                                             Table 3: Performance comparison between TCOD-F2B/B2FandOPD.WereportSuccess
+                                                                             Rate (%) on validation sets. η is the curriculum’s growth rate. The best result is bolded
+                                                                             and the second-best is underlined. Green and red subscripts indicate improvement and
+                                                                             degradation over Vanilla OPD, respectively.
+                                                                                                       Method                                                             WebShop↑ ALFWorld↑ ScienceWorld↑                                                                                                            Avg↑
+                                                                                                       Qwen3-30B(Teacher)                                                          32.84                                    39.57                                          18.42                                       30.28
+                                                                                                                                                                                             Qwen3-1.7B(Student)
+                                                                                                              Vanilla OPD                                                            0.14                                     0.32                                           0.05                                       0.17
+                                                                                                              TCOD(B2F)η=2                                                  20.54↑20.40                               24.55↑24.23                                    10.82↑10.77                                18.64↑18.47
+                                                                                                              TCOD(B2F)η=4                                                  21.12↑20.98                               23.87↑23.55                                    11.34↑11.29                                18.78↑18.61
+                                                                                                              TCOD(B2F)η=6                                                  20.33↑20.19                               24.91↑24.59                                    10.65↑10.60                                18.63↑18.46
+                                                                                                              TCOD(F2B)η=2                                                  21.15↑21.01                               24.12↑23.80                                    10.45↑10.40                                18.57↑18.40
+                                                                                                              TCOD(F2B)η=4                                                  20.44↑20.30                               25.03↑24.71                                      9.22↑9.17                                18.23↑18.06
+                                                                                                              TCOD(F2B)η=6                                                  21.78↑21.64                               23.65↑23.33                                    11.08↑11.03                                18.84↑18.67
+                                                                                                                                                                                               Qwen3-4B(Student)
+                                                                                                              Vanilla OPD                                                          30.12                                    36.85                                          15.95                                       27.64
+                                                                                                              TCOD(B2F)η=2                                                    32.15↑2.03                               38.62↑1.77                                     17.46↑1.51                                 29.41↑1.77
+                                                                                                              TCOD(B2F)η=4                                                    29.21↓0.91                               37.84↑0.99                                     16.73↑0.78                                 27.93↑0.29
+                                                                                                              TCOD(B2F)η=6                                                    29.05↓1.07                               39.35↑2.50                                     15.88↓0.07                                 28.09↑0.45
+                                                                                                              TCOD(F2B)η=2                                                    31.81↑1.69                               38.95↑2.10                                     17.85↑1.90                                 29.54↑1.90
+                                                                                                              TCOD(F2B)η=4                                                    30.54↑0.42                               37.62↑0.77                                     17.23↑1.28                                 28.46↑0.82
+                                                                                                              TCOD(F2B)η=6                                                    29.87↓0.25                               37.88↑1.03                                     17.12↑1.17                                 28.29↑0.65
+                                                                                                  rollout / env_rounds / mean                                              critic / advantages / mean                                              response_length / max                                                       actor / pg_loss
+                                                                                 30                                              OPD                      0.0                                                                  500                                    step3_S:1.5b_T:7b_rl            0.7                                    step3_S:1.5b_T:7b_rl
+                                                                                                                                 TCOD(B2F)                0.1                                                                                                         step6_S:1.5b_T:7b_rl            0.6                                    step6_S:1.5b_T:7b_rl
+                                                                                 25                                              TCOD(F2B)
+                                                                                                                                                          0.2                                                                  400                                                                    0.5
+                                                                                 20                                                                                                                                                                                                                  oss
+                                                                                ounds Mean                                                                0.3                                                                 ength Max300                                                            0.4
+                                                                                 15                                                                                                                                                                                                                   0.3
+                                                                                                                                                       dvantages Mean0.4                                                                                                                             ctor Pg L
+                                                                                 10                                                                       0.5                                                                 esponse L200                                                           A0.2
+                                                                                ollout Env R5                                                          Critic A                                         OPD                   R                                                                       0.1
+                                                                                R                                                                         0.6                                           TCOD(B2F)              100
+                                                                                  0                                                                                                                     TCOD(F2B)                                                                                     0.0
+                                                                                    0     25     50     75     100    125    150     175    200              0     25     50     75    100    125    150    175    200             0     25      50     75    100    125    150    175    200             0     25     50     75     100    125    150    175    200
+                                                                                                        Training Steps                                                           Training Steps                                                        Training Steps                                                         Training Steps
+                                                                                     (a) Action Rounds                                                          (b) Advantages                                             (c) Max Response length (d) Policy Gradient Loss
+                                                                             Figure 5: Further Analysis of TCOD-F2B/B2F on ALFWorld. (a)(b) is the average action
+                                                                             rounds, advantages during training for Qwen2.5-7B as the student. TCOD effectively
+                                                                             reducestheactionroundsandachievesfasteradvantageconvergence. (c)(d)isthemaximum
+                                                                             responselength, policy gradient loss during training for Qwen2.5-1.5B as the student model.
+                                                                             TCODmitigatesredundantresponseswhilemaintainingtrainingstability.
+                                                                             escalation and improving average success rate by 18.67. Furthermore, Figure 5c&5d shows
+                                                                             additional training metrics, where TCOD can recover from an explosion in response length,
+                                                                             while the policy gradient loss decreases smoothly.
+                                                                             5.3             Q2: Generalizing BeyondtheTeacher’sCapabilityBoundary
+                                                                             Beyond the performance gains and KL stability achieved by TCOD, we further investi-
+                                                                             gate whether TCOD can enable the student to surpass the teacher itself. Table 2 reports
+                                                                             performance on both the unseen environment split and the hard split. Specifically, the
+                                                                             hard split comprises 121 challenging tasks from ALFWorld where the teacher performs
+                                                                             poorly. On the unseen split, TCOD already outperforms the teacher by up to 2.5 points in
+                                                                             SR.Moresurprisingly,ontheTrainHardsplit,bothTCOD-B2FandTCOD-F2Bsubstantially
+                                                                             exceedtheteacher’s SR of 6.61, with TCOD-B2F achieving a gain of up to 14 points. This
+                                                                             demonstrates that TCODdoesnotmerelyimitatetheteacher,butdevelopsamorerobust
+                                                                             policy that generalizes beyond the teacher’s capability boundary.
+                                                                                                                                                                                                                        9
+                                             5.4       Q3: Robustness, Sensitivity, and Efficiency Analysis of TCOD
+                                             Curriculum’sGrowthRateηAblation. Table3reportstheeffectofvaryingthecurriculum’s
+                                             growthrate η ∈ {2,4,6} across different benchmarks. Performance remains consistently
+                                             strongerthanvanillaOPDacrosssettings,withlessthan2%variationinsuccessrate,demon-
+                                             strating that TCOD-F2B/B2F is not sensitive to the specific choice of η. This robustness
+                                             makesTCODeasytodeployinpracticewithoutextensivehyperparametertuning. Nonethe-
+                                             less, as shown in Figure 4d, a larger η leads to more stable KL divergence during training,
+                                             as the student spends more iterations mastering the current trajectory depth before the
+                                             curriculum advances to longer horizons. In practice, we recommend starting with a small η
+                                             to allow the curriculum to progress quickly in the early stages, and increasing η if the KL
+                                             divergence instability during training is observed.
+                                             Domain-Specificvs. Larger Teacher. Comparing Table 2 and Table 3, we find that teacher
+                                             quality strongly affects the upper bound of TCOD. In Table 2, the teacher is a GRPO-tuned
+                                             Qwen2.5-7B on ALFWorld, reaching 85.71% success rate. Under this setting, TCOD-B2F
+                                             withthesame7Bbackboneevenslightlysurpassestheteacherby0.7points. InTable3,the
+                                             teacher is Qwen3-30B-A3B-Instruct, a general model with weaker performance on the target
+                                             domain. In this case, both vanilla OPD and TCOD fail to exceed the teacher, with about
+                                             a2-point gap. This suggests that the teacher’s performance on the target domain matters
+                                             morethanmodelscalealoneinenablingstudentimprovement.
+                                             TCODiscomputationally efficient. Figure 6
+                                             compares the total training cost of TCOD and                                                                                  F2B       B2F       OPD
+                                             vanilla OPD on ALFWorld and ScienceWorld.                                                        12                                12
+                                             On both benchmarks, TCOD-F2B and TCOD-                                                         ) 10                      9.6       10
+                                                                                                                                            h                 8.55
+                                                                                                                                            (  8                                 8                      7.18
+                                             B2F reduce total training time by nearly 32%                                                              6.6
+                                                                                                                                            e                                                    5.5
+                                             comparedtovanillaOPD.Thisgaincomesfrom                                                         m  6                                 6        4.9
+                                             the step-based curriculum in TCOD: early in                                                    Ti 4                                 4
+                                             training, the student takes fewer steps, produc-                                                  2                                 2
+                                             ing shorter trajectories and faster data collec-                                                  0       F2B    B2F OPD            0       F2B     B2F OPD
+                                             tion. Notably, TCOD-F2B is more efficient than                                                                Methods                           Methods
+                                             TCOD-B2F.ThisisbecauseTCOD-F2Blimitsthe                                                         (a)    The     training    time     (b)    The    training    time
+                                             maximuminteraction steps to k, while TCOD-                                                      comparison        based       on    comparison       based      on
+                                             B2F, though starting from intermediate states,                                                  Qwen3-4B on ScienceWorld.           Qwen2.5-7BonALFWorld.
+                                             still leads the student to take extra exploratory                                              Figure 6: Training time comparison.
+                                             actions, producing longer trajectories. Figure 5a
+                                             further verifies that TCOD-F2B uses fewer rollout action steps than TCOD-B2F, and both
+                                             require fewer steps than vanilla OPD.
+                                             6       Conclusion
+                                             In this work, we identify a fundamental failure mode of vanilla OPD in multi-turn agents,
+                                             termed Trajectory-Level KL Instability, where compounding errors across turns lead to
+                                             escalating KL divergence and unreliable teacher supervision. Building on this insight,
+                                             weproposeTCOD,asimpleandprincipledframeworkthatcontrolsthetrajectorydepth
+                                             exposedtothestudentduringtraining,instantiatedthroughtwopracticalvariants: Forward-
+                                             to-Backward(F2B)andBackward-to-Forward(B2F).Extensiveexperimentsdemonstrate
+                                             that TCODconsistently stabilizes training, recovers small models from collapse, improves
+                                             successratesforlargermodels,andreducestotaltrainingtimecomparedtovanillaOPD.Be-
+                                             yondpractical improvements, TCODopensnewdirectionsforcurriculum-guidedtraining
+                                             of long-horizon autonomous agents.
+                                             References
+                                             Rishabh Agarwal, Nino Vieillard, Yongchao Zhou, Piotr Stanczyk, Sabela Ramos Garea,
+                                                  MatthieuGeist, and Olivier Bachem. On-policy distillation of language models: Learning
+                                                  fromself-generated mistakes. In The twelfth international conference on learning representa-
+                                                  tions, 2024.
+                                                                                                                              10
+                                      Â ˆ
+                       YoshuaBengio,JeromeLouradour,RonanCollobert,andJasonWeston.Curriculumlearning.
+                         In Proceedings of the 26th annual international conference on machine learning, pp. 41±48, 2009.
+                       OpenClawContributors. Openclaw: Yourownpersonalaiassistant. https://github.com/
+                         openclaw/openclaw, 2026. GitHub repository.
+                       LangFeng,ZhenghaiXue,TingcongLiu,andBoAn. Group-in-grouppolicyoptimization
+                         for llm agent training. arXiv preprint arXiv:2505.10978, 2025.
+                       ZhaoyanGong,ZhiqiangLiu,SongzeLi,XiaokeGuo,YuanxiangLiu,XinleDeng,Zhizhen
+                         Liu, Lei Liang, Huajun Chen, and Wen Zhang. Temp-r1: A unified autonomous agent
+                         for complex temporal kgqa via reverse curriculum reinforcement learning. arXiv preprint
+                         arXiv:2601.18296, 2026.
+                       DayaGuo,DejianYang,HaoweiZhang,JunxiaoSong,RuoyuZhang,RunxinXu,Qihao
+                         Zhu,ShirongMa,PeiyiWang,XiaoBi,etal. Deepseek-r1: incentivizesreasoninginllms
+                         throughreinforcementlearning. nature, 645:633±638, 2025.
+                       HKUDS. Cli-anything. https://github.com/HKUDS/CLI-Anything,2026. GitHubrepository.
+                       Ijun Jang, Jewon Yeom, Juan Yeo, Hyunggu Lim, and Taesup Kim. Stable on-policy distilla-
+                         tion through adaptive target reformulation. arXiv preprint arXiv:2601.07155, 2026.
+                       WoogyeolJin,TaywonMin,YongjinYang,SwanandRavindraKadhe,YiZhou,DennisWei,
+                         Nathalie Baracaldo, and Kimin Lee. Entropy-aware on-policy distillation of language
+                         models. arXiv preprint arXiv:2603.07079, 2026.
+                       JongwooKo,SaraAbdali,YoungJinKim,TianyiChen,andPashminaCameron. Scaling
+                         reasoning efficiently via relaxed on-policy distillation. arXiv preprint arXiv:2603.11137,
+                         2026.
+                       Niklas Lauffer, Xiang Deng, Srivatsa Kundurthy, Brad Kenstler, and Jeff Da.   Imita-
+                         tion learning for multi-turn lm agents via on-policy expert corrections. arXiv preprint
+                         arXiv:2512.14895, 2025.
+                       Xiangyi Li, Wenbo Chen, Yimin Liu, Shenghan Zheng, Xiaokun Chen, Yifeng He, Yubo Li,
+                         BingranYou,HaotianShen,JiankaiSun,etal. Skillsbench: Benchmarkinghowwellagent
+                         skills work across diverse tasks. arXiv preprint arXiv:2602.12670, 2026.
+                       Kevin Lu and Thinking Machines Lab. On-policy distillation. Thinking Machines Lab:
+                         Connectionism, 2025. doi: 10.64434/tml.20251026. https://thinkingmachines.ai/blog/on-
+                         policy-distillation.
+                       MikeAMerrill,AlexanderGShaw,NicholasCarlini,BoxuanLi,HarshRaj,IvanBercovich,
+                         Lin Shi, Jeong Yeon Shin, Thomas Walshe, E Kelly Buchanan, et al. Terminal-bench:
+                         Benchmarkingagentsonhard,realistictasksincommandlineinterfaces. arXivpreprint
+                         arXiv:2601.11868, 2026.
+                       OpenAI,JoshAchiam,StevenAdler,SandhiniAgarwal,LamaAhmad,IlgeAkkaya,Flo-
+                         rencia Leoni Aleman, Diogo Almeida, Janko Altenschmidt, Sam Altman, et al. Gpt-4
+                         technical report. arXiv preprint arXiv:2303.08774, 2024.
+                       Xuchen Pan, Yanxi Chen, Yushuo Chen, Yuchang Sun, Daoyuan Chen, Wenhao Zhang,
+                         YuexiangXie,YilunHuang,YileiZhang,DaweiGao,WeijieShi,YaliangLi,BolinDing,
+                         andJingrenZhou.Trinity-rft: Ageneral-purposeandunifiedframeworkforreinforcement
+                         fine-tuning of large language models. arXiv preprint arXiv:2505.17826, 2025.
+                       Emiliano Penaloza, Dheeraj Vattikonda, Nicolas Gontier, Alexandre Lacoste, Laurent Char-
+                         lin, and Massimo Caccia. Privileged information distillation for language models. arXiv
+                         preprint arXiv:2602.04942, 2026.
+                       Taiwei Shi, Yiyang Wu, Linxin Song, Tianyi Zhou, and Jieyu Zhao. Efficient reinforcement
+                         finetuning via adaptive curriculum learning. arXiv preprint arXiv:2504.05520, 2025.
+                                                               11
+           Weijie Shi, Yanxi Chen, Zexi Li, Xuchen Pan, Yuchang Sun, Jiajie Xu, Xiaofang Zhou,
+            and Yaliang Li. r3 l: Reflect-then-retry reinforcement learning with language-guided
+            exploration, pivotal credit, and positive amplification. arXiv preprint arXiv:2601.03715,
+            2026.
+                                  ˆ Â
+           Mohit Shridhar, Xingdi Yuan, Marc-Alexandre Cote, Yonatan Bisk, Adam Trischler, and
+            MatthewHausknecht. Alfworld: Aligningtextandembodiedenvironmentsforinterac-
+            tive learning. arXiv preprint arXiv:2010.03768, 2020.
+           Jiaqi Wang, Kevin Qinghong Lin, James Cheng, and Mike Zheng Shou. Think or not?
+            selective reasoning via reinforcement learning for vision-language models. arXiv preprint
+            arXiv:2505.16854, 2025a.
+           Ruiyi Wang and Prithviraj Ammanabrolu. A practitioner’s guide to multi-turn agentic
+            reinforcement learning. arXiv preprint arXiv:2510.01132, 2025.
+                                 ˆ Â
+           RuoyaoWang,PeterJansen,Marc-AlexandreCote,andPrithvirajAmmanabrolu. Science-
+            world: Is your agent smarter than a 5th grader? In Proceedings of the 2022 Conference on
+            Empirical Methods in Natural Language Processing, pp. 11279±11298, 2022.
+           Yinjie Wang, Xuyang Chen, Xiaolong Jin, Mengdi Wang, and Ling Yang. Openclaw-rl: Train
+            anyagentsimplybytalking. arXivpreprint arXiv:2603.10165, 2026.
+           Zhenting Wang, Guofeng Cui, Yu-Jhe Li, Kun Wan, and Wentian Zhao. Dump: Auto-
+            mateddistribution-level curriculum learning for rl-based llm post-training. arXiv preprint
+            arXiv:2504.09710, 2025b.
+           AnYang,AnfengLi,BaosongYang,BeichenZhang,BinyuanHui,BoZheng,BowenYu,
+            ChangGao,ChengenHuang,ChenxuLv,ChujieZheng,DayihengLiu,FanZhou,Fei
+            Huang,FengHu,HaoGe,HaoranWei,HuanLin,JialongTang,JianYang,JianhongTu,
+            Jianwei Zhang, Jianxin Yang, Jiaxi Yang, Jing Zhou, Jingren Zhou, Junyang Lin, et al.
+            Qwen3technicalreport. arXiv preprint arXiv:2505.09388, 2025.
+           Shunyu Yao, Howard Chen, John Yang, and Karthik Narasimhan. Webshop: Towards
+            scalable real-world web interaction with grounded language agents. Advances in Neural
+            Information Processing Systems, 35:20744±20757, 2022a.
+           ShunyuYao,Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik R Narasimhan, and
+            YuanCao. React: Synergizing reasoning and acting in language models. In The eleventh
+            international conference on learning representations, 2022b.
+           TianzhuYe,LiDong,XunWu,ShaohanHuang,andFuruWei. On-policycontextdistillation
+            for language models. arXiv preprint arXiv:2602.12275, 2026.
+           Yang Zhang, Amr Mohamed, Hadi Abdine, Guokan Shang, and Michalis Vazirgiannis.
+            Beyondrandomsampling: Efficientlanguagemodelpretrainingviacurriculumlearning.
+            InProceedingsofthe19thConferenceoftheEuropeanChapteroftheAssociationforComputational
+            Linguistics (Volume 1: Long Papers), pp. 5776±5794, 2026.
+           SiyanZhao,ZhihuiXie,MengchenLiu,JingHuang,GuanPang,FeiyuChen,andAditya
+            Grover. Self-distilled reasoner: On-policy self-distillation for large language models. arXiv
+            preprint arXiv:2601.18734, 2026.
+                               12
+                                                                     Appendix
+                            Contents
+                            A LimitationsandFutureWork                                                                         14
+                            B AdditionalObservation                                                                            14
+                            C AlgorithmforTCOD-F2B/B2F                                                                         14
+                            D ExperimentDetails                                                                                16
+                                D.1 BenchmarkEnvironments . . . . . . . . . . . . . . . . . . . . . . . . . . . . .            16
+                                D.2 Baselines . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    16
+                                D.3 Training Hyperparameters . . . . . . . . . . . . . . . . . . . . . . . . . . . . .         17
+                                D.4 EvaluationHyperparameters . . . . . . . . . . . . . . . . . . . . . . . . . . .            18
+                                D.5 Moreexperimentsresults . . . . . . . . . . . . . . . . . . . . . . . . . . . . .           18
+                            E EnvironmentPrompts                                                                               18
+                                E.1 ALFWorldPrompts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .          18
+                                E.2   ScienceWorld Prompts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       19
+                                E.3 WebShopPrompts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .         20
+                                                                              13
+           A LimitationsandFutureWork
+           While TCOD offers practical benefits, it also comes with a few limitations that point
+           to interesting future work. TCOD-B2F relies on pre-collected successful teacher trajec-
+           tories, which may require additional trajectory collection overhead. In such cases, the
+           forward-to-backward variant (TCOD -F2B) provides a drop-in alternative that requires no
+           demonstrations. Although we empirically observe that TCOD’s fixed curriculum schedule
+           is robust across the three benchmarks and model sizes we studied, the optimal pace may
+           varywithdifferent environments or student±teacher pairs. An adaptive mechanism that
+           automaticallyadjuststhehorizonbasedonthestudent’slearningprogressÐsuchasthrough
+           anexponentialmovingaverageoftheKLdivergenceÐcouldfurtherimprovegenerality;we
+           consider this a promising direction for future investigation. Our evaluation focuses on three
+           text-based multi-turn benchmarks; extending TCOD to multimodal or physically embodied
+           environmentsis an important next step to assess its generality. These considerations do not
+           compromiseTCOD’spracticaleffectiveness, but instead highlight promising directions for
+           further improvement.
+           B AdditionalObservation
+           Wesystematically evaluate student±teacher pairs across the Qwen3 and Qwen2.5 model
+           families, including both larger-scale and domain-adapted teachers. For Qwen3, we use
+           Qwen3-30B-A3B-Instruct as the teacher and Qwen3-{0.6, 1.7, 4}B as students. For Qwen2.5,
+           weadoptaGRPO-trainedQwen2.5-7BmodelastheteacherandQwen2.5-{0.5,1.5,3,7}B
+           as students.
+           Observation1: KLescalationandsuccessratecollapseco-occurinsmallmodels(<3B).
+           Unlike prior work in single-turn settings (e.g., math or QA), where the KL divergence
+           typically decreases and stabilizes during training, we observe a fundamentally different
+           behavior in multi-turn agent environments. As shown in Figure 7, when training small
+           student models(Qwen3-0.6B,1.7BandQwen2.5-0.5B,1.5B)withvanillaOPD,thetrajectory-
+           level KL divergence increases sharply as training progresses. This escalation is accompanied
+           byasimultaneouscollapseofthesuccessratetonearlyzero. Moreover,responselengths
+           growsteadily across turns, indicating compounding errors and increasingly off-distribution
+           trajectories. Together, these results suggest that, in multi-turn settings, small models fail
+           to maintain alignment with the teacher under their own rollout distribution, leading to
+           unstable training dynamics and ineffective supervision.
+           Observation2: Teacher±student matchingmatters; stronger teachers are not always better.
+           Wefurther examine the impact of teacher±student pairing in Figure 8. For a 3B student,
+           training under both a strong 30B teacher and a 7B RL teacher leads to similar outcomes:
+           the KL divergence decreases steadily and the success rate improves at comparable rates,
+           indicating that increasing teacher strength beyond a certain point does not yield additional
+           benefits. In contrast, when the student capacity matches the teacher more closely (7B
+           student with 7B RL teacher), the KL divergence converges significantly faster and the
+           success rate rises more rapidly, outperforming both 3B student settings. This suggests that
+           anappropriatecapacitymatchbetweenteacherandstudentismorecriticalthanabsolute
+           teacher strength; overly strong teachers do not necessarily improve, and may even limit,
+           distillation efficiency in multi-turn settings.
+           C AlgorithmforTCOD-F2B/B2F
+           Algorithm3andAlgorithm4presentthecompletetrainingproceduresforTCOD-F2Band
+           TCOD-B2F,respectively, integrating the curriculum pacing strategy and implementation
+           details described in Section 4.2.
+           In TCOD-F2B(Algorithm3),thestudentpolicy πθ rolls out the trajectory for k steps at each
+           training iteration, where k is progressively expanded according to the linear pacing schedule
+                               14
+                                                                            rollout / kl_divergence / mean                                         rollout / env_done / mean                        200                response_length / mean
+                                                                                                                                0.25                                         S:1.7b_T:30b
+                                                           3000                                                                                                              S:0.6b_T:30b           175
+                                                                                                                                0.20                                         S:1.5b_T:7b_rl
+                                                           2500                                                                                                              S:0.5b_T:7b_rl         150
+                                                          gence Mean                                                            0.15                                                               ength Mean125
+                                                           2000                                                                                                                                     100
+                                                                                                                                0.10
+                                                           1500                                          S:1.7b_T:30b                                                                                 75                        S:1.7b_T:30b
+                                                                                                         S:0.6b_T:30b          ollout Env Done Mean0.05                                            esponse L50                  S:0.6b_T:30b
+                                                          ollout Kl Diver1000                            S:1.5b_T:7b_rl        R                                                                   R                            S:1.5b_T:7b_rl
+                                                          R                                              S:0.5b_T:7b_rl         0.00                                                                  25                        S:0.5b_T:7b_rl
+                                                                0      20     40     60      80    100     120    140               0      20     40      60     80     100    120     140              0         20         40         60         80        100
+                                                                                    Training Steps                                                      Training Steps                                                      Training Steps
+                                                       (a) Trajectory-level KL escalates (b) Success rate collapses to zero (c) Response length increases
+                                                        duringtraining.                                                     as KLspikes.                                                         across turns.
+                                                        Figure 7: KL Escalation and success rate across Teacher±Student Pairs. We evaluate
+                                                        Qwen3-{0.6B,1.7B}(teacher: Qwen3-30B-A3B-Instruct) and Qwen2.5-{0.5B, 1.5B} (teacher:
+                                                        Qwen2.5-7B-RL)undervanillaOPDonALFWorld.
+                                                                            rollout / kl_divergence / mean                                       rollout / env_done / mean                          120                response_length / mean
+                                                           1200                                          S:3b_T:7b_rl           0.8                                                                                                               S:3b_T:7b_rl
+                                                                                                         S:7b_T:7b_rl           0.7                                                                 100                                           S:7b_T:7b_rl
+                                                           1000                                          S:3b_T:30b                                                                                                                               S:3b_T:30b
+                                                                                                                                0.6
+                                                          gence Mean800                                                         0.5                                                                   80
+                                                            600                                                                 0.4                                                                ength Mean60
+                                                            400                                                                 0.3
+                                                                                                                               ollout Env Done Mean0.2                       S:3b_T:7b_rl          esponse L40
+                                                          ollout Kl Diver200                                                   R0.1                                          S:7b_T:7b_rl          R
+                                                          R    0                                                                0.0                                          S:3b_T:30b               20
+                                                                0     25     50    75    100    125    150   175    200            0     25     50     75    100    125    150    175   200             0     25     50     75    100    125    150   175    200
+                                                                                   Training Steps                                                      Training Steps                                                       Training Steps
+                                                                     (a) KL divergence.                                                     (b) Success rate.                                                (c) Response length.
+                                                        Figure 8: Horizon-Induced KL Escalation across Teacher±Student Pairs. We evaluate
+                                                        Qwen2.5-{3B,7B}(teacher: Qwen3-30B-A3B-Instruct, Qwen2.5-7B-RL) under vanilla OPD
+                                                        onALFWorld.
+                                                        in Equation 4. By concentrating the distillation signal on early-turn states at the beginning
+                                                        of training and gradually extending the horizon, the student builds a robust foundation
+                                                        before being exposed to the full trajectory, effectively mitigating compounding errors and
+                                                       preventing KL collapse.
+                                                       Algorithm3:TemporalCurriculumOn-PolicyDistillation: TCOD-F2B
+                                                          1: Input: Student πθ, Teacher πϕ, Environment E, total steps N, curriculum parameters
+                                                                kstart, η
+                                                          2: Output: Trained student policy πθ
+                                                          3: for n = 1,2,...,N do
+                                                          4:         k ←min(k                         +⌊n/η⌋, T                         )
+                                                                                             start                              max
+                                                          5:         Initialize s0 ∼ E, history h0 ← ∅
+                                                          6:         for t = 0,1,...,k −1 do
+                                                          7:              Sample at ∼ πθ(· | ht); execute at; update ht+1
+                                                          8:         endfor                                                                                
+                                                          9:         L←∑k DKL πϕ(at |ht)∥π (at | ht)
+                                                                                     t=0                                                θ
+                                                        10:          Updateθ ← θ−∇θL
+                                                        11: end for
+                                                        12: return πθ
+                                                        In TCOD-B2F(Algorithm4),theteacherpolicy πϕ first replays the initial L−k steps from
+                                                        a pre-collected successful trajectory τ∗ without contributing to the gradient, placing the
+                                                        student at a vetted checkpoint state. The student then takes over for the remaining k steps,
+                                                        learning to complete the task from progressively earlier starting points as k increases. By the
+                                                        endoftraining, the teacher prefix is fully eliminated (k = L), ensuring the student executes
+                                                        the complete trajectory end-to-end and fully closing the train-test distribution gap.
+                                                                                                                                                          15
+                                 Algorithm4:TemporalCurriculumOn-PolicyDistillation: TCOD-B2F
+                                  1: Input: Student πθ, Teacher πϕ, Environment E, total steps N, curriculum parameters
+                                      kstart, η
+                                  2: Output: Trained student policy πθ
+                                  3: Pre-collect teacher successful trajectories T ∗ ← {τ∗}
+                                  4: for n = 1,2,...,N do
+                                  5:     k ←min(kstart +⌊n/η⌋, L)
+                                  6:     Sampleτ∗ ∈ T ∗ with length L; initialize s0 ∼ E
+                                  7:     for t = 0,1,...,L−k−1do
+                                  8:        Execute teacher action a∗ (stop gradient); update ht+1
+                                  9:     endfor                            t
+                                 10:     for t = L −k,...,L do
+                                 11:        Sample at ∼ πθ(· | ht); execute at; update ht+1
+                                 12:     endfor                                               
+                                 13:     L←∑L             DKL πϕ(at | ht)∥π (at | ht)
+                                                  t=L−k                            θ
+                                 14:     Updateθ ← θ−∇θL
+                                 15: end for
+                                 16: return πθ
+                                 D ExperimentDetails
+                                 D.1 BenchmarkEnvironments
+                                 ALFWorld(Shridharetal.,2020)isatext-basedembodiedenvironmentrequiringnavigation
+                                 andobjectmanipulationacrosssixcategoriesofhouseholdtasks. ALFWorldprovidesseen
+                                 andunseensplits: the seen split tests performance in environments present during training,
+                                 while the unseen split requires the agent to operate in novel room layouts and object
+                                 combinations, serving as our OOD evaluation. For ALFWorld, we further build a Hard set
+                                 of 121 tasks where the teacher fails under pass@10 sampling on the training split. This set
+                                 serves as a more challenging OOD evaluation to test whether TCOD can generalize beyond
+                                 the teacher’s own capability boundary.
+                                 Webshop(Yaoetal.,2022a)isaweb-basedenvironmentrequiringtheagenttosearchand
+                                 select products that match a given user instruction across multi-turn interactions with a
+                                 simulated e-commerce platform.
+                                 ScienceWorld(Wangetal.,2022)isatext-basedenvironmentthattestsscientific reasoning
+                                 across 30 task types aligned with the elementary science curriculum. The agent receives a
+                                 score between 0 and 100 at the end of each task based on task completion.
+                                 D.2 Baselines
+                                 To rigorously assess the effectiveness of TCOD, we benchmark against the following
+                                 paradigms,establishing clear performance boundaries for the student models:
+                                 Teacher(UpperBound): Theperformanceoftheexpertpolicy(πϕ)isevaluateddirectly
+                                 ontheenvironment. Instandarddistillation, this represents the theoretical upper bound, as
+                                 the primary goal is to recover this capability within the smaller student model. Notably, our
+                                 evaluation on the Train Hard split (Sec 5.3) investigates whether TCOD can even generalize
+                                 beyondthisupperlimit.
+                                 Zero-ShotStudent(LowerBound): Thebasestudentmodel(πθ)evaluateddirectlyonthe
+                                 interactive tasks without any task-specific fine-tuning or distillation. This establishes the
+                                 absolute starting point of the student’s reasoning capability in the agentic environments.
+                                 SupervisedFine-Tuning(SFT):Thefundamentalimitationlearningbaseline. Thestudent
+                                 modelisfine-tunedviastandardnegativelog-likelihood(NLL)lossstrictlyonthesuccessful
+                                                                                          16
+                         trajectories (τ∗) pre-collected from the Teacher for 2 epochs, suffering from the well-known
+                         exposurebiasinmulti-turnsettings.
+                         Vanilla On-Policy Distillation (OPD): The standard multi-turn adaptation of recent OPD
+                         methods. The student is trained to minimize the token-level KL divergence against the
+                         teacher’s distribution over the student’s entire generated trajectory (full rollouts), without
+                         any horizon constraints or temporal curriculum. This serves as the direct baseline to
+                         demonstratetheTrajectory-Level KL Instability.
+                         D.3 TrainingHyperparameters
+                         Weconducttrainingacrossthreetext-basedinteractive environments: ALFWorld, Science-
+                         World, and WebShop. Thetraining configuration is summarized in Table 4.
+                                   Table 4: Training hyperparameters for TCOD across all environments.
+                                         Hyperparameter              Value
+                                         Algorithm
+                                           Algorithmtype             On-Policy Distillation
+                                           Advantagefunction         Multi-turn OPD
+                                           KLcoefficient             1.0
+                                           Learning rate             1×10−6
+                                           Gradient clipping         1.0
+                                           Repeattimes               1
+                                           Samplestrategy            Staleness control (max staleness: 2)
+                                         Training
+                                           Total training steps      250
+                                           Batch size                16
+                                           Train batch size          64
+                                           Saveinterval              250
+                                           Evaluation interval       5 steps
+                                         ModelConfiguration
+                                           Maxprompttokens           10,240
+                                           Maxresponsetokens         512
+                                         Inference (Rollout)
+                                           Temperature(training)     1.0
+                                           Temperature(evaluation)   0.4
+                                           Logprobs                  Enabled(all tokens)
+                                           Seed                      42
+                                         Environment-Specific
+                                           ALFWorldmaxsteps          30
+                                           ScienceWorld maxsteps     30
+                                           WebShopmaxsteps           15
+                                         TCODCurriculum
+                                           Workflowname              B2F, F2B
+                                           Starting step             1
+                                           Checkpointsteps           2, 4, 6
+                                         Distributed Training
+                                           Numberofnodes             1
+                                           GPUspernode               8
+                                           Tensor parallel size      2
+                                           Sequenceparallel size     2 (Ulysses)
+                                           MaxtokensperGPU           16,384
+                                           GPUmemoryutilization      0.7
+                                           Datatype                  BFloat16
+                                                                     17
+                           D.4 EvaluationHyperparameters
+                           For evaluation, we assess model performance on three test sets: test unseen, test, and
+                           train hard (ALFWorld only). The evaluation hyperparameters are consistent across all
+                           environmentsasshowninTable5.
+                                     Table 5: Evaluation hyperparameters for TCOD across all environments.
+                                       Hyperparameter              Value
+                                       Generation
+                                         Maximumtokens             4,096
+                                         Temperature               0.4 (evaluation)
+                                         Top-p                     1.0
+                                         Top-k                     -1
+                                         MinP                      0.0
+                                       Environment
+                                         Maxenvironmentsteps       30(ALFWorld,ScienceWorld)/15(WebShop)
+                                         History length            2 steps
+                                       Parallelization
+                                         Numberofworkers           8 (evaluation)
+                                         Process timeout           3,600 seconds
+                                         Synchronization style     Dynamicbyexplorer
+                                       Data
+                                         ALFWorldtestsets          test unseen.jsonl, test.jsonl, train hard.jsonl
+                                         ScienceWorld test sets    Test split from training data
+                                         WebShoptestsets           Test split from training data
+                           D.5 Moreexperimentsresults
+                           Detailed success rate for TCOD-B2F          AsshowninFigure9andFigure10, TCOD-B2F
+                           exhibits a characteristic non-monotonic training dynamic. Specifically, the rollout success
+                           rateisinitially highÐsincetrainingstartsfromshorthorizonsÐthendropsasthecurriculum
+                           expandstolongertrajectories, and finally recovers as the student adapts to the increased
+                           difficulty. A similar pattern is observed in the valid seen split, where the success rate also
+                           decreases mid-training before improving again.
+                           In contrast, the valid unseen and train hard splits remain relatively stable throughout training,
+                           withoutpronounceddrops. Thissuggeststhattheintermediatedegradationisnotdueto
+                           overfitting or instability, but rather reflects a controlled curriculum transition. Overall, these
+                           results indicate that TCOD-B2F introduces temporary difficulty as the horizon expands, yet
+                           maintains stable generalization while ultimately improving performance, validating the
+                           effectiveness of progressive horizon expansion.
+                           E EnvironmentPrompts
+                           This section provides the detailed prompts used for each environment during training and
+                           evaluation. All prompts follow a consistent structure: task description, observation-action
+                           history, current observation, admissible actions, and thinking/action format requirements.
+                           E.1   ALFWorldPrompts
+                           ALFWorldisanembodiedAItaskrequiringagentstonavigatehouseholdenvironments
+                           andcomplete object manipulation tasks. The prompt structure emphasizes step-by-step
+                           reasoning within <thought> tags followed by executable actions in <action> tags.
+                                                                          18
+                         Figure 9: Training dynamics of TCOD-B2F (η = 2), including KL divergence, student
+                         action horizon, and success rate, for a Qwen2.5-7B student distilled from a GRPO-trained
+                         Qwen2.5-7BteacheronALFWorld.
+                         Figure 10: Success rates of TCOD-B2F (η = 2), including train hard (left), valid un-
+                         seen(middle),andvalidseen(right),foraQwen2.5-7BstudentdistilledfromaGRPO-trained
+                         Qwen2.5-7BteacheronALFWorld.
+                            ALFWorldTaskPromptTemplate
+                            You are an expert agent operating in the ALFRED Embodied Environment. Your task is
+                            to: {task description}
+                            Prior to this step, you have already taken {step count} step(s). Below are the
+                            most recent {history length} observations and the corresponding actions you took:
+                            {action history}
+                            You  are   now   at  step   {current step}  and   your  current   observation   is:
+                            {current observation}
+                            Your admissible actions of the current situation are: [{admissible actions}].
+                            Now it’s your turn to take an action.
+                            You should first reason step-by-step about the current situation. This reasoning
+                            process MUST be enclosed within <thought> tags.
+                            Once you’ve finished your reasoning, you should choose an admissible action for
+                            current step and present it within <action> </action> tags.
+                         E.2  ScienceWorldPrompts
+                         ScienceWorld focuses on scientific reasoning tasks in a text-based laboratory environment.
+                         The prompt structure guides agents through multi-step experiments requiring domain
+                         knowledgeandproceduralreasoning.
+                                                                    19
+                            ScienceWorldTaskPromptTemplate
+                            Your ScienceWorld task is: {task description}
+                            Prior to this step, you have already taken {step count} step(s). Below are the
+                            most recent {history length} observations and the corresponding actions you took:
+                            {action history}
+                            You  are   now   at  step   {current step}  and   your  current   observation   is:
+                            {current observation}
+                            Your valid actions of the current situation are: [{admissible actions}].
+                            Now it’s your turn to take an action.
+                            You should first reason step-by-step about the current situation. This reasoning
+                            process MUST be enclosed within <thought> tags.
+                            Once you’ve finished your reasoning, you should choose a valid action for the current
+                            step and present it within <action> </action> tags.
+                         E.3  WebShopPrompts
+                         WebShoppresentse-commerceshoppingtasksrequiringagentstonavigateproductlistings,
+                         applyfilters, and make purchasing decisions based on natural language instructions. The
+                         promptemphasizesmatchinguserpreferencestoavailableproductattributes.
+                            WebShopTaskPromptTemplate
+                            You are an expert autonomous agent operating in the WebShop e-commerce environment.
+                            Your task is to: {task description}.
+                            Prior to this step, you have already taken {step count} step(s). Below are the
+                            most recent {history length} observations and the corresponding actions you took:
+                            {action history}
+                            You  are   now   at  step   {current step}  and   your  current   observation   is:
+                            {current observation}.
+                            Your admissible actions of the current situation are:
+                            [
+                            {available actions}
+                            ].
+                            Now it’s your turn to take one action for the current step.
+                            You should first reason step-by-step about the current situation, then think
+                            carefully which admissible action best advances the shopping goal. This reasoning
+                            process MUST be enclosed within <thought> tags.
+                            Once you’ve finished your reasoning, you should choose an admissible action for
+                            current step and present it within <action> </action> tags.
+                         ActionFormatforWebShop. WebShopusesaspecificactionformatwithtwoprimary
+                         action types:
+                              • search[<query>]: Search for products using a text query (only available when
+                                 search bar is present)
+                              • click[<button name>]: Click on interactive elements (e.g., product links, filter
+                                 buttons, pagination)
+                         Theavailable actions are dynamically presented based on the current page state, including
+                         clickable elements and search bar availability.
+                                                                    20

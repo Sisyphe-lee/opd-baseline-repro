@@ -1,0 +1,33 @@
+{
+  "checkpoint_label": "f2b_qwen25_3b_step250_promptfix_accmemory_strict_r4096",
+  "evaluation_id": "full274_h30_f2b_qwen25_3b_step250_promptfix_accmemory_strict_r4096_seed42",
+  "macro_success_rate": 0.8386993603411514,
+  "schema_version": 1,
+  "splits": {
+    "seen": {
+      "action_admissible_rate": 0.9256150793650794,
+      "action_parse_valid_rate": 0.9502380952380952,
+      "average_env_rounds": 10.092857142857143,
+      "observation_unchanged_rate": 0.05912698412698412,
+      "repeated_action_rate": 0.05595238095238095,
+      "success_count": 122,
+      "success_rate": 0.8714285714285714,
+      "task_count": 140,
+      "timeout_rate": 0.12857142857142856
+    },
+    "unseen": {
+      "action_admissible_rate": 0.9052930899945826,
+      "action_parse_valid_rate": 0.9281094527363184,
+      "average_env_rounds": 11.902985074626866,
+      "observation_unchanged_rate": 0.08058915586900661,
+      "repeated_action_rate": 0.07338308457711443,
+      "success_count": 108,
+      "success_rate": 0.8059701492537313,
+      "task_count": 134,
+      "timeout_rate": 0.19402985074626866
+    }
+  },
+  "success_count": 230,
+  "success_rate": 0.8394160583941606,
+  "task_count": 274
+}

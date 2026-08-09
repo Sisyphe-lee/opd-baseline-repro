@@ -1,0 +1,11 @@
+{
+  "ordering": "sorted game path",
+  "seen": {
+    "count": 140,
+    "sha256": "db8f06120978adcfc6e46d379f7dc18841eac6d7f2807a65c507061cd210edb7"
+  },
+  "unseen": {
+    "count": 134,
+    "sha256": "761b71339598109c8c1b4870e5df63260b59ad1dcc8eace3e0a57acfc1760fa0"
+  }
+}

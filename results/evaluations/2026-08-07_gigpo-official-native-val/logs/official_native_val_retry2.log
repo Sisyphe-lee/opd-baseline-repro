@@ -1,0 +1,22 @@
+Script started on 2026-08-07 09:21:05+00:00 [<not executed on terminal>]
+Error executing job with overrides: ['algorithm.adv_estimator=gigpo', 'data.train_files=/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-07_gigpo-official-native-val/data/text/train.parquet', 'data.val_files=/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-07_gigpo-official-native-val/data/text/test.parquet', 'data.train_batch_size=16', 'data.val_batch_size=128', 'data.max_prompt_length=2048', 'data.max_response_length=512', 'data.filter_overlong_prompts=True', 'data.truncation=error', 'data.return_raw_chat=True', 'actor_rollout_ref.model.path=/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/models/GiGPO-Qwen2.5-7B-Instruct-ALFWorld', 'actor_rollout_ref.model.use_remove_padding=True', 'actor_rollout_ref.actor.ppo_mini_batch_size=256', 'actor_rollout_ref.actor.ppo_micro_batch_size_per_gpu=32', 'actor_rollout_ref.actor.use_kl_loss=False', 'actor_rollout_ref.actor.fsdp_config.param_offload=False', 'actor_rollout_ref.actor.fsdp_config.optimizer_offload=False', 'actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=32', 'actor_rollout_ref.rollout.tensor_model_parallel_size=2', 'actor_rollout_ref.rollout.name=vllm', 'actor_rollout_ref.rollout.gpu_memory_utilization=0.6', 'actor_rollout_ref.rollout.enable_chunked_prefill=False', 'actor_rollout_ref.rollout.enforce_eager=False', 'actor_rollout_ref.rollout.free_cache_engine=False', 'actor_rollout_ref.rollout.val_kwargs.temperature=0.4', 'actor_rollout_ref.rollout.val_kwargs.do_sample=True', 'actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=32', 'algorithm.use_kl_in_reward=False', 'env.env_name=alfworld/AlfredTWEnv', 'env.seed=0', 'env.max_steps=50', 'env.rollout.n=1', 'env.resources_per_worker.num_cpus=0.1', 'trainer.logger=console', 'trainer.project_name=verl_agent_alfworld', 'trainer.experiment_name=gigpo_qwen2p5_7b_official_native_val', 'trainer.n_gpus_per_node=8', 'trainer.nnodes=1', 'trainer.save_freq=-1', 'trainer.test_freq=-1', 'trainer.total_epochs=1', 'trainer.val_before_train=True', '+trainer.val_only=True', 'trainer.resume_mode=disable', 'ray_init.num_cpus=160']
+Traceback (most recent call last):
+  File "/tmp/verl-agent-audit/verl/trainer/main_ppo.py", line 29, in main
+    run_ppo(config)
+  File "/tmp/verl-agent-audit/verl/trainer/main_ppo.py", line 35, in run_ppo
+    ray.init(
+  File "/vepfs-mlp2/mlp-public/252302025/lcy/tcod-f2b-repro/.venv_tcod/lib/python3.10/site-packages/ray/_private/client_mode_hook.py", line 104, in wrapper
+    return func(*args, **kwargs)
+  File "/vepfs-mlp2/mlp-public/252302025/lcy/tcod-f2b-repro/.venv_tcod/lib/python3.10/site-packages/ray/_private/worker.py", line 1911, in init
+    _global_node = ray._private.node.Node(
+  File "/vepfs-mlp2/mlp-public/252302025/lcy/tcod-f2b-repro/.venv_tcod/lib/python3.10/site-packages/ray/_private/node.py", line 268, in __init__
+    self._plasma_store_socket_name = self._prepare_socket_file(
+  File "/vepfs-mlp2/mlp-public/252302025/lcy/tcod-f2b-repro/.venv_tcod/lib/python3.10/site-packages/ray/_private/node.py", line 934, in _prepare_socket_file
+    validate_socket_filepath(result.split("://", 1)[-1])
+  File "/vepfs-mlp2/mlp-public/252302025/lcy/tcod-f2b-repro/.venv_tcod/lib/python3.10/site-packages/ray/_private/utils.py", line 1638, in validate_socket_filepath
+    raise OSError(
+OSError: validate_socket_filename failed: AF_UNIX path length cannot exceed 107 bytes: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-07_gigpo-official-native-val/runtime/ray_tmp/ray/session_2026-08-07_09-21-17_414227_1855738/sockets/plasma_store
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+[0m
+Script done on 2026-08-07 09:21:19+00:00 [COMMAND_EXIT_CODE="1"]

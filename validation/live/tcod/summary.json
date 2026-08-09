@@ -1,0 +1,33 @@
+{
+  "checkpoint_label": "tcod_f2b_step250",
+  "evaluation_id": "baseline_live_smoke_tcod_step250_seed42",
+  "macro_success_rate": 0.5,
+  "schema_version": 1,
+  "splits": {
+    "seen": {
+      "action_admissible_rate": 0.6333333333333333,
+      "action_parse_valid_rate": 0.6666666666666666,
+      "average_env_rounds": 30.0,
+      "observation_unchanged_rate": 0.3,
+      "repeated_action_rate": 0.3,
+      "success_count": 0,
+      "success_rate": 0.0,
+      "task_count": 1,
+      "timeout_rate": 1.0
+    },
+    "unseen": {
+      "action_admissible_rate": 0.7857142857142857,
+      "action_parse_valid_rate": 1.0,
+      "average_env_rounds": 14.0,
+      "observation_unchanged_rate": 0.14285714285714285,
+      "repeated_action_rate": 0.0,
+      "success_count": 1,
+      "success_rate": 1.0,
+      "task_count": 1,
+      "timeout_rate": 0.0
+    }
+  },
+  "success_count": 1,
+  "success_rate": 0.5,
+  "task_count": 2
+}

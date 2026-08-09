@@ -1,0 +1,33 @@
+{
+  "checkpoint_label": "qwen2p5_3b_instruct_init_historyfix",
+  "evaluation_id": "full274_h50_qwen2p5_3b_instruct_init_historyfix_seed42",
+  "macro_success_rate": 0.19685501066098082,
+  "schema_version": 1,
+  "splits": {
+    "seen": {
+      "action_admissible_rate": 0.8282598912818218,
+      "action_parse_valid_rate": 0.9995714285714286,
+      "average_env_rounds": 44.121428571428574,
+      "observation_unchanged_rate": 0.06619966481565395,
+      "repeated_action_rate": 0.04497538448768699,
+      "success_count": 29,
+      "success_rate": 0.20714285714285716,
+      "task_count": 140,
+      "timeout_rate": 0.7928571428571428
+    },
+    "unseen": {
+      "action_admissible_rate": 0.790999968183711,
+      "action_parse_valid_rate": 0.9998507462686567,
+      "average_env_rounds": 44.8134328358209,
+      "observation_unchanged_rate": 0.09491460725628097,
+      "repeated_action_rate": 0.05329932841601335,
+      "success_count": 25,
+      "success_rate": 0.1865671641791045,
+      "task_count": 134,
+      "timeout_rate": 0.8134328358208955
+    }
+  },
+  "success_count": 54,
+  "success_rate": 0.19708029197080293,
+  "task_count": 274
+}
