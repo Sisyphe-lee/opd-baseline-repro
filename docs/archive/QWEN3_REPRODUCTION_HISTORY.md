@@ -1,6 +1,10 @@
-# Qwen3 ALFWorld TCOD-F2B reproduction decisions
+# Archived Qwen3 ALFWorld reproduction history
 
 Updated: 2026-08-04
+
+> Historical reference only. This document describes the superseded
+> Qwen3-1.7B/Qwen3-4B, horizon-50 line of work. It is not the frozen
+> Qwen2.5-3B/GiGPO baseline documented in the repository root README.
 
 ## Objective
 
@@ -191,3 +195,39 @@ These are engineering checks, not unresolved research choices:
 - adapt the checked-in 8 x H20 layout to the available A100 hardware without
   changing the global algorithmic contract;
 - validate ALFWorld reset/action/observation/reward closure before model training.
+
+## Superseded evaluation contract
+
+The historical evaluator used temperature 0.4, top-p 1.0, top-k -1, a
+512-token response cap, and a 50-action horizon. It defined success as ALFWorld
+`won=True` or positive task reward; TextWorld `done=True` alone was not treated
+as success because timeouts also set `done`.
+
+Two populations were used:
+
+- quick-72: 36 Seen plus 36 Unseen games, stratified by task type with seed
+  `20260802`;
+- full-274: all 140 Seen plus 134 Unseen validation games.
+
+These horizon-50 numbers must not be compared directly with the current
+horizon-30 baseline.
+
+## Superseded accepted results
+
+| Historical method | Population | Seen | Unseen | Overall/task-weighted |
+|---|---|---:|---:|---:|
+| External Qwen3-4B GRPO teacher | quick-72 | 19/36 | 18/36 | 51.39% macro |
+| Vanilla OPD Qwen3-1.7B step 200 | full-274 | 44/140 | 26/134 | 70/274 |
+| TCOD-F2B Qwen3-1.7B step 200 | full-274 | 41/140 | 35/134 | 76/274 |
+| Entropy-frontier OPD step 200 | full-274 | 36/140 | 27/134 | 63/274 |
+
+The matched full-274 pairwise gaps did not reach conventional significance on
+that single evaluation pass (Vanilla versus TCOD exact McNemar `p=0.488`). These
+results are retained only to explain the origin of the archived entropy plots
+and instrumentation under `research_tools/legacy_entropy_diagnostics/` and
+`analysis/reference_legacy_qwen3_entropy_diagnostics/`.
+
+The original three source documents were consolidated here during repository
+cleanup. Paths referring to `reproduction_configs/`, `reproduction_outputs/`,
+or the former source repositories are historical provenance and are not active
+baseline entry points.

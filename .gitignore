@@ -32,7 +32,9 @@ __pycache__/
 *.key
 *.token
 
-# Private remote-machine usage documentation
+# Private local instructions and remote-machine usage documentation
+/AGENTS.md
+/agents.md
 /REMOTE_MACHINE.md
 /REMOTE_MACHINE_USAGE.md
 /remote_machine.md

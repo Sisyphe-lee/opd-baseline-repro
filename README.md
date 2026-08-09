@@ -72,7 +72,7 @@ overall 成功率分别是 218/274（79.56%）和 232/274（84.67%），TCOD 提
 
 我们修复了公开代码中第二步 prompt 组装时丢失任务上下文的问题。该修复是本地基线的
 一部分。教师模型选择、512-token 上限及其他与论文并非完全一致之处，详见
-[`BASELINE_SPEC.md`](BASELINE_SPEC.md)。
+[`docs/BASELINE_SPEC.md`](docs/BASELINE_SPEC.md)。
 
 ## 目录结构
 
@@ -94,7 +94,8 @@ overall 成功率分别是 218/274（79.56%）和 232/274（84.67%），TCOD 提
   测试、埋点实现和参考图；参考图属于 Qwen3-1.7B 实验，不属于当前 baseline 结果。
 - `validation/`：静态验证、端到端 smoke 结果、字节比较记录和 SHA256 清单。
 - `paper/`：论文 PDF 和提取文本。
-- `docs/`：从原复现目录保留的决策与实验文档。
+- `docs/`：基线规范、验证报告、来源与资产边界；`docs/upstream/` 保存上游说明，
+  `docs/archive/` 只保存已明确标注、不会作为当前结论引用的历史研究文档。
 - `.venv_tcod/`：已重定位到本目录的 Python 运行环境。
 
 ## 验证状态
@@ -110,7 +111,7 @@ overall 成功率分别是 218/274（79.56%）和 232/274（84.67%），TCOD 提
 - 正式 full274 历史结果已在本目录重新核对：TCOD 为 232/274，Vanilla 为
   218/274。
 
-完整验证证据见 [`VALIDATION.md`](VALIDATION.md)。
+完整验证证据见 [`docs/VALIDATION.md`](docs/VALIDATION.md)。
 
 ## 常用命令
 
@@ -168,6 +169,7 @@ bash scripts/run_baseline_plots.sh
 - 删除 `opd-alfworld-sync-repro` 或 `tcod-f2b-repro` 属于单独操作，必须在确认
   本 baseline 无遗漏后再讨论和执行。
 
-更详细的规则见 [`AGENTS.md`](AGENTS.md)，资产保留和排除范围见
-[`ASSET_MANIFEST.md`](ASSET_MANIFEST.md)。原始上游英文 README 保存在
-[`README_UPSTREAM.md`](README_UPSTREAM.md)。
+本机专用的 `AGENTS.md` 保留在工作目录但不会提交。基线规范见
+[`docs/BASELINE_SPEC.md`](docs/BASELINE_SPEC.md)，来源与 Git/本地资产边界见
+[`docs/PROVENANCE.md`](docs/PROVENANCE.md)，原始上游英文 README 保存在
+[`docs/upstream/TRINITY_README.md`](docs/upstream/TRINITY_README.md)。

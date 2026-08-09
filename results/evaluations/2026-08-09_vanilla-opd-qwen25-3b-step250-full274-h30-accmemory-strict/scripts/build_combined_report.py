@@ -267,8 +267,8 @@ def main() -> None:
             "",
         ]
     )
-    (RUN_ROOT / "RESULTS.md").write_text("\n".join(lines), encoding="utf-8")
-    print(RUN_ROOT / "RESULTS.md")
+    (RUN_ROOT / "README.md").write_text("\n".join(lines), encoding="utf-8")
+    print(RUN_ROOT / "README.md")
 
 
 if __name__ == "__main__":
