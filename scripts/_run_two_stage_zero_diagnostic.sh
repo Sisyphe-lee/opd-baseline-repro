@@ -78,7 +78,7 @@ plot_comparison() {
 }
 
 echo "[1/8] Frozen student-init full274 (required to define warm)."
-run_eval student_init_seed42 "${ROOT}/configs/experiments/two_stage_init_full274_seed42.yaml" 6410
+run_eval student_init_seed42 "${ROOT}/configs/experiments/two_stage_init_full274_seed42.yaml" 6420
 
 echo "[2/8] Teacher trajectory collection and offline dataset construction."
 if [[ ! -f "${DATA}" || ! -f "${MANIFEST}" ]]; then
@@ -86,7 +86,7 @@ if [[ ! -f "${DATA}" || ! -f "${MANIFEST}" ]]; then
   mkdir -p "${TEACHER_RECORDS}" "${RUN_ROOT}/teacher_collection/seed42/logs"
   bash "${ROOT}/scripts/run_alfworld_eval.sh" \
     "${ROOT}/configs/experiments/two_stage_teacher_collection_seed42.yaml" \
-    "${GPU_IDS}" two_stage_teacher_collection_seed42 6411
+    "${GPU_IDS}" two_stage_teacher_collection_seed42 6421
   "${ROOT}/.venv_tcod/bin/python" "${ROOT}/scripts/build_teacher_success_sft.py" \
     --record-dir "${TEACHER_RECORDS}" --output-jsonl "${DATA}" --manifest-json "${MANIFEST}" \
     --tokenizer "${ROOT}/models/Qwen2.5-3B-Instruct" \
@@ -105,12 +105,12 @@ echo "[3/8] Offline distillation: 30 updates on eight trainer GPUs."
 if [[ ! -d "${OFFLINE_CKPT}" ]]; then
   bash "${ROOT}/scripts/run_two_stage_train_config.sh" \
     "${ROOT}/configs/experiments/two_stage_offline30_seed42.yaml" \
-    "${GPU_IDS}" two_stage_offline30_seed42 6412
+    "${GPU_IDS}" two_stage_offline30_seed42 6422
 fi
 [[ -d "${OFFLINE_CKPT}" ]] || { echo "Offline HF checkpoint missing: ${OFFLINE_CKPT}" >&2; exit 2; }
 
 echo "[4/8] Offline-30 frozen full274."
-run_eval offline30_seed42 "${ROOT}/configs/experiments/two_stage_offline30_full274_seed42.yaml" 6413
+run_eval offline30_seed42 "${ROOT}/configs/experiments/two_stage_offline30_full274_seed42.yaml" 6423
 
 echo "[5/8] Warm-start comparison figures."
 plot_comparison
@@ -119,7 +119,7 @@ echo "[6/8] Vanilla online distillation: 220 updates, save every 20."
 if [[ ! -d "${ONLINE_CKPT}" ]]; then
   bash "${ROOT}/scripts/run_two_stage_train_config.sh" \
     "${ROOT}/configs/experiments/two_stage_online220_from_offline30_seed42.yaml" \
-    "${GPU_IDS}" two_stage_offline30_online220_seed42 6414
+    "${GPU_IDS}" two_stage_offline30_online220_seed42 6424
 fi
 for step in $(seq 20 20 220); do
   [[ -d "${ONLINE_JOB}/global_step_${step}/actor/huggingface" ]] || {
@@ -130,7 +130,7 @@ done
 
 echo "[7/8] Final frozen full274."
 run_eval offline30_online220_seed42 \
-  "${ROOT}/configs/experiments/two_stage_offline30_online220_full274_seed42.yaml" 6415
+  "${ROOT}/configs/experiments/two_stage_offline30_online220_full274_seed42.yaml" 6425
 
 echo "[8/8] Final comparison and online entropy/KL plots."
 plot_comparison
