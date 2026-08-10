@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """The explorer module"""
+
 from __future__ import annotations
 
 import asyncio
@@ -125,7 +126,9 @@ class Explorer:
                     else student_weight
                 )
                 continue
-            if (not torch.is_tensor(teacher_weight)) or teacher_weight.shape != student_weight.shape:
+            if (
+                not torch.is_tensor(teacher_weight)
+            ) or teacher_weight.shape != student_weight.shape:
                 self.teacher_ema_state_dict[key] = student_weight.detach().clone()
                 continue
             teacher_weight = teacher_weight.to(
@@ -244,16 +247,14 @@ class Explorer:
             self.config.explorer.auxiliary_models or [],
             self.auxiliary_models or [],
         ):
-            if not models:
-                continue
-            aux_master_address, aux_master_port = await models[0].get_available_address.remote()
             aux_world_size = auxiliary_config.tensor_parallel_size
-            for i, model in enumerate(models):
+            for model in models:
+                aux_master_address, aux_master_port = await model.get_available_address.remote()
                 refs.append(
                     model.init_process_group.remote(
                         master_address=aux_master_address,
                         master_port=aux_master_port,
-                        rank_offset=i,
+                        rank_offset=0,
                         world_size=aux_world_size,
                         group_name=ROLLOUT_WEIGHT_SYNC_GROUP_NAME,
                         explorer_name=self.config.explorer.name,
@@ -288,21 +289,19 @@ class Explorer:
         for auxiliary_config, models in zip(
             self.config.explorer.auxiliary_models, self.auxiliary_models
         ):
-            if not models:
-                continue
-            aux_master_address, aux_master_port = await models[0].get_available_address.remote()
             aux_world_size = auxiliary_config.tensor_parallel_size
-            self.logger.info(
-                f"Initialize process group for auxiliary model weight synchronization, "
-                f"master_address={aux_master_address}, master_port={aux_master_port}, "
-                f"world_size={aux_world_size}"
-            )
-            for i, model in enumerate(models):
+            for model in models:
+                aux_master_address, aux_master_port = await model.get_available_address.remote()
+                self.logger.info(
+                    f"Initialize process group for auxiliary model weight synchronization, "
+                    f"master_address={aux_master_address}, master_port={aux_master_port}, "
+                    f"world_size={aux_world_size}"
+                )
                 refs.append(
                     model.init_process_group.remote(
                         master_address=aux_master_address,
                         master_port=aux_master_port,
-                        rank_offset=i,
+                        rank_offset=0,
                         world_size=aux_world_size,
                         group_name=ROLLOUT_WEIGHT_SYNC_GROUP_NAME,
                         explorer_name=self.config.explorer.name,

@@ -7,7 +7,51 @@ from packaging.version import parse as parse_version
 from vllm.v1.outputs import LogprobsTensors
 from vllm.v1.worker.gpu_model_runner import GPUModelRunner
 
-from trinity.common.models.vllm_patch import get_vllm_version
+from trinity.common.models.vllm_patch import (
+    PROMPT_LOGPROBS_START_ARG,
+    get_vllm_version,
+)
+
+
+def _get_prompt_logprobs_start(request, num_prompt_tokens: int) -> int:
+    """Return the first prompt-logprob row that must be materialized.
+
+    Prompt-logprob row ``i`` scores prompt token ``i + 1``. The default of
+    zero deliberately preserves vLLM's normal full-prompt behavior. Trinity's
+    distillation workflow sets the extra argument to the first response row so
+    that the teacher does not compute or transfer top-k values for history.
+    """
+    extra_args = request.sampling_params.extra_args or {}
+    start = extra_args.get(PROMPT_LOGPROBS_START_ARG, 0)
+    if isinstance(start, bool) or not isinstance(start, int):
+        raise ValueError(f"{PROMPT_LOGPROBS_START_ARG} must be an integer, got {start!r}")
+    max_start = num_prompt_tokens - 1
+    if not 0 <= start <= max_start:
+        raise ValueError(
+            f"{PROMPT_LOGPROBS_START_ARG} must be in [0, {max_start}], got {start}"
+        )
+    return start
+
+
+def _prompt_logprobs_chunk_overlap(
+    start_idx: int,
+    num_logits: int,
+    output_start: int,
+) -> Optional[tuple[int, int, int]]:
+    """Map a full-prompt prefill chunk into suffix-only output tensors.
+
+    Returns ``(hidden_offset, selected_count, output_offset)`` or ``None`` if
+    the chunk is wholly before the requested suffix.
+    """
+    overlap_start = max(start_idx, output_start)
+    chunk_end = start_idx + num_logits
+    if overlap_start >= chunk_end:
+        return None
+    return (
+        overlap_start - start_idx,
+        chunk_end - overlap_start,
+        overlap_start - output_start,
+    )
 
 
 def patch_vllm_prompt_logprobs(model_runner: GPUModelRunner):  # noqa: C901
@@ -59,17 +103,15 @@ def patch_vllm_prompt_logprobs(model_runner: GPUModelRunner):  # noqa: C901
                 continue
 
             num_prompt_tokens = len(request.prompt_token_ids)
-            prompt_token_ids = torch.tensor(request.prompt_token_ids).to(
-                self.device, non_blocking=True
-            )
+            output_start = _get_prompt_logprobs_start(request, num_prompt_tokens)
 
             # Set up target LogprobsTensors object.
             logprobs_tensors = in_progress_dict.get(req_id)
             if not logprobs_tensors:
-                # Create empty logprobs CPU tensors for the entire prompt.
-                # If chunked, we'll copy in slice by slice.
+                # Allocate only the requested suffix. If chunked, we'll copy
+                # the overlapping rows in slice by slice.
                 logprobs_tensors = LogprobsTensors.empty_cpu(
-                    num_prompt_tokens - 1, num_prompt_logprobs + 1
+                    num_prompt_tokens - 1 - output_start, num_prompt_logprobs + 1
                 )
                 in_progress_dict[req_id] = logprobs_tensors
 
@@ -95,12 +137,21 @@ def patch_vllm_prompt_logprobs(model_runner: GPUModelRunner):  # noqa: C901
                 # step. There are no more prompt logprobs to produce.
                 continue
 
+            overlap = _prompt_logprobs_chunk_overlap(start_idx, num_logits, output_start)
+            if overlap is None:
+                # History still participates in Transformer prefill, but we
+                # skip its vocabulary logits/top-k diagnostics entirely.
+                continue
+            hidden_offset, selected_count, output_offset = overlap
+
             # Get the logits corresponding to this req's prompt tokens.
             # If this is a partial request (i.e. chunked prefill),
             # then there is prompt logprob generated for each index.
             req_idx = self.input_batch.req_id_to_index[req_id]
             offset = self.query_start_loc.np[req_idx].item()
-            prompt_hidden_states = hidden_states[offset : offset + num_logits]
+            prompt_hidden_states = hidden_states[
+                offset + hidden_offset : offset + hidden_offset + selected_count
+            ]
             # PATCH START
             if is_v0102:
                 logits = self.model.compute_logits(prompt_hidden_states, None)
@@ -115,7 +166,14 @@ def patch_vllm_prompt_logprobs(model_runner: GPUModelRunner):  # noqa: C901
             # Get the "target" tokens for each index. For prompt at index i,
             # the token at prompt index i+1 is the "sampled" token we want
             # to gather the logprob for.
-            tgt_token_ids = prompt_token_ids[start_tok : start_tok + num_logits]
+            target_start_tok = start_tok + hidden_offset
+            tgt_token_ids = torch.as_tensor(
+                request.prompt_token_ids[
+                    target_start_tok : target_start_tok + selected_count
+                ],
+                dtype=torch.long,
+                device=self.device,
+            )
 
             # Compute prompt logprobs.
             logprobs = self.sampler.compute_logprobs(logits)
@@ -124,7 +182,7 @@ def patch_vllm_prompt_logprobs(model_runner: GPUModelRunner):  # noqa: C901
             )
 
             # Transfer GPU->CPU async.
-            chunk_slice = slice(start_idx, start_idx + num_logits)
+            chunk_slice = slice(output_offset, output_offset + selected_count)
             logprobs_tensors.logprob_token_ids[chunk_slice].copy_(token_ids, non_blocking=True)
             logprobs_tensors.logprobs[chunk_slice].copy_(logprobs, non_blocking=True)
             logprobs_tensors.selected_token_ranks[chunk_slice].copy_(ranks, non_blocking=True)
@@ -180,17 +238,15 @@ def patch_vllm_prompt_logprobs(model_runner: GPUModelRunner):  # noqa: C901
                 continue
 
             num_prompt_tokens = len(request.prompt_token_ids)
-            prompt_token_ids = torch.tensor(request.prompt_token_ids).to(
-                self.device, non_blocking=True
-            )
+            output_start = _get_prompt_logprobs_start(request, num_prompt_tokens)
 
             # Set up target LogprobsTensors object.
             logprobs_tensors = in_progress_dict.get(req_id)
             if not logprobs_tensors:
-                # Create empty logprobs CPU tensors for the entire prompt.
-                # If chunked, we'll copy in slice by slice.
+                # Allocate only the requested suffix. If chunked, we'll copy
+                # the overlapping rows in slice by slice.
                 logprobs_tensors = LogprobsTensors.empty_cpu(
-                    num_prompt_tokens - 1, num_prompt_logprobs + 1
+                    num_prompt_tokens - 1 - output_start, num_prompt_logprobs + 1
                 )
                 in_progress_dict[req_id] = logprobs_tensors
 
@@ -216,12 +272,21 @@ def patch_vllm_prompt_logprobs(model_runner: GPUModelRunner):  # noqa: C901
                 # step. There are no more prompt logprobs to produce.
                 continue
 
+            overlap = _prompt_logprobs_chunk_overlap(start_idx, num_logits, output_start)
+            if overlap is None:
+                # History still participates in Transformer prefill, but we
+                # skip its vocabulary logits/top-k diagnostics entirely.
+                continue
+            hidden_offset, selected_count, output_offset = overlap
+
             # Get the logits corresponding to this req's prompt tokens.
             # If this is a partial request (i.e. chunked prefill),
             # then there is prompt logprob generated for each index.
             req_idx = self.input_batch.req_id_to_index[req_id]
             offset = self.query_start_loc.np[req_idx].item()
-            prompt_hidden_states = hidden_states[offset : offset + num_logits]
+            prompt_hidden_states = hidden_states[
+                offset + hidden_offset : offset + hidden_offset + selected_count
+            ]
             logits = self.model.compute_logits(prompt_hidden_states)
 
             # PATCH START
@@ -233,7 +298,14 @@ def patch_vllm_prompt_logprobs(model_runner: GPUModelRunner):  # noqa: C901
             # Get the "target" tokens for each index. For prompt at index i,
             # the token at prompt index i+1 is the "sampled" token we want
             # to gather the logprob for.
-            tgt_token_ids = prompt_token_ids[start_tok : start_tok + num_logits]
+            target_start_tok = start_tok + hidden_offset
+            tgt_token_ids = torch.as_tensor(
+                request.prompt_token_ids[
+                    target_start_tok : target_start_tok + selected_count
+                ],
+                dtype=torch.long,
+                device=self.device,
+            )
 
             # Compute prompt logprobs.
             logprobs = self.sampler.compute_logprobs(logits)
@@ -242,7 +314,7 @@ def patch_vllm_prompt_logprobs(model_runner: GPUModelRunner):  # noqa: C901
             )
 
             # Transfer GPU->CPU async.
-            chunk_slice = slice(start_idx, start_idx + num_logits)
+            chunk_slice = slice(output_offset, output_offset + selected_count)
             logprobs_tensors.logprob_token_ids[chunk_slice].copy_(token_ids, non_blocking=True)
             logprobs_tensors.logprobs[chunk_slice].copy_(logprobs, non_blocking=True)
             logprobs_tensors.selected_token_ranks[chunk_slice].copy_(ranks, non_blocking=True)

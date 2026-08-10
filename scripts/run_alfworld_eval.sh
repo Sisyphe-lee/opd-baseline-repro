@@ -57,8 +57,9 @@ DASHBOARD_PORT="$((RAY_PORT + 1878))"
 # Keep the worker range separate from the client port and from the training
 # launcher (which uses 36000-38999). Ray's default 10002-19999 range includes
 # the client port for the 640x evaluation ports used by this repository.
-MIN_WORKER_PORT=39000
-MAX_WORKER_PORT=41999
+WORKER_PORT_SLOT="$((RAY_PORT % 8))"
+MIN_WORKER_PORT="$((39000 + WORKER_PORT_SLOT * 3000))"
+MAX_WORKER_PORT="$((MIN_WORKER_PORT + 2999))"
 RAY_SYSTEM_PORT_BASE="$((43000 + (RAY_PORT % 1000) * 10))"
 
 export CUDA_VISIBLE_DEVICES="${GPU_IDS}"
