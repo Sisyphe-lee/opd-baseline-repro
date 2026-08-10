@@ -125,6 +125,18 @@ class FileReader(BaseFileReader):
         return self.reader.__len__()
 
 
+def _load_experience_dataset(config: StorageConfig) -> Dataset:
+    """Load SFT/DPO data from either a Hub dataset or a local data file."""
+
+    path = config.path
+    split = config.split
+    if path and str(path).endswith(".parquet"):
+        return load_dataset("parquet", data_files={split: path}, split=split)
+    if path and (str(path).endswith(".jsonl") or str(path).endswith(".json")):
+        return load_dataset("json", data_files={split: path}, split=split)
+    return load_dataset(path, name=config.subset_name, split=split)
+
+
 class ExperienceFileReader(BaseFileReader):
     """Reader for SFT / DPO file data."""
 
@@ -134,7 +146,7 @@ class ExperienceFileReader(BaseFileReader):
         )
         self.read_batch_size = config.batch_size
         self.dataset = _HFBatchReader(
-            load_dataset(config.path, name=config.subset_name, split=config.split),
+            _load_experience_dataset(config),
             name=config.name,
             default_batch_size=self.read_batch_size,
             total_epochs=config.total_epochs,

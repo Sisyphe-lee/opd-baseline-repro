@@ -1,0 +1,55 @@
+# Stage 1/2: 30 updates of hard-label offline sequence distillation on successful teacher prefixes.
+project: "ALFWORLD_TWO_STAGE_DISTILLATION"
+group: "zero-diagnostic"
+name: "teacher_success_offline30_seed42"
+checkpoint_root_dir: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/two_stage_distillation/checkpoints
+continue_from_checkpoint: false
+mode: train
+
+algorithm:
+  algorithm_type: sft
+  loss_agg_mode: "seq-mean-token-mean"
+  optimizer:
+    lr: 1.0e-6
+
+model:
+  model_path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/models/Qwen2.5-3B-Instruct
+  max_prompt_tokens: 10240
+  max_response_tokens: 512
+
+cluster:
+  node_num: 1
+  gpu_per_node: 8
+
+buffer:
+  total_steps: 30
+  batch_size: 64
+  train_batch_size: 64
+  trainer_input:
+    experience_buffer:
+      name: teacher_success_prefix_seqkd
+      storage_type: file
+      path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/two_stage_distillation/generated/teacher_success_prefix_seqkd_seed42.jsonl
+      split: train
+      format:
+        prompt_type: messages
+        messages_key: messages
+        enable_concatenated_multi_turn: false
+
+synchronizer:
+  sync_method: checkpoint
+  sync_style: fixed
+  sync_interval: 30
+  sync_timeout: 3600
+
+trainer:
+  total_steps: 30
+  save_interval: 30
+  save_hf_checkpoint: always
+  grad_clip: 1.0
+  use_dynamic_bsz: true
+  max_token_len_per_gpu: 16384
+  ulysses_sequence_parallel_size: 1
+
+monitor:
+  monitor_type: wandb

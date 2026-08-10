@@ -177,6 +177,10 @@ class TCODEvalAlfworldWorkflow(Workflow):
                 trajectory.append(
                     {
                         "turn": r,
+                        # Persist the exact prompt rather than relying on a later
+                        # reconstruction. This keeps teacher-trajectory SFT
+                        # provenance auditable at the sample level.
+                        "user_content": user_content,
                         "observation": formatted_observation,
                         "admissible_actions": list(admissible_commands),
                         "response_text": response_text,
@@ -225,7 +229,7 @@ class TCODEvalAlfworldWorkflow(Workflow):
                 raw_task = self.task.raw_task or {}
                 self._write_task_record(
                     {
-                        "schema_version": 1,
+                        "schema_version": 2,
                         "evaluation_id": self.evaluation_id,
                         "checkpoint_label": self.checkpoint_label,
                         "game_file": self.task_desc,

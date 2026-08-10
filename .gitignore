@@ -22,6 +22,7 @@ __pycache__/
 
 # Generated ALFWorld runtime and distributed-worker caches
 /data/alfworld_runtime/
+/data/two_stage_distillation/generated/
 **/ray_tmp/
 **/worker_tmp/
 
