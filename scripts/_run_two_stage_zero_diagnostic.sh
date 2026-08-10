@@ -116,6 +116,7 @@ echo "[5/8] Warm-start comparison figures."
 plot_comparison
 
 echo "[6/8] Vanilla online distillation: 220 updates, save every 20."
+mkdir -p "${RUN_ROOT}/buffers"
 if [[ ! -d "${ONLINE_CKPT}" ]]; then
   bash "${ROOT}/scripts/run_two_stage_train_config.sh" \
     "${ROOT}/configs/experiments/two_stage_online220_from_offline30_seed42.yaml" \
