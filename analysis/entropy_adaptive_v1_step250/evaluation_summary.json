@@ -1,0 +1,103 @@
+{
+  "adaptive_step250_seed_success_counts": {
+    "42": 193,
+    "43": 201,
+    "44": 203
+  },
+  "adaptive_step250_mean_success_rate": 0.7262773722627737,
+  "adaptive_step250_seed_sd_success_rate": 0.019312053365435008,
+  "adaptive_step250_descriptive_total": 597,
+  "adaptive_step250_descriptive_denominator": 822,
+  "tcod_seed42_success_count": 232,
+  "vanilla_seed42_success_count": 218,
+  "paired_comparisons": [
+    {
+      "comparison": "Adaptive250 vs Full10",
+      "seed": 42,
+      "left_success": 193,
+      "right_success": 26,
+      "left_only": 173,
+      "right_only": 6,
+      "both_success": 20,
+      "both_failure": 75,
+      "mcnemar_exact_p": 1.1345424911694114e-43
+    },
+    {
+      "comparison": "Adaptive250 vs Adaptive10",
+      "seed": 42,
+      "left_success": 193,
+      "right_success": 24,
+      "left_only": 175,
+      "right_only": 6,
+      "both_success": 18,
+      "both_failure": 75,
+      "mcnemar_exact_p": 3.0335457131400765e-44
+    },
+    {
+      "comparison": "Adaptive250 vs Full10",
+      "seed": 43,
+      "left_success": 201,
+      "right_success": 26,
+      "left_only": 181,
+      "right_only": 6,
+      "both_success": 20,
+      "both_failure": 67,
+      "mcnemar_exact_p": 5.773354797374103e-46
+    },
+    {
+      "comparison": "Adaptive250 vs Adaptive10",
+      "seed": 43,
+      "left_success": 201,
+      "right_success": 20,
+      "left_only": 186,
+      "right_only": 5,
+      "both_success": 15,
+      "both_failure": 68,
+      "mcnemar_exact_p": 1.315442449092526e-48
+    },
+    {
+      "comparison": "Adaptive250 vs Full10",
+      "seed": 44,
+      "left_success": 203,
+      "right_success": 21,
+      "left_only": 191,
+      "right_only": 9,
+      "both_success": 12,
+      "both_failure": 62,
+      "mcnemar_exact_p": 1.5344874793053407e-45
+    },
+    {
+      "comparison": "Adaptive250 vs Adaptive10",
+      "seed": 44,
+      "left_success": 203,
+      "right_success": 25,
+      "left_only": 184,
+      "right_only": 6,
+      "both_success": 19,
+      "both_failure": 65,
+      "mcnemar_exact_p": 7.94573443760308e-47
+    },
+    {
+      "comparison": "Adaptive250 vs TCOD",
+      "seed": 42,
+      "left_success": 193,
+      "right_success": 232,
+      "left_only": 8,
+      "right_only": 47,
+      "both_success": 185,
+      "both_failure": 34,
+      "mcnemar_exact_p": 8.067609591488889e-08
+    },
+    {
+      "comparison": "Adaptive250 vs Vanilla",
+      "seed": 42,
+      "left_success": 193,
+      "right_success": 218,
+      "left_only": 17,
+      "right_only": 42,
+      "both_success": 176,
+      "both_failure": 39,
+      "mcnemar_exact_p": 0.0015471669302425245
+    }
+  ]
+}
