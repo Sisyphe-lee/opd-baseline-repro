@@ -218,6 +218,26 @@ def read_jsonl(path: Path, source_index: int) -> Tuple[List[Tuple[int, Dict[str,
                 malformed += 1
                 continue
             row = dict(row)
+            # The response-level schema v3 emitted by the TCOD workflow uses
+            # ``game_id`` as its stable task identity and stores response-mean
+            # reverse KL directly. Preserve the raw JSONL while exposing the
+            # legacy aliases expected by the plotting code.
+            if row.get("diagnostics_kind") == "response_topk_head_entropy":
+                if row.get("task_id") is None and row.get("game_id") is not None:
+                    row["task_id"] = row["game_id"]
+                if (
+                    row.get("sampled_reverse_kl_mean") is None
+                    and row.get("sampled_reverse_kl") is not None
+                ):
+                    row["sampled_reverse_kl_mean"] = row["sampled_reverse_kl"]
+                if (
+                    row.get("sampled_reverse_kl_sum") is None
+                    and (kl_mean := finite(row.get("sampled_reverse_kl_mean"))) is not None
+                    and (response_tokens := finite(row.get("response_tokens"))) is not None
+                ):
+                    row["sampled_reverse_kl_sum"] = kl_mean * response_tokens
+                if row.get("env_timeout") is None and row.get("env_done") is not None:
+                    row["env_timeout"] = not truthy(row["env_done"])
             row["_source"] = path.name
             row["_source_index"] = source_index
             row["_line_number"] = line_number
@@ -269,6 +289,13 @@ def select_latest_step_source(
         if source_index
         == source_for_step.get((diagnostics_source(row), training_step(row)), -1)
     ]
+    selected_before_prompt_truncation_filter = len(selected)
+    selected = [
+        row for row in selected if row.get("truncate_status") != "prompt_truncated"
+    ]
+    prompt_truncated_rows_excluded = (
+        selected_before_prompt_truncation_filter - len(selected)
+    )
     selected.sort(
         key=lambda row: (
             diagnostics_source(row),
@@ -283,6 +310,10 @@ def select_latest_step_source(
         "raw_rows_by_file": raw_rows_by_file,
         "malformed_lines_by_file": malformed_by_file,
         "selected_rows": len(selected),
+        "selected_rows_before_prompt_truncation_filter": (
+            selected_before_prompt_truncation_filter
+        ),
+        "prompt_truncated_rows_excluded": prompt_truncated_rows_excluded,
         "selected_steps_by_source": {
             source: sorted(step for item_source, step in source_for_step if item_source == source)
             for source in sorted({source for source, _ in source_for_step})
@@ -560,10 +591,11 @@ def group_trajectories(
         )
 
     kinds = {str(row.get("diagnostics_kind", "")) for row in rows}
-    if kinds != {"topk_head_entropy"}:
+    supported_kinds = {"topk_head_entropy", "response_topk_head_entropy"}
+    if len(kinds) != 1 or not kinds.issubset(supported_kinds):
         raise ValueError(
-            "Trajectory entropy charts require diagnostics_kind="
-            f"topk_head_entropy; found {sorted(kinds)}."
+            "Trajectory entropy charts require one supported diagnostics_kind "
+            f"from {sorted(supported_kinds)}; found {sorted(kinds)}."
         )
 
     trajectories: Dict[Tuple[int, str, str], List[Dict[str, Any]]] = defaultdict(list)
@@ -816,7 +848,12 @@ def trajectory_view_summary(
 
 def write_csv(path: Path, rows: Sequence[Mapping[str, Any]], fields: Sequence[str]) -> None:
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(fields), extrasaction="ignore")
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=list(fields),
+            extrasaction="ignore",
+            lineterminator="\n",
+        )
         writer.writeheader()
         for row in rows:
             writer.writerow({field: "" if row.get(field) is None else row.get(field, "") for field in fields})

@@ -1,0 +1,3 @@
+reference,final,reference_success_count,final_success_count,final_minus_reference_success_rate,final_minus_reference_success_count,left_only_success,right_only_success,discordant,exact_two_sided_p
+Vanilla OPD step250,Offline 30 + online 220,218,201,-0.062043795620437936,-17,36,19,55,0.030028945411892494
+TCOD step250,Offline 30 + online 220,232,201,-0.11313868613138678,-31,39,8,47,5.539621596994948e-06

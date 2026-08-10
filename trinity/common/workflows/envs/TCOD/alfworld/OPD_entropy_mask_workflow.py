@@ -388,6 +388,7 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
             )
 
         identity = _task_identity(str(self.task_desc))
+        task_id = self.task.task_id if self.task.task_id is not None else identity["game_id"]
         training_step = _training_step(self.task.batch_id)
         run_id = getattr(self, "run_id_base", 0)
         trajectory_id = f"train:{training_step}:{identity['game_id']}:{run_id}"
@@ -397,8 +398,10 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
                 {
                     "diagnostics_schema_version": 3,
                     "diagnostics_kind": "response_topk_head_entropy",
+                    "diagnostics_source": "train",
                     "diagnostics_top_k": self.diagnostics_top_k,
                     "training_step": training_step,
+                    "task_id": task_id,
                     "student_model_version": model_version_start,
                     "trajectory_id": trajectory_id,
                     "run_id": run_id,
@@ -406,6 +409,7 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
                     **item,
                     "task_success": self._task_success,
                     "env_done": self._env_done,
+                    "env_timeout": not self._env_done,
                     "env_lost": self._env_lost,
                     "env_rounds": self._env_rounds,
                     "frontier_strategy": self.frontier_strategy,

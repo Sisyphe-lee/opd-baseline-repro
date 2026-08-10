@@ -74,7 +74,11 @@ run_eval() {
 
 plot_comparison() {
   "${ROOT}/.venv_tcod/bin/python" "${ROOT}/scripts/analyze_two_stage_zero_diagnostic.py" \
-    --evaluation-root "${EVAL_ROOT}" --output-dir "${ANALYSIS_DIR}"
+    --evaluation-root "${EVAL_ROOT}" --output-dir "${ANALYSIS_DIR}" \
+    --reference "Vanilla OPD step250" \
+      "${ROOT}/results/evaluations/2026-08-09_vanilla-opd-qwen25-3b-step250-full274-h30-accmemory-strict/evaluation/full274_h30/task_results.jsonl" \
+    --reference "TCOD step250" \
+      "${ROOT}/results/evaluations/2026-08-08_tcod-f2b-qwen25-3b-step250-full274-h30-accmemory-strict/evaluation/full274_h30/task_results.jsonl"
 }
 
 echo "[1/8] Frozen student-init full274 (required to define warm)."
@@ -138,6 +142,8 @@ plot_comparison
 "${ROOT}/.venv_tcod/bin/python" \
   "${ROOT}/research_tools/legacy_entropy_diagnostics/scripts/plot_vanilla_opd_diagnostics.py" \
   --diagnostics "${DIAGNOSTICS}" \
+  --explorer-log "${ONLINE_JOB}/log/explorer.log" \
+  --trainer-log "${ONLINE_JOB}/log/trainer.log" \
   --output-dir "${ANALYSIS_DIR}/online_diagnostics" \
   --checkpoint-job-dir "${ONLINE_JOB}" --final-trainer-step 220 \
   --expected-trajectories 16 --tokenizer-path "${ROOT}/models/Qwen2.5-3B-Instruct" \

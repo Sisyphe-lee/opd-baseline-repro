@@ -38,9 +38,15 @@ def load_jsonl(path: Path) -> list[dict]:
         return [json.loads(line) for line in handle if line.strip()]
 
 
+def canonical_game_id(row: dict) -> str:
+    game_file = str(row["game_file"]).replace("\\", "/")
+    marker = "/json_2.1.1/"
+    return game_file.split(marker, 1)[-1] if marker in game_file else game_file
+
+
 def exact_mcnemar(left: list[dict], right: list[dict]) -> dict:
-    left_by_game = {row["game_file"]: bool(row["task_success"]) for row in left}
-    right_by_game = {row["game_file"]: bool(row["task_success"]) for row in right}
+    left_by_game = {canonical_game_id(row): bool(row["task_success"]) for row in left}
+    right_by_game = {canonical_game_id(row): bool(row["task_success"]) for row in right}
     if left_by_game.keys() != right_by_game.keys():
         raise ValueError("Paired evaluations do not cover identical game_file sets")
     left_only = sum(left_by_game[g] and not right_by_game[g] for g in left_by_game)
@@ -67,6 +73,14 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--evaluation-root", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument(
+        "--reference",
+        nargs=2,
+        action="append",
+        metavar=("LABEL", "TASK_RESULTS_JSONL"),
+        default=[],
+        help="Optional frozen seed42 reference for final paired comparison.",
+    )
     return parser.parse_args()
 
 
@@ -104,7 +118,9 @@ def main() -> None:
             }
         )
     with (args.output_dir / "stage_metrics.csv").open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(stage_rows[0]))
+        writer = csv.DictWriter(
+            handle, fieldnames=list(stage_rows[0]), lineterminator="\n"
+        )
         writer.writeheader()
         writer.writerows(stage_rows)
 
@@ -127,9 +143,46 @@ def main() -> None:
     with (args.output_dir / "paired_comparisons.csv").open(
         "w", encoding="utf-8", newline=""
     ) as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(comparisons[0]))
+        writer = csv.DictWriter(
+            handle, fieldnames=list(comparisons[0]), lineterminator="\n"
+        )
         writer.writeheader()
         writer.writerows(comparisons)
+
+    reference_comparisons = []
+    if len(available) >= 3:
+        final_label, _, final_summary, final_rows = available[-1]
+        for reference_label, reference_path in args.reference:
+            reference_rows = load_jsonl(Path(reference_path))
+            if len(reference_rows) != 274:
+                raise ValueError(f"Expected 274 reference records for {reference_label}")
+            reference_success = sum(bool(row["task_success"]) for row in reference_rows)
+            reference_comparisons.append(
+                {
+                    "reference": reference_label,
+                    "final": final_label,
+                    "reference_success_count": reference_success,
+                    "final_success_count": final_summary["success_count"],
+                    "final_minus_reference_success_rate": (
+                        final_summary["success_rate"] - reference_success / 274
+                    ),
+                    "final_minus_reference_success_count": (
+                        final_summary["success_count"] - reference_success
+                    ),
+                    **exact_mcnemar(reference_rows, final_rows),
+                }
+            )
+    if reference_comparisons:
+        with (args.output_dir / "reference_comparisons.csv").open(
+            "w", encoding="utf-8", newline=""
+        ) as handle:
+            writer = csv.DictWriter(
+                handle,
+                fieldnames=list(reference_comparisons[0]),
+                lineterminator="\n",
+            )
+            writer.writeheader()
+            writer.writerows(reference_comparisons)
 
     labels = [row["stage"] for row in stage_rows]
     x = range(len(labels))
@@ -181,6 +234,7 @@ def main() -> None:
         "protocol": "full274_h30_temperature0.4_seed42_response512_promptfix_accmemory_strict",
         "stages": stage_rows,
         "paired_comparisons": comparisons,
+        "reference_comparisons": reference_comparisons,
         "warm_diagnostic": {
             "definition": (
                 "Offline 30 is empirically warmer only to the extent that its student-on-policy "

@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "protocol": "full274_h30_temperature0.4_seed42_response512_promptfix_accmemory_strict",
+  "stages": [
+    {
+      "stage": "Student init",
+      "directory": "student_init_seed42",
+      "success_count": 27,
+      "success_rate": 0.09854014598540146,
+      "seen_success_rate": 0.1,
+      "unseen_success_rate": 0.09701492537313433,
+      "average_env_rounds": 27.77007299270073,
+      "action_parse_valid_rate": 0.6110705596107047,
+      "action_admissible_rate": 0.4904755220448647,
+      "observation_unchanged_rate": 0.4679009251089548,
+      "repeated_action_rate": 0.41146259458303286,
+      "env_timeout": 0.9014598540145985
+    },
+    {
+      "stage": "Offline 30",
+      "directory": "offline30_seed42",
+      "success_count": 102,
+      "success_rate": 0.3722627737226277,
+      "seen_success_rate": 0.37857142857142856,
+      "unseen_success_rate": 0.3656716417910448,
+      "average_env_rounds": 21.56934306569343,
+      "action_parse_valid_rate": 0.75243309002433,
+      "action_admissible_rate": 0.64943441088514,
+      "observation_unchanged_rate": 0.3631995133819948,
+      "repeated_action_rate": 0.3401003649635035,
+      "env_timeout": 0.6277372262773723
+    },
+    {
+      "stage": "Offline 30 + online 220",
+      "directory": "offline30_online220_seed42",
+      "success_count": 201,
+      "success_rate": 0.7335766423357665,
+      "seen_success_rate": 0.7857142857142857,
+      "unseen_success_rate": 0.6791044776119403,
+      "average_env_rounds": 13.335766423357665,
+      "action_parse_valid_rate": 0.8993917274939164,
+      "action_admissible_rate": 0.8515037223522626,
+      "observation_unchanged_rate": 0.1315186536901865,
+      "repeated_action_rate": 0.12284063260340629,
+      "env_timeout": 0.2664233576642336
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "left": "Student init",
+      "right": "Offline 30",
+      "success_rate_delta": 0.2737226277372263,
+      "success_count_delta": 75,
+      "left_only_success": 9,
+      "right_only_success": 84,
+      "discordant": 93,
+      "exact_two_sided_p": 2.1688614442545304e-16
+    },
+    {
+      "left": "Offline 30",
+      "right": "Offline 30 + online 220",
+      "success_rate_delta": 0.36131386861313874,
+      "success_count_delta": 99,
+      "left_only_success": 15,
+      "right_only_success": 114,
+      "discordant": 129,
+      "exact_two_sided_p": 5.046110811696223e-20
+    },
+    {
+      "left": "Student init",
+      "right": "Offline 30 + online 220",
+      "success_rate_delta": 0.635036496350365,
+      "success_count_delta": 174,
+      "left_only_success": 3,
+      "right_only_success": 177,
+      "discordant": 180,
+      "exact_two_sided_p": 1.2687162527738467e-48
+    }
+  ],
+  "reference_comparisons": [
+    {
+      "reference": "Vanilla OPD step250",
+      "final": "Offline 30 + online 220",
+      "reference_success_count": 218,
+      "final_success_count": 201,
+      "final_minus_reference_success_rate": -0.062043795620437936,
+      "final_minus_reference_success_count": -17,
+      "left_only_success": 36,
+      "right_only_success": 19,
+      "discordant": 55,
+      "exact_two_sided_p": 0.030028945411892494
+    },
+    {
+      "reference": "TCOD step250",
+      "final": "Offline 30 + online 220",
+      "reference_success_count": 232,
+      "final_success_count": 201,
+      "final_minus_reference_success_rate": -0.11313868613138678,
+      "final_minus_reference_success_count": -31,
+      "left_only_success": 39,
+      "right_only_success": 8,
+      "discordant": 47,
+      "exact_two_sided_p": 5.539621596994948e-06
+    }
+  ],
+  "warm_diagnostic": {
+    "definition": "Offline 30 is empirically warmer only to the extent that its student-on-policy full274 success and behavior metrics improve over the identically evaluated init.",
+    "offline_minus_init_success_rate": 0.2737226277372263,
+    "offline_vs_init_mcnemar_p": 2.1688614442545304e-16
+  }
+}

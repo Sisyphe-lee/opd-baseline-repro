@@ -166,6 +166,39 @@ def test_source_precedence_is_independent_for_train_and_fixed_panel(tmp_path: Pa
     assert metadata["selected_steps_by_source"] == {"fixed_panel": [10], "train": [10]}
 
 
+def test_response_schema_v3_is_normalized_without_rewriting_input(tmp_path: Path) -> None:
+    path = tmp_path / "response-v3.jsonl"
+    raw = {
+        "diagnostics_schema_version": 3,
+        "diagnostics_kind": "response_topk_head_entropy",
+        "diagnostics_top_k": 16,
+        "training_step": 1,
+        "game_id": "game-a",
+        "run_id": 0,
+        "turn": 0,
+        "task_success": False,
+        "env_done": False,
+        "student_entropy_topk": 0.1,
+        "teacher_entropy_topk": 0.2,
+        "sampled_reverse_kl": 0.3,
+        "response_tokens": 10,
+    }
+    original = json.dumps(raw) + "\n"
+    path.write_text(original, encoding="utf-8")
+
+    rows, metadata = plotter.select_latest_step_source([path])
+    trajectories = plotter.group_trajectories(rows)
+
+    assert path.read_text(encoding="utf-8") == original
+    assert len(trajectories) == 1
+    assert rows[0]["task_id"] == "game-a"
+    assert rows[0]["sampled_reverse_kl_mean"] == pytest.approx(0.3)
+    assert rows[0]["sampled_reverse_kl_sum"] == pytest.approx(3.0)
+    assert rows[0]["env_timeout"] is True
+    assert metadata["malformed_lines_by_file"] == {"response-v3.jsonl": 0}
+    assert metadata["prompt_truncated_rows_excluded"] == 0
+
+
 def test_token_block_boundary_and_frontier_plots(tmp_path: Path) -> None:
     rows = sample_rows()
     for row in rows:

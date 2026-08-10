@@ -1,0 +1,4 @@
+left,right,success_rate_delta,success_count_delta,left_only_success,right_only_success,discordant,exact_two_sided_p
+Student init,Offline 30,0.2737226277372263,75,9,84,93,2.1688614442545304e-16
+Offline 30,Offline 30 + online 220,0.36131386861313874,99,15,114,129,5.046110811696223e-20
+Student init,Offline 30 + online 220,0.635036496350365,174,3,177,180,1.2687162527738467e-48
