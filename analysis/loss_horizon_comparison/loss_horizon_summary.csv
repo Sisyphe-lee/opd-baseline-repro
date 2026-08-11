@@ -1,0 +1,4 @@
+method,task_count,mean_loss_horizon,median_loss_horizon,p25_loss_horizon,p75_loss_horizon,full_30_count,full_30_fraction
+Vanilla OPD,2832,30.0,30.0,30.0,30.0,2832,1.0
+TCOD F2B,3088,25.642487046632123,30.0,25.0,30.0,2176,0.7046632124352331
+Adaptive v1,2736,26.970394736842106,30.0,30.0,30.0,2315,0.846125730994152

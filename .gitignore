@@ -14,6 +14,8 @@ __pycache__/
 /models/
 /checkpoints/
 /runs/
+/logs/*.log
+/wandb/
 *.safetensors
 *.pt
 *.pth

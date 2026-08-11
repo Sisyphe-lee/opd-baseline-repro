@@ -1,0 +1,4 @@
+method,total_batches,total_trajectories,common_prefix_batches,common_prefix_trajectories,common_prefix_done_reward_rate,full_run_done_reward_rate
+Vanilla OPD,177,2832,171,2736,0.5398391812865497,0.5490819209039548
+TCOD F2B,193,3088,171,2736,0.4923245614035088,0.5252590673575129
+Adaptive v1,171,2736,171,2736,0.5201023391812866,0.5201023391812866

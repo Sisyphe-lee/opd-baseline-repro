@@ -25,8 +25,8 @@ case "$(realpath -m "${RUN_ROOT}")" in
   "${ROOT}"/runs/experiments/*) ;;
   *) echo "Run root must be under runs/experiments: ${RUN_ROOT}" >&2; exit 2 ;;
 esac
-if [[ ! "${GPU_IDS}" =~ ^[0-9]+(,[0-9]+){3}$ ]]; then
-  echo "Exactly four comma-separated GPU IDs are required: ${GPU_IDS}" >&2
+if [[ ! "${GPU_IDS}" =~ ^[0-9]+(,[0-9]+)*$ ]]; then
+  echo "One or more comma-separated GPU IDs are required: ${GPU_IDS}" >&2
   exit 2
 fi
 

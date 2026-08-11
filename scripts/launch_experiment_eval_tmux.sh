@@ -27,5 +27,5 @@ mkdir -p "${RUN_ROOT_ABS}/logs"
 tmux new-session -d -s "${SESSION}"
 tmux set-window-option -t "${SESSION}" remain-on-exit on
 tmux respawn-pane -k -t "${SESSION}" \
-  "set -o pipefail; cd '${ROOT}' && bash scripts/_run_experiment_eval.sh '${CONFIG}' '${GPU_IDS}' '${RUN_TAG}' '${RAY_PORT}' '${RUN_ROOT}' 2>&1 | tee '${RUN_ROOT_ABS}/logs/tmux.log'; status=\${PIPESTATUS[0]}; printf '%s\\n' \"\${status}\" > '${RUN_ROOT_ABS}/logs/exit_status'; exit \"\${status}\""
+  "set -o pipefail; cd '${ROOT}' && bash scripts/_run_experiment_eval.sh '${CONFIG}' '${GPU_IDS}' '${RUN_TAG}' '${RAY_PORT}' '${RUN_ROOT}' 2>&1 | tee '${RUN_ROOT_ABS}/logs/tmux.log'; status=\$?; printf '%s\\n' \"\${status}\" > '${RUN_ROOT_ABS}/logs/exit_status'; exit \"\${status}\""
 echo "Started experiment evaluation in tmux session ${SESSION}."

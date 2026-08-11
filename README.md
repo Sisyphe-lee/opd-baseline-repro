@@ -151,6 +151,9 @@ bash scripts/run_baseline_plots.sh
 [`analysis/README.md`](analysis/README.md)。
 生成物和口径说明见
 [`analysis/frozen_full274_reproduction/README.md`](analysis/frozen_full274_reproduction/README.md)。
+正式 baseline、Adaptive v1、full-loss 对照、two-stage、task-matched Vanilla、
+未完成运行和历史迁移资产的统一状态见
+[`docs/EXPERIMENT_RESULTS.md`](docs/EXPERIMENT_RESULTS.md)。
 
 ## 后续开发规则
 
