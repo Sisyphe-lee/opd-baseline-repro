@@ -132,6 +132,23 @@ def corrected_aligned(rows: pd.DataFrame, trajectories: pd.DataFrame) -> pd.Data
     return pd.DataFrame.from_records(records)
 
 
+def unique_frontier_threshold(rows: pd.DataFrame) -> float:
+    """Return the single configured frontier threshold recorded in diagnostics."""
+    thresholds = pd.to_numeric(
+        rows["entropy_frontier_threshold"], errors="coerce"
+    ).dropna()
+    unique = np.unique(thresholds.to_numpy(dtype=float))
+    if unique.size != 1:
+        raise ValueError(
+            "Expected exactly one finite entropy_frontier_threshold, "
+            f"found {unique.tolist()}"
+        )
+    threshold = float(unique[0])
+    if not np.isfinite(threshold) or threshold <= 0:
+        raise ValueError(f"Invalid entropy frontier threshold: {threshold}")
+    return threshold
+
+
 def plot_turn_outcome(frame: pd.DataFrame, output: Path) -> None:
     fig, axes = plt.subplots(
         2, 1, figsize=(10.5, 7.8), sharex=True, constrained_layout=True
@@ -178,7 +195,12 @@ def plot_turn_outcome(frame: pd.DataFrame, output: Path) -> None:
     plt.close(fig)
 
 
-def plot_frontier(frame: pd.DataFrame, trajectories: pd.DataFrame, output: Path) -> None:
+def plot_frontier(
+    frame: pd.DataFrame,
+    trajectories: pd.DataFrame,
+    threshold: float,
+    output: Path,
+) -> None:
     summary = (
         frame.groupby("relative_turn")["delta_teacher_entropy"]
         .agg(["mean", "std", "count"])
@@ -195,7 +217,13 @@ def plot_frontier(frame: pd.DataFrame, trajectories: pd.DataFrame, output: Path)
     axes[0].plot(x, mean, lw=2.2, color="C0")
     axes[0].fill_between(x, mean - sem, mean + sem, color="C0", alpha=0.18)
     axes[0].axvline(0, color="black", ls="--", lw=1, label="Detected frontier")
-    axes[0].axhline(0.175, color="C3", ls=":", lw=1.5, label="Threshold")
+    axes[0].axhline(
+        threshold,
+        color="C3",
+        ls=":",
+        lw=1.5,
+        label=f"Threshold = {threshold:g}",
+    )
     ORIGINAL.style_axis(
         axes[0],
         "A. Frontier alignment — placeholders excluded",
@@ -397,6 +425,7 @@ def main() -> None:
     rows, _ = ORIGINAL.load_rows(args.diagnostics)
     rows = rows.drop_duplicates(["trajectory_id", "turn"], keep="last").copy()
     trajectories, _ = ORIGINAL.trajectory_table(rows)
+    threshold = unique_frontier_threshold(rows)
     by_step = corrected_by_step(rows, trajectories)
     by_turn = corrected_by_turn(rows)
     aligned = corrected_aligned(rows, trajectories)
@@ -420,7 +449,12 @@ def main() -> None:
     )
     ORIGINAL.plot_training_overview(by_step, args.output_dir / "training_overview.png")
     plot_turn_outcome(by_turn, args.output_dir / "teacher_entropy_by_turn_outcome.png")
-    plot_frontier(aligned, trajectories, args.output_dir / "frontier_mechanism.png")
+    plot_frontier(
+        aligned,
+        trajectories,
+        threshold,
+        args.output_dir / "frontier_mechanism.png",
+    )
     heatmap = plot_heatmap(
         rows, trajectories, args.output_dir / "teacher_entropy_frontier_heatmap_latest.png"
     )

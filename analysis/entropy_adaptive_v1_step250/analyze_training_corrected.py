@@ -77,6 +77,7 @@ def plot_contamination_audit(
     rows: pd.DataFrame,
     aligned_contaminated: pd.DataFrame,
     aligned_real: pd.DataFrame,
+    threshold: float,
     output: Path,
 ) -> None:
     failures = rows.loc[~rows["task_success"]].copy()
@@ -117,7 +118,7 @@ def plot_contamination_audit(
     axes[1].plot(corrected.index, corrected.values, color="C0", lw=2,
                  label="Real generated responses only")
     axes[1].axvline(0, color="black", ls="--", lw=1)
-    axes[1].axhline(0.175, color="C4", ls=":", lw=1.5)
+    axes[1].axhline(threshold, color="C4", ls=":", lw=1.5)
     ORIGINAL.style_axis(
         axes[1], "B. Frontier-aligned entropy drift",
         "Turn relative to detected frontier", "Teacher entropy − early baseline",
@@ -136,6 +137,7 @@ def main() -> None:
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     rows, _ = ORIGINAL.load_rows(args.diagnostics)
+    threshold = CLEAN.unique_frontier_threshold(rows)
     rows = rows.drop_duplicates(["trajectory_id", "turn"], keep="last").copy()
     trajectories, aligned_contaminated = ORIGINAL.trajectory_table(rows)
     by_step = CLEAN.corrected_by_step(rows, trajectories)
@@ -161,13 +163,16 @@ def main() -> None:
         by_turn, args.output_dir / "teacher_entropy_by_turn_outcome.png"
     )
     CLEAN.plot_frontier(
-        aligned_real, trajectories, args.output_dir / "frontier_mechanism.png"
+        aligned_real,
+        trajectories,
+        threshold,
+        args.output_dir / "frontier_mechanism.png",
     )
     heatmap = CLEAN.plot_heatmap(
         rows, trajectories, args.output_dir / "teacher_entropy_frontier_heatmap_latest.png"
     )
     plot_contamination_audit(
-        rows, aligned_contaminated, aligned_real,
+        rows, aligned_contaminated, aligned_real, threshold,
         args.output_dir / "prompt_truncation_contamination_audit.png",
     )
     summary = CLEAN.corrected_summary(rows, trajectories, aligned_real, heatmap)
