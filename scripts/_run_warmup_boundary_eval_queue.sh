@@ -31,11 +31,12 @@ mkdir -p "${QUEUE_ROOT}/logs"
 run_lane() {
   lane="$1"
   gpu_ids="$2"
-  ray_port="$3"
+  base_ray_port="$3"
   shift 3
   status_path="${QUEUE_ROOT}/queue_status_lane_${lane}.tsv"
   printf 'lane\tconfig\trun_root\texit_status\n' > "${status_path}"
   failed=0
+  port_offset=0
 
   for item in "$@"; do
     IFS=: read -r method step <<<"${item}"
@@ -43,9 +44,19 @@ run_lane() {
     run_root="runs/experiments/warmup_boundary_full274/${method}/step_${step}_seed42"
     run_tag="warmup-boundary-${method}-step${step}-seed42-lane${lane}"
     run_root_abs="${ROOT}/${run_root}"
+    ray_port="$((base_ray_port + port_offset * 8))"
+    port_offset="$((port_offset + 1))"
+
+    if [[ -s "${run_root_abs}/summary.json" ]] &&
+       [[ "$(cat "${run_root_abs}/logs/exit_status" 2>/dev/null)" == "0" ]]; then
+      echo "[lane ${lane}] Skipping completed ${config}"
+      printf '%s\t%s\t%s\t0\n' \
+        "${lane}" "${config}" "${run_root}" >> "${status_path}"
+      continue
+    fi
 
     mkdir -p "${run_root_abs}/logs"
-    echo "[lane ${lane}] Starting ${config} on GPUs ${gpu_ids}"
+    echo "[lane ${lane}] Starting ${config} on GPUs ${gpu_ids}, Ray port ${ray_port}"
     set +e
     ALLOW_OCCUPIED_EVAL_GPUS=1 bash "${ROOT}/scripts/_run_experiment_eval.sh" \
       "${ROOT}/${config}" \
@@ -66,6 +77,7 @@ run_lane() {
     else
       echo "[lane ${lane}] Completed ${config}"
     fi
+    sleep 10
   done
   return "${failed}"
 }
