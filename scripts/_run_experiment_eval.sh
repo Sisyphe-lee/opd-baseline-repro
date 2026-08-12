@@ -36,6 +36,10 @@ for gpu_id in "${gpu_array[@]}"; do
   while IFS= read -r gpu_pid; do
     [[ -n "${gpu_pid}" ]] || continue
     if kill -0 "${gpu_pid}" 2>/dev/null; then
+      if [[ "${ALLOW_OCCUPIED_EVAL_GPUS:-0}" == "1" ]]; then
+        echo "WARNING: GPU ${gpu_id} is occupied by live PID ${gpu_pid}; continuing because ALLOW_OCCUPIED_EVAL_GPUS=1." >&2
+        continue
+      fi
       echo "GPU ${gpu_id} is occupied by live PID ${gpu_pid}." >&2
       exit 3
     fi
