@@ -72,7 +72,12 @@ export VLLM_RAY_PER_WORKER_GPUS=1
 export VLLM_USE_RAY_SPMD_WORKER=1
 export VLLM_USE_RAY_COMPILED_DAG=1
 export VLLM_NO_USAGE_STATS=1
-export PYTHONPATH="${ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+VERL_OVERRIDE="${ROOT}/.runtime_overrides/verl"
+if [[ -d "${VERL_OVERRIDE}/verl" ]]; then
+  export PYTHONPATH="${VERL_OVERRIDE}:${ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+else
+  export PYTHONPATH="${ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+fi
 unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy
 
 mkdir -p "${RAY_TMP}" "${ROOT}/logs"
