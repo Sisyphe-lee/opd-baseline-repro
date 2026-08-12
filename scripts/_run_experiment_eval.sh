@@ -57,11 +57,30 @@ fi
 
 mkdir -p "${RECORD_DIR}" "${RUN_ROOT}/logs"
 cp "${CONFIG}" "${RUN_ROOT}/eval_config.yaml"
+mapfile -t EVAL_MANIFESTS < <(
+  "${ROOT}/.venv_tcod/bin/python" - "${CONFIG}" <<'PY'
+import sys
+
+import yaml
+
+with open(sys.argv[1], encoding="utf-8") as handle:
+    config = yaml.safe_load(handle)
+tasksets = config["buffer"]["explorer_input"]["eval_tasksets"]
+if len(tasksets) != 2:
+    raise ValueError(f"Expected exactly two eval tasksets, got {len(tasksets)}")
+for taskset in tasksets:
+    print(taskset["path"])
+PY
+)
+if (( ${#EVAL_MANIFESTS[@]} != 2 )); then
+  echo "Expected exactly two evaluation manifests in ${CONFIG}." >&2
+  exit 2
+fi
 cd "${ROOT}"
 bash scripts/run_alfworld_eval.sh "${CONFIG}" "${GPU_IDS}" "${RUN_TAG}" "${RAY_PORT}"
 "${ROOT}/.venv_tcod/bin/python" scripts/collect_alfworld_eval_results.py \
-  --manifest data/eval_manifests/full_valid_seen.jsonl \
-  --manifest data/eval_manifests/full_valid_unseen.jsonl \
+  --manifest "${EVAL_MANIFESTS[0]}" \
+  --manifest "${EVAL_MANIFESTS[1]}" \
   --record-dir "${RECORD_DIR}" \
   --output-jsonl "${RESULT_JSONL}" \
   --summary-json "${SUMMARY_JSON}" \

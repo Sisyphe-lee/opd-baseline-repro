@@ -26,14 +26,14 @@ buffer:
     taskset:
       name: unused_train_set
       storage_type: file
-      path: /home/sjx/workspaces/tcod-baseline/data/eval_manifests/full_valid_seen.jsonl
+      path: /home/sjx/workspaces/tcod-baseline/data/eval_manifests_lyg/full_valid_seen.jsonl
       split: train
       format:
         prompt_key: game_file
     eval_tasksets:
       - name: warmup_boundary_vanilla_opd_step80_full_seen
         storage_type: file
-        path: /home/sjx/workspaces/tcod-baseline/data/eval_manifests/full_valid_seen.jsonl
+        path: /home/sjx/workspaces/tcod-baseline/data/eval_manifests_lyg/full_valid_seen.jsonl
         split: test
         format:
           prompt_key: game_file
@@ -51,7 +51,7 @@ buffer:
           checkpoint_label: warmup_boundary_vanilla_opd_step80
       - name: warmup_boundary_vanilla_opd_step80_full_unseen
         storage_type: file
-        path: /home/sjx/workspaces/tcod-baseline/data/eval_manifests/full_valid_unseen.jsonl
+        path: /home/sjx/workspaces/tcod-baseline/data/eval_manifests_lyg/full_valid_unseen.jsonl
         split: test
         format:
           prompt_key: game_file
