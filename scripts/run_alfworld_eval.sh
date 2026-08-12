@@ -72,6 +72,7 @@ export VLLM_RAY_PER_WORKER_GPUS=1
 export VLLM_USE_RAY_SPMD_WORKER=1
 export VLLM_USE_RAY_COMPILED_DAG=1
 export VLLM_NO_USAGE_STATS=1
+export PYTHONPATH="${ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
 unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy
 
 mkdir -p "${RAY_TMP}" "${ROOT}/logs"
