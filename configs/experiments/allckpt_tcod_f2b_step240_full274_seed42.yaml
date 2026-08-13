@@ -1,6 +1,6 @@
 project: "TCOD-ALL-CHECKPOINT-FULL274"
 group: "all-checkpoint-full274-seed42"
-name: "allckpt_tcod_f2b_step240-full274-seed42-h30-4gpu"
+name: "allckpt_tcod_f2b_step240-full274-seed42-h30-5gpu"
 checkpoint_root_dir: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_240_seed42/trinity_output
 continue_from_checkpoint: false
 mode: bench
@@ -18,7 +18,7 @@ model:
 
 cluster:
   node_num: 1
-  gpu_per_node: 4
+  gpu_per_node: 5
 
 buffer:
   batch_size: 4
@@ -70,7 +70,7 @@ explorer:
   runner_per_model: 16
   max_timeout: 7200
   rollout_model:
-    engine_num: 4
+    engine_num: 5
     tensor_parallel_size: 1
     use_v1: false
     enforce_eager: false

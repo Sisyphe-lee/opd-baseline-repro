@@ -22,13 +22,14 @@ METHODS = (
 
 def render(method: str, step: int) -> str:
     label = f"allckpt_{method}_step{step}"
+    gpu_count = 4 if (method, step) in {("tcod_f2b", 20), ("vanilla_opd", 20)} else 5
     run_root = RUN_ROOT / method / f"step_{step}_seed42"
     model_path = EXPORT_ROOT / method / f"step_{step}"
     seen_manifest = MANIFEST_ROOT / "full_valid_seen.jsonl"
     unseen_manifest = MANIFEST_ROOT / "full_valid_unseen.jsonl"
     return f'''project: "TCOD-ALL-CHECKPOINT-FULL274"
 group: "all-checkpoint-full274-seed42"
-name: "{label}-full274-seed42-h30-4gpu"
+name: "{label}-full274-seed42-h30-{gpu_count}gpu"
 checkpoint_root_dir: {run_root / "trinity_output"}
 continue_from_checkpoint: false
 mode: bench
@@ -46,7 +47,7 @@ model:
 
 cluster:
   node_num: 1
-  gpu_per_node: 4
+  gpu_per_node: {gpu_count}
 
 buffer:
   batch_size: 4
@@ -98,7 +99,7 @@ explorer:
   runner_per_model: 16
   max_timeout: 7200
   rollout_model:
-    engine_num: 4
+    engine_num: {gpu_count}
     tensor_parallel_size: 1
     use_v1: false
     enforce_eager: false
