@@ -39,6 +39,54 @@ MONITOR = Registry(
 )
 
 
+# Keep the native training TensorBoard intentionally small. W&B and the
+# experiment-local diagnostics JSONL remain the complete raw records; this map
+# is the stable, decision-oriented subset shown during training.
+CURATED_TENSORBOARD_METRICS = {
+    "actor/final_loss": ("02 Training/Actor loss", 1.0),
+    "critic/score/mean": ("02 Training/Batch success (%)", 100.0),
+    "rollout/task_success/mean": ("02 Training/Rollout success (%)", 100.0),
+    "sample/model_version/mean": ("03 Curriculum/Trainer model version", 1.0),
+    "rollout/model_version": ("03 Curriculum/Explorer model version", 1.0),
+    "rollout/entropy_frontier_retained_turns/mean": (
+        "03 Curriculum/Retained turns",
+        1.0,
+    ),
+    "rollout/entropy_frontier_triggered/mean": (
+        "03 Curriculum/Frontier trigger rate (%)",
+        100.0,
+    ),
+    "rollout/entropy_frontier_effective_threshold/mean": (
+        "03 Curriculum/Effective entropy threshold",
+        1.0,
+    ),
+    "rollout/if_teacher/mean": ("03 Curriculum/Teacher-use fraction (%)", 100.0),
+    "actor/ppo_kl": ("04 Entropy/PPO KL", 1.0),
+    "rollout/kl_divergence/mean": ("04 Entropy/Trajectory KL", 1.0),
+    "rollout/diagnostics/teacher_entropy_topk/mean": (
+        "04 Entropy/Teacher top-k entropy",
+        1.0,
+    ),
+    "rollout/diagnostics/student_entropy_topk/mean": (
+        "04 Entropy/Student top-k entropy",
+        1.0,
+    ),
+    "rollout/diagnostics/sampled_reverse_kl/mean": (
+        "04 Entropy/Sampled reverse KL",
+        1.0,
+    ),
+    "rollout/diagnostics/prompt_truncated_turn_fraction/mean": (
+        "04 Entropy/Prompt-truncated turns (%)",
+        100.0,
+    ),
+    "prompt_length/mean": ("05 Sequence/Prompt length", 1.0),
+    "prompt_length/clip_ratio": ("05 Sequence/Prompt clip rate (%)", 100.0),
+    "response_length/mean": ("05 Sequence/Response length", 1.0),
+    "perf/throughput": ("06 System/Throughput (tokens/s)", 1.0),
+    "perf/max_memory_allocated_gb": ("06 System/GPU memory allocated (GiB)", 1.0),
+}
+
+
 def gather_metrics(
     metric_list: List[Dict], prefix: str, output_stats: List[str] = ["mean", "max", "min"]
 ) -> Dict:
@@ -187,6 +235,12 @@ class WandbMonitor(Monitor):
             config=config,
             save_code=False,
         )
+        self.tensorboard_logger = None
+        if monitor_args.get("tensorboard_mirror", True):
+            tensorboard_dir = os.path.join(config.monitor.cache_dir, "tensorboard", role)
+            os.makedirs(tensorboard_dir, exist_ok=True)
+            flush_secs = int(monitor_args.get("tensorboard_flush_secs", 30))
+            self.tensorboard_logger = SummaryWriter(tensorboard_dir, flush_secs=flush_secs)
         self.console_logger = get_logger(__name__, in_ray_actor=True)
 
     def log_table(self, table_name: str, experiences_table: pd.DataFrame, step: int):
@@ -196,9 +250,23 @@ class WandbMonitor(Monitor):
     def log(self, data: dict, step: int, commit: bool = False) -> None:
         """Log metrics."""
         self.logger.log(data, step=step, commit=commit)
+        if self.tensorboard_logger is not None:
+            for source_key, (target_key, scale) in CURATED_TENSORBOARD_METRICS.items():
+                if source_key not in data:
+                    continue
+                try:
+                    value = float(data[source_key]) * scale
+                except (TypeError, ValueError):
+                    continue
+                if np.isfinite(value):
+                    self.tensorboard_logger.add_scalar(target_key, value, step)
         self.console_logger.info(f"Step {step}: {data}")
 
     def close(self) -> None:
+        if self.tensorboard_logger is not None:
+            self.tensorboard_logger.flush()
+            self.tensorboard_logger.close()
+            self.tensorboard_logger = None
         self.logger.finish()
 
     @classmethod
@@ -207,6 +275,8 @@ class WandbMonitor(Monitor):
         return {
             "base_url": None,
             "api_key": None,
+            "tensorboard_mirror": True,
+            "tensorboard_flush_secs": 30,
         }
 
 

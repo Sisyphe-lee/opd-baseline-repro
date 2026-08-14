@@ -280,8 +280,15 @@ def test_full_rollout_is_recorded_but_suffix_is_not_returned(tmp_path) -> None:
     assert len(student.messages[0]) == 1
     assert len(student.messages[1]) == 3
     assert "inspect the room" in student.messages[1][-1]["content"]
-    assert returned[-1].metrics["entropy_frontier_full_turns"] == 7.0
-    assert returned[-1].metrics["entropy_frontier_retained_turns"] == 5.0
+    metrics = returned[-1].metrics
+    assert metrics["entropy_frontier_full_turns"] == 7.0
+    assert metrics["entropy_frontier_retained_turns"] == 5.0
+    assert metrics["entropy_frontier_retained_fraction"] == pytest.approx(5 / 7)
+    assert metrics["entropy_frontier_effective_threshold"] == pytest.approx(0.10)
+    assert metrics["diagnostics/teacher_entropy_topk"] == pytest.approx(1.3 / 7)
+    assert metrics["diagnostics/student_entropy_topk"] == pytest.approx(0.45)
+    assert metrics["diagnostics/sampled_reverse_kl"] == pytest.approx(0.2)
+    assert metrics["diagnostics/prompt_truncated_turn_fraction"] == 0.0
 
 
 def test_completed_schedule_uses_explicit_full_strategy(tmp_path) -> None:
@@ -361,6 +368,9 @@ def test_prompt_truncation_records_null_student_entropy(tmp_path) -> None:
     assert row["student_entropy_topk"] is None
     assert row["student_entropy_topk_blocks"] == [None]
     assert row["teacher_entropy_topk"] == pytest.approx(0.3)
+    assert returned[0].metrics["diagnostics/teacher_entropy_topk"] == pytest.approx(0.3)
+    assert "diagnostics/student_entropy_topk" not in returned[0].metrics
+    assert returned[0].metrics["diagnostics/prompt_truncated_turn_fraction"] == 1.0
 
 
 def test_workflow_registry_resolves_new_type() -> None:

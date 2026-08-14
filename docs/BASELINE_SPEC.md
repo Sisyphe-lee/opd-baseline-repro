@@ -47,6 +47,16 @@ exemption before launch, explains why, and lists the entropy/KL/trajectory
 figures that will no longer be reproducible. Diagnostic data must not be
 silently deleted or truncated after training.
 
+For future training runs with `monitor_type: wandb`, the monitor also writes a
+small curated TensorBoard mirror by default under
+`<checkpoint_job_dir>/monitor/tensorboard/{trainer,explorer}`. W&B remains the
+complete scalar/table record, and `trajectory_metrics.jsonl` remains the
+source of truth for token- and turn-level diagnostics. The TensorBoard mirror
+is intentionally limited to headline training, curriculum, entropy, sequence,
+and system metrics so the live dashboard stays readable. It may be disabled
+with `monitor_args.tensorboard_mirror: false` only when the experiment records
+a diagnostics exemption before launch.
+
 ## Evaluation contract
 
 | Setting | Frozen value |

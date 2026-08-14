@@ -515,6 +515,39 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
             float(item["sampled_reverse_kl"] or 0.0) * int(item["response_tokens"])
             for item in turn_diagnostics[:retained_turns]
         )
+
+        def token_weighted_mean(metric_name: str) -> Optional[float]:
+            weighted_sum = 0.0
+            total_tokens = 0
+            for item in turn_diagnostics:
+                value = item.get(metric_name)
+                if value is None or not math.isfinite(float(value)):
+                    continue
+                token_count = int(item["response_tokens"])
+                weighted_sum += float(value) * token_count
+                total_tokens += token_count
+            return weighted_sum / total_tokens if total_tokens else None
+
+        trajectory_diagnostics = {
+            "diagnostics/prompt_truncated_turn_fraction": sum(
+                item["truncate_status"] == "prompt_truncated" for item in turn_diagnostics
+            )
+            / len(turn_diagnostics),
+            "entropy_frontier_retained_fraction": retained_turns / len(responses),
+        }
+        for source_name, metric_name in (
+            ("teacher_entropy_topk", "diagnostics/teacher_entropy_topk"),
+            ("student_entropy_topk", "diagnostics/student_entropy_topk"),
+            ("sampled_reverse_kl", "diagnostics/sampled_reverse_kl"),
+        ):
+            value = token_weighted_mean(source_name)
+            if value is not None:
+                trajectory_diagnostics[metric_name] = value
+        if effective_frontier_threshold is not None:
+            trajectory_diagnostics["entropy_frontier_effective_threshold"] = float(
+                effective_frontier_threshold
+            )
+
         last.metrics.update(
             {
                 "env_rounds": self._env_rounds,
@@ -528,6 +561,7 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
                 ),
                 "entropy_frontier_retained_turns": float(retained_turns),
                 "entropy_frontier_full_turns": float(len(responses)),
+                **trajectory_diagnostics,
             }
         )
         for response in responses:
