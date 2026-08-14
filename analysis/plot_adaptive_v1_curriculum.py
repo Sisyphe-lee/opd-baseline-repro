@@ -95,6 +95,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference-diagnostics", "--adaptive-0175-diagnostics", dest="reference_diagnostics", type=Path, default=DEFAULT_T0175)
     parser.add_argument("--target-diagnostics", "--adaptive-0125-diagnostics", dest="target_diagnostics", type=Path, default=DEFAULT_T0125)
+    parser.add_argument("--target-prefix-diagnostics", type=Path, default=None)
+    parser.add_argument("--target-prefix-before-model-version", type=int, default=None)
     parser.add_argument("--target-threshold", type=float, default=0.125)
     parser.add_argument("--target-label", type=str, default=None)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
@@ -204,6 +206,108 @@ def load_adaptive(
         "metadata": metadata,
         "model_version_min": int(versions.min()),
         "model_version_max": int(versions.max()),
+    }
+
+
+def combine_adaptive_histories(
+    prefix: dict,
+    suffix: dict,
+    *,
+    branch_model_version: int,
+    label: str,
+) -> dict:
+    """Join the original pre-branch history with the resumed branch history."""
+    if branch_model_version <= 0:
+        raise ValueError("branch_model_version must be positive")
+    if not np.isclose(prefix["threshold"], suffix["threshold"], rtol=0.0, atol=1e-12):
+        raise AssertionError("prefix and suffix thresholds do not match")
+
+    prefix_profile = prefix["profile"].loc[
+        prefix["profile"]["model_version"] < branch_model_version
+    ].copy()
+    suffix_profile = suffix["profile"].loc[
+        suffix["profile"]["model_version"] >= branch_model_version
+    ].copy()
+    if prefix_profile.empty or suffix_profile.empty:
+        raise RuntimeError("combined history requires non-empty prefix and suffix")
+    overlap = set(prefix_profile["trajectory_id"]).intersection(
+        suffix_profile["trajectory_id"]
+    )
+    prefix_profile["trajectory_id"] = (
+        "prefix:" + prefix_profile["trajectory_id"].astype(str)
+    )
+    suffix_profile["trajectory_id"] = (
+        "suffix:" + suffix_profile["trajectory_id"].astype(str)
+    )
+
+    prefix_profile["_history_segment"] = 0
+    suffix_profile["_history_segment"] = 1
+    profile = pd.concat([prefix_profile, suffix_profile], ignore_index=True)
+    profile = profile.sort_values(
+        ["_history_segment", "training_step", "first_source_row_index", "trajectory_id"],
+        kind="stable",
+    ).reset_index(drop=True)
+    profile = profile.drop(columns="_history_segment")
+    profile["chronological_rank"] = np.arange(1, len(profile) + 1)
+    profile["training_progress_percent"] = (
+        np.linspace(0.0, 100.0, len(profile)) if len(profile) > 1 else 0.0
+    )
+
+    prefix_rows = prefix["rows"].loc[
+        prefix["rows"]["student_model_version"] < branch_model_version
+    ].copy()
+    suffix_rows = suffix["rows"].loc[
+        suffix["rows"]["student_model_version"] >= branch_model_version
+    ].copy()
+    prefix_rows["trajectory_id"] = "prefix:" + prefix_rows["trajectory_id"].astype(str)
+    suffix_rows["trajectory_id"] = "suffix:" + suffix_rows["trajectory_id"].astype(str)
+    rows = pd.concat([prefix_rows, suffix_rows], ignore_index=True, sort=False)
+    if rows.duplicated(["trajectory_id", "turn"]).any():
+        raise AssertionError("combined history contains duplicate trajectory turns")
+    trajectories, _ = ORIGINAL.trajectory_table(rows)
+    if len(trajectories) != len(profile):
+        raise AssertionError(
+            f"combined trajectory mismatch: table={len(trajectories)}, profile={len(profile)}"
+        )
+
+    schema_counts = {
+        str(key): int(value)
+        for key, value in rows["diagnostics_schema_version"].value_counts().items()
+    }
+    kind_counts = {
+        str(key): int(value)
+        for key, value in rows["diagnostics_kind"].value_counts().items()
+    }
+    versions = profile["model_version"].to_numpy(dtype=int)
+    return {
+        "label": label,
+        "threshold": suffix["threshold"],
+        "path": suffix["path"],
+        "rows": rows,
+        "trajectories": trajectories,
+        "profile": profile,
+        "metadata": {
+            "raw_row_count": int(len(rows)),
+            "selected_row_count_after_resume_overlap": int(len(rows)),
+            "malformed_line_count": 0,
+            "duplicate_turn_row_count": 0,
+            "schema_counts": schema_counts,
+            "kind_counts": kind_counts,
+        },
+        "model_version_min": int(versions.min()),
+        "model_version_max": int(versions.max()),
+        "history_combination": {
+            "branch_model_version": branch_model_version,
+            "prefix_rule": f"student_model_version < {branch_model_version}",
+            "suffix_rule": f"student_model_version >= {branch_model_version}",
+            "prefix_trajectory_count": int(len(prefix_profile)),
+            "suffix_trajectory_count": int(len(suffix_profile)),
+            "combined_trajectory_count": int(len(profile)),
+            "source_trajectory_id_overlap_count": int(len(overlap)),
+            "prefix_row_count": int(len(prefix_rows)),
+            "suffix_row_count": int(len(suffix_rows)),
+            "combined_row_count": int(len(rows)),
+        },
     }
 
 
@@ -590,6 +694,15 @@ def main() -> None:
     args = parse_args()
     if args.max_env_steps != 30:
         raise ValueError("This reference comparison is defined for max_env_steps=30")
+    prefix_args_set = (
+        args.target_prefix_diagnostics is not None,
+        args.target_prefix_before_model_version is not None,
+    )
+    if prefix_args_set[0] != prefix_args_set[1]:
+        raise ValueError(
+            "--target-prefix-diagnostics and "
+            "--target-prefix-before-model-version must be supplied together"
+        )
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     # Decode the large frozen buffers before retaining the diagnostics DataFrames;
@@ -616,12 +729,27 @@ def main() -> None:
             "Target label collides with the fixed reference label; pass a unique "
             "--target-label (for example, 'Adaptive v1 target repeat')."
         )
-    adaptive_0125 = load_adaptive(
+    target_suffix = load_adaptive(
         args.target_diagnostics,
         expected_threshold=args.target_threshold,
         label=target_label,
         max_env_steps=args.max_env_steps,
     )
+    target_prefix = None
+    adaptive_0125 = target_suffix
+    if args.target_prefix_diagnostics is not None:
+        target_prefix = load_adaptive(
+            args.target_prefix_diagnostics,
+            expected_threshold=args.target_threshold,
+            label=target_label,
+            max_env_steps=args.max_env_steps,
+        )
+        adaptive_0125 = combine_adaptive_histories(
+            target_prefix,
+            target_suffix,
+            branch_model_version=args.target_prefix_before_model_version,
+            label=target_label,
+        )
 
     imposed_profiles = synthetic_imposed_profiles(
         adaptive_0175["profile"],
@@ -691,6 +819,7 @@ def main() -> None:
                 "prompt_truncated_trajectory_count": int(
                     adaptive_0125["profile"]["prompt_truncated"].sum()
                 ),
+                "history_combination": adaptive_0125.get("history_combination"),
             },
         },
         "reference_t0175_replay_assertions": {
@@ -722,12 +851,21 @@ def main() -> None:
     }
     json_dump(args.output_dir / "plot_summary.json", plot_summary)
 
+    if target_prefix is None:
+        adaptive_target_provenance = diagnostics_provenance(adaptive_0125)
+    else:
+        adaptive_target_provenance = {
+            "history_combination": adaptive_0125["history_combination"],
+            "prefix": diagnostics_provenance(target_prefix),
+            "suffix": diagnostics_provenance(target_suffix),
+        }
+
     provenance = {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "script": str(Path(__file__).resolve()),
         "script_sha256": sha256_file(Path(__file__).resolve()),
         "adaptive_reference": diagnostics_provenance(adaptive_0175),
-        "adaptive_target": diagnostics_provenance(adaptive_0125),
+        "adaptive_target": adaptive_target_provenance,
         "vanilla_realized_buffer": buffer_provenance(vanilla),
         "tcod_realized_buffer": buffer_provenance(tcod),
         "analytical_reference_inputs": {

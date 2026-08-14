@@ -59,6 +59,7 @@ class Trainer:
             sample_strategy_state = trainer_state.get("sample_strategy_state", {})
         self.sample_strategy.load_state_dict(sample_strategy_state)
         self.save_interval = config.trainer.save_interval
+        self.save_interval_offset = config.trainer.save_interval_offset
         self.last_sync_step = 0
         self.last_sync_time = None
         self.total_steps = config.trainer.total_steps or float("inf")
@@ -158,7 +159,11 @@ class Trainer:
 
     def need_save(self) -> bool:
         """Whether to save the checkpoint."""
-        return self.save_interval > 0 and self.train_step_num % self.save_interval == 0
+        if self.save_interval <= 0:
+            return False
+        if self.save_interval_offset != 0 and self.train_step_num == self.total_steps:
+            return False
+        return (self.train_step_num - self.save_interval_offset) % self.save_interval == 0
 
     async def sync_weight(self) -> Dict:
         """Sync the model weight."""

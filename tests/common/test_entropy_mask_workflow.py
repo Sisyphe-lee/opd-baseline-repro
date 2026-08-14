@@ -17,6 +17,7 @@ from trinity.common.workflows import WORKFLOWS
 from trinity.common.workflows.envs.TCOD.alfworld.OPD_entropy_mask_workflow import (
     EntropyMaskPromptFixedOPDWorkflow,
     first_entropy_frontier_turn,
+    scheduled_frontier_threshold,
 )
 from trinity.common.workflows.workflow import Task
 
@@ -28,6 +29,57 @@ def test_frontier_requires_sustained_positive_drift() -> None:
     assert first_entropy_frontier_turn([0.1, None, 0.1, 0.3], 0.1, 3, 2) is None
     with pytest.raises(ValueError):
         first_entropy_frontier_turn(values, 0.0, 3, 3)
+
+
+def test_linear_frontier_schedule_switches_explicitly_to_full() -> None:
+    kwargs = {
+        "base_threshold": 0.075,
+        "schedule": "linear_to_full",
+        "start_model_version": 80,
+        "end_model_version": 160,
+        "end_threshold": 1.0,
+    }
+    assert scheduled_frontier_threshold(model_version=79, **kwargs) == (0.075, False)
+    assert scheduled_frontier_threshold(model_version=80, **kwargs) == (0.075, False)
+    threshold, is_full = scheduled_frontier_threshold(model_version=120, **kwargs)
+    assert threshold == pytest.approx(0.5375)
+    assert is_full is False
+    assert scheduled_frontier_threshold(model_version=160, **kwargs) == (None, True)
+    assert scheduled_frontier_threshold(model_version=250, **kwargs) == (None, True)
+
+
+def test_cosine_frontier_schedule_holds_end_threshold() -> None:
+    kwargs = {
+        "base_threshold": 0.1,
+        "schedule": "cosine_hold",
+        "start_model_version": 80,
+        "end_model_version": 160,
+        "end_threshold": 0.175,
+    }
+    assert scheduled_frontier_threshold(model_version=79, **kwargs) == (0.1, False)
+    assert scheduled_frontier_threshold(model_version=80, **kwargs) == (0.1, False)
+    threshold, is_full = scheduled_frontier_threshold(model_version=120, **kwargs)
+    assert threshold == pytest.approx(0.1375)
+    assert is_full is False
+    assert scheduled_frontier_threshold(model_version=160, **kwargs) == (0.175, False)
+    assert scheduled_frontier_threshold(model_version=250, **kwargs) == (0.175, False)
+
+
+def test_frontier_schedule_rejects_invalid_ranges() -> None:
+    with pytest.raises(ValueError):
+        scheduled_frontier_threshold(
+            base_threshold=0.1,
+            model_version=80,
+            schedule="linear_to_full",
+            start_model_version=80,
+            end_model_version=80,
+        )
+    with pytest.raises(ValueError):
+        scheduled_frontier_threshold(
+            base_threshold=0.1,
+            model_version=80,
+            schedule="cosine",
+        )
 
 
 def test_topk_summary_excludes_extra_sampled_token() -> None:
@@ -46,12 +98,13 @@ def test_topk_summary_excludes_extra_sampled_token() -> None:
 
 
 class FakeStudent:
-    def __init__(self):
+    def __init__(self, model_version: int = 7):
         self.messages = []
+        self._model_version = model_version
 
     @property
     async def model_version_async(self):
-        return 7
+        return self._model_version
 
     async def chat_async(self, messages, **kwargs):
         assert kwargs["logprobs"] == 16
@@ -229,6 +282,50 @@ def test_full_rollout_is_recorded_but_suffix_is_not_returned(tmp_path) -> None:
     assert "inspect the room" in student.messages[1][-1]["content"]
     assert returned[-1].metrics["entropy_frontier_full_turns"] == 7.0
     assert returned[-1].metrics["entropy_frontier_retained_turns"] == 5.0
+
+
+def test_completed_schedule_uses_explicit_full_strategy(tmp_path) -> None:
+    diagnostics_path = tmp_path / "scheduled_full.jsonl"
+    task = Task(
+        format_args=FormatConfig(prompt_key="game_file"),
+        rollout_args=GenerationConfig(logprobs=16),
+        workflow_args={
+            "max_env_steps": 7,
+            "diagnostics_enabled": True,
+            "diagnostics_required": True,
+            "diagnostics_top_k": 16,
+            "diagnostics_teacher_concurrency": 4,
+            "diagnostics_path": str(diagnostics_path),
+            "entropy_frontier_strategy": "entropy",
+            "entropy_frontier_threshold": 0.10,
+            "entropy_frontier_schedule": "linear_to_full",
+            "entropy_frontier_schedule_start_model_version": 0,
+            "entropy_frontier_schedule_end_model_version": 6,
+            "entropy_frontier_schedule_end_threshold": 1.0,
+            "entropy_frontier_baseline_turns": 3,
+            "entropy_frontier_sustain_turns": 3,
+            "entropy_frontier_min_retained_turns": 3,
+        },
+        raw_task={"game_file": "/repo/train/pick_and_place_simple/game.tw-pddl"},
+        batch_id=5,
+        task_id=10,
+        is_eval=False,
+    )
+    workflow = EntropyMaskPromptFixedOPDWorkflow(
+        task=task,
+        model=FakeStudent(model_version=7),
+        auxiliary_models=[FakeTeacher()],
+    )
+
+    returned = asyncio.run(workflow._run_episode(SevenTurnEnv()))
+    rows = [json.loads(line) for line in diagnostics_path.read_text().splitlines()]
+
+    assert len(returned) == 7
+    assert all(row["loss_retained"] for row in rows)
+    assert {row["frontier_strategy"] for row in rows} == {"entropy"}
+    assert {row["frontier_strategy_effective"] for row in rows} == {"full"}
+    assert {row["entropy_frontier_effective_threshold"] for row in rows} == {None}
+    assert {row["entropy_frontier_turn"] for row in rows} == {None}
 
 
 def test_prompt_truncation_records_null_student_entropy(tmp_path) -> None:

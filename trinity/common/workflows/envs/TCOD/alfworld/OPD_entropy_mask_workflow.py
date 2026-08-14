@@ -97,6 +97,46 @@ def first_entropy_frontier_turn(
     return None
 
 
+def scheduled_frontier_threshold(
+    *,
+    base_threshold: float,
+    model_version: int,
+    schedule: str = "constant",
+    start_model_version: int = 0,
+    end_model_version: int = 0,
+    end_threshold: float = 1.0,
+) -> Tuple[Optional[float], bool]:
+    """Return the effective threshold and whether masking is explicitly disabled."""
+    if base_threshold <= 0 or end_threshold <= 0:
+        raise ValueError("entropy frontier thresholds must be positive")
+    if model_version < 0:
+        raise ValueError("model_version must be non-negative")
+    if schedule == "constant":
+        return float(base_threshold), False
+    if schedule not in {"linear_to_full", "cosine_hold"}:
+        raise ValueError(
+            "entropy_frontier_schedule must be constant, linear_to_full, or cosine_hold"
+        )
+    if start_model_version < 0 or end_model_version <= start_model_version:
+        raise ValueError(
+            f"{schedule} requires 0 <= start_model_version < end_model_version"
+        )
+    if end_threshold < base_threshold:
+        raise ValueError("entropy_frontier_schedule_end_threshold must not decrease")
+    if model_version >= end_model_version:
+        if schedule == "linear_to_full":
+            return None, True
+        return float(end_threshold), False
+    if model_version <= start_model_version:
+        return float(base_threshold), False
+    progress = (model_version - start_model_version) / (
+        end_model_version - start_model_version
+    )
+    if schedule == "cosine_hold":
+        progress = 0.5 * (1.0 - math.cos(math.pi * progress))
+    return float(base_threshold + progress * (end_threshold - base_threshold)), False
+
+
 def _training_step(batch_id: Any) -> int:
     match = re.match(r"^(\d+)", str(batch_id))
     if not match:
@@ -139,6 +179,16 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
         self.diagnostics_path = args.get("diagnostics_path")
         self.frontier_strategy = str(args.get("entropy_frontier_strategy", "entropy"))
         self.frontier_threshold = float(args.get("entropy_frontier_threshold", 0.175))
+        self.frontier_schedule = str(args.get("entropy_frontier_schedule", "constant"))
+        self.frontier_schedule_start_model_version = int(
+            args.get("entropy_frontier_schedule_start_model_version", 0)
+        )
+        self.frontier_schedule_end_model_version = int(
+            args.get("entropy_frontier_schedule_end_model_version", 0)
+        )
+        self.frontier_schedule_end_threshold = float(
+            args.get("entropy_frontier_schedule_end_threshold", 1.0)
+        )
         self.frontier_baseline_turns = int(args.get("entropy_frontier_baseline_turns", 3))
         self.frontier_sustain_turns = int(args.get("entropy_frontier_sustain_turns", 3))
         self.min_retained_turns = int(
@@ -163,6 +213,14 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
                 self.frontier_threshold,
                 self.frontier_baseline_turns,
                 self.frontier_sustain_turns,
+            )
+            scheduled_frontier_threshold(
+                base_threshold=self.frontier_threshold,
+                model_version=0,
+                schedule=self.frontier_schedule,
+                start_model_version=self.frontier_schedule_start_model_version,
+                end_model_version=self.frontier_schedule_end_model_version,
+                end_threshold=self.frontier_schedule_end_threshold,
             )
 
     def _append_records(self, records: List[Dict[str, Any]]) -> None:
@@ -362,10 +420,24 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
 
         entropies = [item["teacher_entropy_topk"] for item in turn_diagnostics]
         detected_frontier: Optional[int] = None
+        effective_frontier_strategy = self.frontier_strategy
+        effective_frontier_threshold: Optional[float] = self.frontier_threshold
         if self.frontier_strategy == "entropy":
+            effective_frontier_threshold, scheduled_full = scheduled_frontier_threshold(
+                base_threshold=self.frontier_threshold,
+                model_version=int(model_version_start),
+                schedule=self.frontier_schedule,
+                start_model_version=self.frontier_schedule_start_model_version,
+                end_model_version=self.frontier_schedule_end_model_version,
+                end_threshold=self.frontier_schedule_end_threshold,
+            )
+            if scheduled_full:
+                effective_frontier_strategy = "full"
+        if effective_frontier_strategy == "entropy":
+            assert effective_frontier_threshold is not None
             detected_frontier = first_entropy_frontier_turn(
                 entropies,
-                self.frontier_threshold,
+                effective_frontier_threshold,
                 self.frontier_baseline_turns,
                 self.frontier_sustain_turns,
             )
@@ -374,7 +446,7 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
                 if detected_frontier is None
                 else max(self.min_retained_turns, detected_frontier)
             )
-        elif self.frontier_strategy == "fixed":
+        elif effective_frontier_strategy == "fixed":
             retained_turns = self.fixed_retained_turns
         else:
             retained_turns = len(responses)
@@ -409,7 +481,19 @@ class EntropyMaskPromptFixedOPDWorkflow(PromptFixedOnPolicyDistillAlfworldWorkfl
                     "env_lost": self._env_lost,
                     "env_rounds": self._env_rounds,
                     "frontier_strategy": self.frontier_strategy,
+                    "frontier_strategy_effective": effective_frontier_strategy,
                     "entropy_frontier_threshold": self.frontier_threshold,
+                    "entropy_frontier_effective_threshold": effective_frontier_threshold,
+                    "entropy_frontier_schedule": self.frontier_schedule,
+                    "entropy_frontier_schedule_start_model_version": (
+                        self.frontier_schedule_start_model_version
+                    ),
+                    "entropy_frontier_schedule_end_model_version": (
+                        self.frontier_schedule_end_model_version
+                    ),
+                    "entropy_frontier_schedule_end_threshold": (
+                        self.frontier_schedule_end_threshold
+                    ),
                     "entropy_frontier_baseline_turns": self.frontier_baseline_turns,
                     "entropy_frontier_sustain_turns": self.frontier_sustain_turns,
                     "entropy_frontier_turn": detected_frontier,

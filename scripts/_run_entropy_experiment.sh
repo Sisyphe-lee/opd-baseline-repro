@@ -75,10 +75,20 @@ done
 
 RAY_TMPDIR="/dev/shm/re_${RAY_PORT}"
 TASK_TMPDIR="/dev/shm/te_${RAY_PORT}"
+CLIENT_PORT="$((RAY_PORT + 3615))"
+DASHBOARD_PORT="$((RAY_PORT + 1878))"
+WORKER_PORT_SLOT="$((RAY_PORT % 8))"
+MIN_WORKER_PORT="$((20000 + WORKER_PORT_SLOT * 1500))"
+MAX_WORKER_PORT="$((MIN_WORKER_PORT + 1499))"
+RAY_SYSTEM_PORT_BASE="$((33000 + (RAY_PORT % 500) * 10))"
 mkdir -p "${RUN_ROOT}/logs" "${RAY_TMPDIR}" "${TASK_TMPDIR}"
 cp "${CONFIG}" "${RUN_ROOT}/config.yaml"
 
 export CUDA_VISIBLE_DEVICES="${GPU_IDS}"
+CUDA_COMPAT_DIR="/usr/local/cuda-12.8/compat"
+if [[ -d "${CUDA_COMPAT_DIR}" ]]; then
+  export LD_LIBRARY_PATH="${CUDA_COMPAT_DIR}:${LD_LIBRARY_PATH:-}"
+fi
 export PYTHONPATH="${ROOT}"
 export TOKENIZERS_PARALLELISM=false
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
@@ -90,8 +100,33 @@ export WANDB_MODE="${WANDB_MODE:-offline}"
 export TMPDIR="${TASK_TMPDIR}"
 unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy
 
-"${ROOT}/.venv_tcod/bin/ray" start --head --port="${RAY_PORT}" --num-gpus="${GPU_COUNT}" \
-  --temp-dir="${RAY_TMPDIR}" --include-dashboard=false --disable-usage-stats
+cleanup() {
+  local ray_pids
+  ray_pids="$(pgrep -f "${RAY_TMPDIR}" || true)"
+  if [[ -n "${ray_pids}" ]]; then
+    kill ${ray_pids} 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+
+"${ROOT}/.venv_tcod/bin/ray" start \
+  --head \
+  --port="${RAY_PORT}" \
+  --ray-client-server-port="${CLIENT_PORT}" \
+  --dashboard-port="${DASHBOARD_PORT}" \
+  --object-manager-port="$((RAY_SYSTEM_PORT_BASE + 0))" \
+  --node-manager-port="$((RAY_SYSTEM_PORT_BASE + 1))" \
+  --dashboard-agent-listen-port="$((RAY_SYSTEM_PORT_BASE + 2))" \
+  --dashboard-agent-grpc-port="$((RAY_SYSTEM_PORT_BASE + 3))" \
+  --runtime-env-agent-port="$((RAY_SYSTEM_PORT_BASE + 4))" \
+  --metrics-export-port="$((RAY_SYSTEM_PORT_BASE + 5))" \
+  --min-worker-port="${MIN_WORKER_PORT}" \
+  --max-worker-port="${MAX_WORKER_PORT}" \
+  --num-cpus="$((GPU_COUNT * 8))" \
+  --num-gpus="${GPU_COUNT}" \
+  --temp-dir="${RAY_TMPDIR}" \
+  --include-dashboard=false \
+  --disable-usage-stats
 export RAY_ADDRESS="127.0.0.1:${RAY_PORT}"
 cd "${ROOT}"
 "${ROOT}/.venv_tcod/bin/trinity" run --config "${CONFIG}" \

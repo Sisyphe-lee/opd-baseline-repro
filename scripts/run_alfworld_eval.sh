@@ -87,6 +87,14 @@ cleanup() {
   ray_pids="$(pgrep -f "${RAY_TMP}" || true)"
   if [[ -n "${ray_pids}" ]]; then
     kill ${ray_pids} 2>/dev/null || true
+    for _ in {1..20}; do
+      sleep 0.1
+      ray_pids="$(pgrep -f "${RAY_TMP}" || true)"
+      [[ -z "${ray_pids}" ]] && return 0
+    done
+    # Ray's GCS server can ignore SIGTERM after a completed benchmark. Keep
+    # cleanup scoped to this run's unique temp path, then force only survivors.
+    kill -9 ${ray_pids} 2>/dev/null || true
   fi
 }
 trap cleanup EXIT INT TERM
