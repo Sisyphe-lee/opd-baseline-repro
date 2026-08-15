@@ -1,0 +1,228 @@
+{
+  "panel_order": [
+    "Vanilla OPD",
+    "TCOD F2B",
+    "Adaptive v1 (tau=0.050, 4 GPU)",
+    "Adaptive v1 (tau=0.075, 4 GPU)",
+    "Adaptive v1 (tau=0.100, 4 GPU)",
+    "Adaptive v1 step80 -> immediate Vanilla OPD",
+    "Adaptive v1 step80 -> linear anneal -> Vanilla OPD",
+    "Adaptive v1 (tau=0.125, 4 GPU)",
+    "Adaptive v1 step80 cosine 0.1->0.2, hold",
+    "Adaptive v1 step80 cosine 0.1->0.175, hold"
+  ],
+  "layout": {
+    "rows": 3,
+    "columns": 4
+  },
+  "curriculum_imposed_loss_horizons": {
+    "Vanilla OPD": {
+      "count": 2832,
+      "mean": 30.0,
+      "median": 30.0,
+      "min": 30,
+      "max": 30,
+      "at_max_count": 2832,
+      "at_max_fraction": 1.0
+    },
+    "TCOD F2B": {
+      "count": 3088,
+      "mean": 25.642487046632123,
+      "median": 30.0,
+      "min": 1,
+      "max": 30,
+      "at_max_count": 2176,
+      "at_max_fraction": 0.7046632124352331
+    },
+    "Adaptive v1 (tau=0.050, 4 GPU)": {
+      "count": 2828,
+      "mean": 22.111739745403113,
+      "median": 30.0,
+      "min": 3,
+      "max": 30,
+      "at_max_count": 1836,
+      "at_max_fraction": 0.6492220650636492
+    },
+    "Adaptive v1 (tau=0.075, 4 GPU)": {
+      "count": 2760,
+      "mean": 23.354710144927537,
+      "median": 30.0,
+      "min": 3,
+      "max": 30,
+      "at_max_count": 1907,
+      "at_max_fraction": 0.6909420289855073
+    },
+    "Adaptive v1 (tau=0.100, 4 GPU)": {
+      "count": 2776,
+      "mean": 24.72550432276657,
+      "median": 30.0,
+      "min": 3,
+      "max": 30,
+      "at_max_count": 2078,
+      "at_max_fraction": 0.7485590778097982
+    },
+    "Adaptive v1 step80 -> immediate Vanilla OPD": {
+      "count": 2774,
+      "mean": 26.902667627974044,
+      "median": 30.0,
+      "min": 3,
+      "max": 30,
+      "at_max_count": 2369,
+      "at_max_fraction": 0.8540014419610671
+    },
+    "Adaptive v1 step80 -> linear anneal -> Vanilla OPD": {
+      "count": 2793,
+      "mean": 26.71142141066953,
+      "median": 30.0,
+      "min": 3,
+      "max": 30,
+      "at_max_count": 2357,
+      "at_max_fraction": 0.8438954529180093
+    },
+    "Adaptive v1 (tau=0.125, 4 GPU)": {
+      "count": 2718,
+      "mean": 25.242825607064017,
+      "median": 30.0,
+      "min": 3,
+      "max": 30,
+      "at_max_count": 2089,
+      "at_max_fraction": 0.768579838116262
+    },
+    "Adaptive v1 step80 cosine 0.1->0.2, hold": {
+      "count": 2778,
+      "mean": 25.185385169186464,
+      "median": 30.0,
+      "min": 3,
+      "max": 30,
+      "at_max_count": 2136,
+      "at_max_fraction": 0.7688984881209503
+    },
+    "Adaptive v1 step80 cosine 0.1->0.175, hold": {
+      "count": 2768,
+      "mean": 25.44942196531792,
+      "median": 30.0,
+      "min": 3,
+      "max": 30,
+      "at_max_count": 2160,
+      "at_max_fraction": 0.7803468208092486
+    }
+  },
+  "realized_trainable_turns": {
+    "Vanilla OPD": {
+      "count": 2832,
+      "mean": 12.432203389830509,
+      "median": 12.0,
+      "min": 3,
+      "max": 29,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "TCOD F2B": {
+      "count": 3088,
+      "mean": 9.178432642487047,
+      "median": 8.0,
+      "min": 1,
+      "max": 29,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 (tau=0.050, 4 GPU)": {
+      "count": 2828,
+      "mean": 8.451909476661951,
+      "median": 7.0,
+      "min": 3,
+      "max": 27,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 (tau=0.075, 4 GPU)": {
+      "count": 2760,
+      "mean": 9.297826086956523,
+      "median": 8.0,
+      "min": 3,
+      "max": 28,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 (tau=0.100, 4 GPU)": {
+      "count": 2776,
+      "mean": 9.87391930835735,
+      "median": 8.0,
+      "min": 3,
+      "max": 28,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 step80 -> immediate Vanilla OPD": {
+      "count": 2774,
+      "mean": 11.19718817591925,
+      "median": 9.0,
+      "min": 3,
+      "max": 29,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 step80 -> linear anneal -> Vanilla OPD": {
+      "count": 2793,
+      "mean": 11.181167203723595,
+      "median": 9.0,
+      "min": 3,
+      "max": 28,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 (tau=0.125, 4 GPU)": {
+      "count": 2718,
+      "mean": 10.280721118469463,
+      "median": 9.0,
+      "min": 3,
+      "max": 28,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 step80 cosine 0.1->0.2, hold": {
+      "count": 2778,
+      "mean": 10.47840172786177,
+      "median": 9.0,
+      "min": 3,
+      "max": 28,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 step80 cosine 0.1->0.175, hold": {
+      "count": 2768,
+      "mean": 10.291546242774567,
+      "median": 8.0,
+      "min": 3,
+      "max": 29,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    }
+  },
+  "step80_splices": {
+    "Adaptive v1 step80 -> immediate Vanilla OPD": {
+      "prefix_trajectory_count": 912,
+      "suffix_trajectory_count": 1862,
+      "chronological_percent": 32.85250631085467,
+      "rule": "original model_version < 80; branch model_version >= 80"
+    },
+    "Adaptive v1 step80 -> linear anneal -> Vanilla OPD": {
+      "prefix_trajectory_count": 912,
+      "suffix_trajectory_count": 1881,
+      "chronological_percent": 32.62893982808023,
+      "rule": "original model_version < 80; branch model_version >= 80"
+    },
+    "Adaptive v1 step80 cosine 0.1->0.2, hold": {
+      "prefix_trajectory_count": 912,
+      "suffix_trajectory_count": 1866,
+      "chronological_percent": 32.80518545192654,
+      "rule": "original model_version < 80; branch model_version >= 80"
+    },
+    "Adaptive v1 step80 cosine 0.1->0.175, hold": {
+      "prefix_trajectory_count": 912,
+      "suffix_trajectory_count": 1856,
+      "chronological_percent": 32.92374412721359,
+      "rule": "original model_version < 80; branch model_version >= 80"
+    }
+  }
+}

@@ -1,0 +1,336 @@
+{
+  "aggregates": {
+    "Cosine_to_t0200": {
+      "checkpoint_label": "entropy_adaptive_v1_step80_cosine_t0200_hold_4gpu_step250",
+      "evaluation_id": "entropy_adaptive_v1_step80_cosine_t0200_hold_4gpu_step250_full274_seed42",
+      "macro_success_rate": 0.7653518123667378,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.9037906537906538,
+          "action_parse_valid_rate": 0.919047619047619,
+          "average_env_rounds": 11.25,
+          "observation_unchanged_rate": 0.085008325008325,
+          "repeated_action_rate": 0.07952380952380952,
+          "success_count": 114,
+          "success_rate": 0.8142857142857143,
+          "task_count": 140,
+          "timeout_rate": 0.18571428571428572
+        },
+        "unseen": {
+          "action_admissible_rate": 0.8683244762261443,
+          "action_parse_valid_rate": 0.8945273631840795,
+          "average_env_rounds": 13.776119402985074,
+          "observation_unchanged_rate": 0.11881302776825164,
+          "repeated_action_rate": 0.11293532338308457,
+          "success_count": 96,
+          "success_rate": 0.7164179104477612,
+          "task_count": 134,
+          "timeout_rate": 0.2835820895522388
+        }
+      },
+      "success_count": 210,
+      "success_rate": 0.7664233576642335,
+      "task_count": 274
+    },
+    "Fixed_t0100": {
+      "checkpoint_label": "entropy_adaptive_v1_t0100_4gpu_step250",
+      "evaluation_id": "entropy_adaptive_v1_t0100_4gpu_step250_full274_seed42",
+      "macro_success_rate": 0.8683901918976547,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.9355864968364969,
+          "action_parse_valid_rate": 0.9495238095238095,
+          "average_env_rounds": 10.2,
+          "observation_unchanged_rate": 0.05167499167499167,
+          "repeated_action_rate": 0.05054945054945055,
+          "success_count": 123,
+          "success_rate": 0.8785714285714286,
+          "task_count": 140,
+          "timeout_rate": 0.12142857142857143
+        },
+        "unseen": {
+          "action_admissible_rate": 0.9330585264408794,
+          "action_parse_valid_rate": 0.944776119402985,
+          "average_env_rounds": 10.880597014925373,
+          "observation_unchanged_rate": 0.05245646766169154,
+          "repeated_action_rate": 0.05049751243781094,
+          "success_count": 115,
+          "success_rate": 0.8582089552238806,
+          "task_count": 134,
+          "timeout_rate": 0.1417910447761194
+        }
+      },
+      "success_count": 238,
+      "success_rate": 0.8686131386861314,
+      "task_count": 274
+    },
+    "Immediate_Vanilla": {
+      "checkpoint_label": "entropy_adaptive_v1_step80_immediate_full_4gpu_step250",
+      "evaluation_id": "entropy_adaptive_v1_step80_immediate_full_4gpu_step250_full274_seed42",
+      "macro_success_rate": 0.770042643923241,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.8604130116959064,
+          "action_parse_valid_rate": 0.9114285714285714,
+          "average_env_rounds": 12.35,
+          "observation_unchanged_rate": 0.12324979114452798,
+          "repeated_action_rate": 0.11285714285714285,
+          "success_count": 108,
+          "success_rate": 0.7714285714285715,
+          "task_count": 140,
+          "timeout_rate": 0.22857142857142856
+        },
+        "unseen": {
+          "action_admissible_rate": 0.8846306057126953,
+          "action_parse_valid_rate": 0.9114427860696517,
+          "average_env_rounds": 12.671641791044776,
+          "observation_unchanged_rate": 0.10174129353233831,
+          "repeated_action_rate": 0.0972636815920398,
+          "success_count": 103,
+          "success_rate": 0.7686567164179104,
+          "task_count": 134,
+          "timeout_rate": 0.23134328358208955
+        }
+      },
+      "success_count": 211,
+      "success_rate": 0.7700729927007299,
+      "task_count": 274
+    },
+    "Linear_to_Vanilla": {
+      "checkpoint_label": "entropy_adaptive_v1_step80_linear_anneal_4gpu_step250",
+      "evaluation_id": "entropy_adaptive_v1_step80_linear_anneal_4gpu_step250_full274_seed42",
+      "macro_success_rate": 0.8169509594882729,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.9084194523104298,
+          "action_parse_valid_rate": 0.9416666666666668,
+          "average_env_rounds": 11.092857142857143,
+          "observation_unchanged_rate": 0.07360902255639099,
+          "repeated_action_rate": 0.06894736842105263,
+          "success_count": 118,
+          "success_rate": 0.8428571428571429,
+          "task_count": 140,
+          "timeout_rate": 0.15714285714285714
+        },
+        "unseen": {
+          "action_admissible_rate": 0.8815995778682346,
+          "action_parse_valid_rate": 0.9243781094527362,
+          "average_env_rounds": 12.522388059701493,
+          "observation_unchanged_rate": 0.10830695009799488,
+          "repeated_action_rate": 0.0941542288557214,
+          "success_count": 106,
+          "success_rate": 0.7910447761194029,
+          "task_count": 134,
+          "timeout_rate": 0.208955223880597
+        }
+      },
+      "success_count": 224,
+      "success_rate": 0.8175182481751825,
+      "task_count": 274
+    }
+  },
+  "paired_comparisons": [
+    {
+      "both_failure": 31,
+      "both_success": 206,
+      "left": "Fixed_t0100",
+      "left_only_success": 32,
+      "mcnemar_exact_pvalue": 7.427530363202095e-06,
+      "right": "Immediate_Vanilla",
+      "right_only_success": 5,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 15,
+      "both_success": 106,
+      "left": "Fixed_t0100",
+      "left_only_success": 17,
+      "mcnemar_exact_pvalue": 0.000728607177734375,
+      "right": "Immediate_Vanilla",
+      "right_only_success": 2,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 16,
+      "both_success": 100,
+      "left": "Fixed_t0100",
+      "left_only_success": 15,
+      "mcnemar_exact_pvalue": 0.007537841796875,
+      "right": "Immediate_Vanilla",
+      "right_only_success": 3,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 20,
+      "both_success": 208,
+      "left": "Fixed_t0100",
+      "left_only_success": 30,
+      "mcnemar_exact_pvalue": 0.054076031858869555,
+      "right": "Linear_to_Vanilla",
+      "right_only_success": 16,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 8,
+      "both_success": 109,
+      "left": "Fixed_t0100",
+      "left_only_success": 14,
+      "mcnemar_exact_pvalue": 0.4048728942871094,
+      "right": "Linear_to_Vanilla",
+      "right_only_success": 9,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 12,
+      "both_success": 99,
+      "left": "Fixed_t0100",
+      "left_only_success": 16,
+      "mcnemar_exact_pvalue": 0.0931396484375,
+      "right": "Linear_to_Vanilla",
+      "right_only_success": 7,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 28,
+      "both_success": 202,
+      "left": "Fixed_t0100",
+      "left_only_success": 36,
+      "mcnemar_exact_pvalue": 2.5448598648836196e-05,
+      "right": "Cosine_to_t0200",
+      "right_only_success": 8,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 13,
+      "both_success": 110,
+      "left": "Fixed_t0100",
+      "left_only_success": 13,
+      "mcnemar_exact_pvalue": 0.049041748046875,
+      "right": "Cosine_to_t0200",
+      "right_only_success": 4,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 15,
+      "both_success": 92,
+      "left": "Fixed_t0100",
+      "left_only_success": 23,
+      "mcnemar_exact_pvalue": 0.000310748815536499,
+      "right": "Cosine_to_t0200",
+      "right_only_success": 4,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 31,
+      "both_success": 192,
+      "left": "Immediate_Vanilla",
+      "left_only_success": 19,
+      "mcnemar_exact_pvalue": 0.09191454981585423,
+      "right": "Linear_to_Vanilla",
+      "right_only_success": 32,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 14,
+      "both_success": 100,
+      "left": "Immediate_Vanilla",
+      "left_only_success": 8,
+      "mcnemar_exact_pvalue": 0.07551869750022888,
+      "right": "Linear_to_Vanilla",
+      "right_only_success": 18,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 17,
+      "both_success": 92,
+      "left": "Immediate_Vanilla",
+      "left_only_success": 11,
+      "mcnemar_exact_pvalue": 0.6900379657745361,
+      "right": "Linear_to_Vanilla",
+      "right_only_success": 14,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 44,
+      "both_success": 191,
+      "left": "Immediate_Vanilla",
+      "left_only_success": 20,
+      "mcnemar_exact_pvalue": 1.0,
+      "right": "Cosine_to_t0200",
+      "right_only_success": 19,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 20,
+      "both_success": 102,
+      "left": "Immediate_Vanilla",
+      "left_only_success": 6,
+      "mcnemar_exact_pvalue": 0.237884521484375,
+      "right": "Cosine_to_t0200",
+      "right_only_success": 12,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 24,
+      "both_success": 89,
+      "left": "Immediate_Vanilla",
+      "left_only_success": 14,
+      "mcnemar_exact_pvalue": 0.18924713134765625,
+      "right": "Cosine_to_t0200",
+      "right_only_success": 7,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 33,
+      "both_success": 193,
+      "left": "Linear_to_Vanilla",
+      "left_only_success": 31,
+      "mcnemar_exact_pvalue": 0.05946337525377032,
+      "right": "Cosine_to_t0200",
+      "right_only_success": 17,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 13,
+      "both_success": 105,
+      "left": "Linear_to_Vanilla",
+      "left_only_success": 13,
+      "mcnemar_exact_pvalue": 0.5234670639038086,
+      "right": "Cosine_to_t0200",
+      "right_only_success": 9,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 20,
+      "both_success": 88,
+      "left": "Linear_to_Vanilla",
+      "left_only_success": 18,
+      "mcnemar_exact_pvalue": 0.07551869750022888,
+      "right": "Cosine_to_t0200",
+      "right_only_success": 8,
+      "split": "unseen",
+      "task_count": 134
+    }
+  ]
+}

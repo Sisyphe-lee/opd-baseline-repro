@@ -1,0 +1,34 @@
+{
+  "generated_at_utc": "2026-08-14T06:02:08.409477+00:00",
+  "script": "analysis/plot_recent_three_post80_curve.py",
+  "shared_step80": true,
+  "combined_series": [
+    "tcod_f2b",
+    "vanilla_opd",
+    "entropy_adaptive_v1_t0100",
+    "entropy_adaptive_v1_t0175",
+    "linear_to_full",
+    "cosine_to_t0200",
+    "cosine_to_t0175"
+  ],
+  "input_csv_sha256": "b9f8a9b8842bed81c657893ec418b664a01e60b7c5d6972e7bad4a1c12063a7d",
+  "evaluation": {
+    "tasks": 274,
+    "seed": 42,
+    "horizon": 30,
+    "temperature": 0.4,
+    "top_p": 1.0,
+    "top_k": -1,
+    "response_limit": 512,
+    "prompt_limit": 10240,
+    "accumulate_memory": true,
+    "strict_action_parser": true
+  },
+  "topology_note": "The combined source contains both four- and five-engine evaluations; engine_num is retained per point in the CSV. Lines compare checkpoint trends, while exact paired claims require matching topology.",
+  "rows": 83,
+  "outputs": [
+    "overall_success_curve.csv",
+    "overall_success_curve.png",
+    "overall_success_curve.pdf"
+  ]
+}

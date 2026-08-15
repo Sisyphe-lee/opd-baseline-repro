@@ -1,0 +1,21 @@
+{
+  "generated_at_utc": "2026-08-13T14:10:59.075701+00:00",
+  "script": "analysis/plot_all_checkpoint_overall_success.py",
+  "evaluation": {
+    "tasks": 274,
+    "seed": 42,
+    "horizon": 30,
+    "temperature": 0.4,
+    "top_p": 1.0,
+    "top_k": -1,
+    "response_limit": 512,
+    "prompt_limit": 10240
+  },
+  "topology_note": "Hollow markers are 4-engine evaluations; filled markers are 5-engine evaluations.",
+  "rows": 53,
+  "outputs": [
+    "overall_success_curve.csv",
+    "overall_success_curve.png",
+    "overall_success_curve.pdf"
+  ]
+}

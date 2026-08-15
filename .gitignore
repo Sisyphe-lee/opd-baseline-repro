@@ -20,10 +20,15 @@ __pycache__/
 *.ckpt
 *.incomplete
 
-# Generated ALFWorld runtime and distributed-worker caches
+# Generated ALFWorld runtime, local experiment trackers, and worker caches
 /data/alfworld_runtime/
+/data/two_stage_distillation/generated/*.jsonl
+/wandb/
 **/ray_tmp/
 **/worker_tmp/
+
+# Patch/editor backup files
+*.orig
 
 # Local secrets and credentials
 .env

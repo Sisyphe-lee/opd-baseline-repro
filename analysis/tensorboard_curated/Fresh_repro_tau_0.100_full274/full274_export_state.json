@@ -1,0 +1,24 @@
+{
+  "method": "fresh_fixed_t0100",
+  "scalar_tags": [
+    "01 Evaluation/Overall success (%)",
+    "01 Evaluation/Seen success (%)",
+    "01 Evaluation/Unseen success (%)"
+  ],
+  "schema_version": 2,
+  "steps": [
+    20,
+    40,
+    60,
+    80,
+    100,
+    120,
+    140,
+    160,
+    180,
+    200,
+    220,
+    240,
+    250
+  ]
+}

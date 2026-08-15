@@ -1,0 +1,49 @@
+{
+  "generated_at_utc": "2026-08-13T09:54:25.827867+00:00",
+  "script": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/plot_baseline_training_loss.py",
+  "script_sha256": "d7b160d3ea166758e6ca5021d7c9b5021c03a893052d050e569a26374d0c01f1",
+  "metric": "actor/final_loss",
+  "smoothing": "centered 11-step rolling arithmetic mean; raw values retained",
+  "assembly": {
+    "TCOD F2B": "offline W&B steps1-80 + resume log steps81-250",
+    "Vanilla OPD": "restart steps1-100 + resume100 steps101-120 + resume120 steps121-250",
+    "Adaptive v1 (tau=0.1)": "single trainer log steps1-250"
+  },
+  "inputs": {
+    "Adaptive trainer log": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_t0100_250step_4gpu_s1t1_r4/checkpoints/ALFWORLD_ENTROPY_ADAPTIVE_V1/entropy_adaptive_v1_t0100_250step_4gpu_s1t1_r4_seed42/log/trainer.log",
+      "sha256": "ef9d6a5e944b8bb03f81bd629f41342176896c7e95b3cc4fb005e8a8ef0a3df9",
+      "size_bytes": 639129
+    },
+    "TCOD prefix offline W&B": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/legacy_imports/2026-08-11_pre_cleanup/opd-alfworld-sync-repro/wandb/offline-run-20260807_131419-ptegqin8/run-ptegqin8.wandb",
+      "sha256": "2560d2b5250d71ad0a122535198dc5dd2a77147a41b082c7cf857cd67758cb4c",
+      "size_bytes": 3145728
+    },
+    "TCOD resume80 log": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/training/tcod_f2b_step250/launcher_logs/f2b_resume80_20260808T0615Z.log",
+      "sha256": "a27beb09ab16b9babf583cdd7121ac47c2203ea07ba5008a1c81ecc0f204e5fd",
+      "size_bytes": 2304061
+    },
+    "Vanilla segment 1": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/training/vanilla_opd_step250/launcher_logs/vanilla_restart_20260808T0615Z.log",
+      "sha256": "e2839238ab11148f0a5d0b270395e2913f1d76337b51f5d3c3a022d74fe348b4",
+      "size_bytes": 2644451
+    },
+    "Vanilla segment 2": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/training/vanilla_opd_step250/launcher_logs/vanilla_resume100_20260808.log",
+      "sha256": "eae3a906f31c027595395cc33e71e7ae17eaef3582adf68e78b05ee604c4a9af",
+      "size_bytes": 636411
+    },
+    "Vanilla segment 3": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/training/vanilla_opd_step250/launcher_logs/vanilla_resume120_20260809.log",
+      "sha256": "8306a50dff4d817ba15a5da4fc706f6f7db751f956053b4a473f8435cd737358",
+      "size_bytes": 1663673
+    }
+  },
+  "outputs": [
+    "vanilla_tcod_adaptive_t0100_training_loss.png",
+    "vanilla_tcod_adaptive_t0100_training_loss.csv",
+    "summary.json"
+  ]
+}
