@@ -732,6 +732,7 @@ class TrainerConfig:
     trainer_type: str = "verl"
     trainer_strategy: str = "fsdp"  # "fsdp", "fsdp2" or "megatron"
     save_interval: int = 0
+    save_interval_offset: int = 0  # offset for periodic saves when resuming mid-interval
     enable_preview: bool = True  # enable rollout preview in wandb
     total_steps: Optional[
         int

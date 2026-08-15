@@ -1,0 +1,3 @@
+method,success_count,task_count,success_rate,seen_success_count,seen_task_count,seen_success_rate,unseen_success_count,unseen_task_count,unseen_success_rate,macro_success_rate
+adaptive,25,274,0.09124087591240876,14,140,0.1,11,134,0.08208955223880597,0.09104477611940298
+full,21,274,0.07664233576642336,13,140,0.09285714285714286,8,134,0.05970149253731343,0.07627931769722815

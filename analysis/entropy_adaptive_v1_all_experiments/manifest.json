@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "layout_rows": 3,
+  "panels": [
+    {"label": "Vanilla OPD", "short_label": "Vanilla OPD", "source_dir": "analysis/entropy_adaptive_v1_t0100_step250_4gpu", "source_method": "Vanilla OPD", "kind": "baseline"},
+    {"label": "TCOD F2B", "short_label": "TCOD F2B", "source_dir": "analysis/entropy_adaptive_v1_t0100_step250_4gpu", "source_method": "TCOD F2B", "kind": "baseline"},
+    {"label": "Adaptive v1 (tau=0.050, 4 GPU)", "short_label": "Adaptive v1 (tau=0.050)", "source_dir": "analysis/entropy_adaptive_v1_t0050_step250_4gpu", "source_method": "Adaptive v1 (tau=0.050, 4 GPU)", "kind": "threshold"},
+    {"label": "Adaptive v1 (tau=0.075, 4 GPU)", "short_label": "Adaptive v1 (tau=0.075)", "source_dir": "analysis/entropy_adaptive_v1_t0075_step250_4gpu", "source_method": "Adaptive v1 (tau=0.075, 4 GPU)", "kind": "threshold"},
+    {"label": "Adaptive v1 (tau=0.100, 4 GPU)", "short_label": "Adaptive v1 (tau=0.100)", "source_dir": "analysis/entropy_adaptive_v1_t0100_step250_4gpu", "source_method": "Adaptive v1 (tau=0.100, 4 GPU)", "kind": "threshold"},
+    {"label": "Adaptive v1 step80 -> immediate Vanilla OPD", "short_label": "Step80 -> immediate Vanilla OPD", "source_dir": "analysis/entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu", "source_method": "Adaptive v1 step80 -> immediate Vanilla OPD", "kind": "step80_branch"},
+    {"label": "Adaptive v1 step80 -> linear anneal -> Vanilla OPD", "short_label": "Step80 -> linear anneal -> Vanilla OPD", "source_dir": "analysis/entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu", "source_method": "Adaptive v1 step80 -> linear anneal -> Vanilla OPD", "kind": "step80_branch"},
+    {"label": "Adaptive v1 (tau=0.125, 4 GPU)", "short_label": "Adaptive v1 (tau=0.125)", "source_dir": "analysis/entropy_adaptive_v1_t0125_step250_4gpu", "source_method": "Adaptive v1 (tau=0.125, 4 GPU)", "kind": "threshold"},
+    {"label": "Adaptive v1 step80 cosine 0.1->0.2, hold", "short_label": "Step80 -> cosine anneal 0.100->0.200 (hold)", "source_dir": "analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu", "source_method": "Adaptive v1 step80 cosine 0.1→0.2, hold", "kind": "step80_branch"},
+    {"label": "Adaptive v1 step80 cosine 0.1->0.175, hold", "short_label": "Step80 -> cosine anneal 0.100->0.175 (hold)", "source_dir": "analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu", "source_method": "Adaptive v1 step80 cosine 0.1→0.175, hold", "kind": "step80_branch"}
+  ]
+}

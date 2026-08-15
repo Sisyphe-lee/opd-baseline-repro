@@ -1,0 +1,278 @@
+{
+  "generated_at_utc": "2026-08-14T04:05:56.932700+00:00",
+  "script": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/plot_adaptive_v1_all_experiments.py",
+  "script_sha256": "da9a77546955e929f882654ef7d08b71c7203323dffa28c17a967e3a8fcffb6f",
+  "manifest": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_all_experiments/manifest.json",
+  "manifest_sha256": "5fa1431dba739ed54b9580a80959b39ae3f2c3fd4af433dc09585a32fb7edacf",
+  "sources": [
+    {
+      "label": "Vanilla OPD",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "46b5cf47462ac5abd55ad028d774bc77d85ffefe5cc1ed92fc8abd0923a593c9",
+          "size_bytes": 1344461
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "64d9f41a7b9ca65bccdab74b12bcbf95f1a5afd709a9c6c8a1d7ebba424822d2",
+          "size_bytes": 1514383
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/plot_summary.json",
+          "sha256": "edacc3f68af4998e3f1c7beb6f06f0abb591154c5ce615cc774f82d9e83db5fd",
+          "size_bytes": 4520
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/provenance.json",
+          "sha256": "e44bc3f6c1661bdc58e364cb8984f6e56f6817bc569e41d16d4fa919c5ad74f1",
+          "size_bytes": 3830
+        }
+      ]
+    },
+    {
+      "label": "TCOD F2B",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "46b5cf47462ac5abd55ad028d774bc77d85ffefe5cc1ed92fc8abd0923a593c9",
+          "size_bytes": 1344461
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "64d9f41a7b9ca65bccdab74b12bcbf95f1a5afd709a9c6c8a1d7ebba424822d2",
+          "size_bytes": 1514383
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/plot_summary.json",
+          "sha256": "edacc3f68af4998e3f1c7beb6f06f0abb591154c5ce615cc774f82d9e83db5fd",
+          "size_bytes": 4520
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/provenance.json",
+          "sha256": "e44bc3f6c1661bdc58e364cb8984f6e56f6817bc569e41d16d4fa919c5ad74f1",
+          "size_bytes": 3830
+        }
+      ]
+    },
+    {
+      "label": "Adaptive v1 (tau=0.050, 4 GPU)",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0050_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0050_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "a5e469acf03808d84884d707bf408a632c58f86cd93a18aa666b6c53c99d3349",
+          "size_bytes": 1353878
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0050_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "525e1c4884f500327c2be2293bf7c843b282325d3d480b7f05a0277f44b6aba3",
+          "size_bytes": 1528609
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0050_step250_4gpu/plot_summary.json",
+          "sha256": "6163263dd5172940130b689257872ab2a4d5853f448ef50cbb62717f9ca9d6a4",
+          "size_bytes": 4523
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0050_step250_4gpu/provenance.json",
+          "sha256": "ca7e220327c143e6212290cb08c0cf0edb0283e19c22fea484bc38ea52d78eb1",
+          "size_bytes": 3831
+        }
+      ]
+    },
+    {
+      "label": "Adaptive v1 (tau=0.075, 4 GPU)",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0075_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0075_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "f6d2a794d46471e056112e33d68d0dd22981f47a1d319515faa3d09986508d7a",
+          "size_bytes": 1341302
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0075_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "6129dc90444a58d25fb810d6538eb48194b3e22f9bbd1cf6a19018b00d1f3cbc",
+          "size_bytes": 1517108
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0075_step250_4gpu/plot_summary.json",
+          "sha256": "328d6cdb5a0fecc06745dfd7bf570438c4d50621b921d887a0856d293369a0d0",
+          "size_bytes": 4524
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0075_step250_4gpu/provenance.json",
+          "sha256": "1e2fb65c84ac9fcb5921e0281b9da8b2f86fe402d6f1f30ca3b8d8219d09fb6e",
+          "size_bytes": 3832
+        }
+      ]
+    },
+    {
+      "label": "Adaptive v1 (tau=0.100, 4 GPU)",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "46b5cf47462ac5abd55ad028d774bc77d85ffefe5cc1ed92fc8abd0923a593c9",
+          "size_bytes": 1344461
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "64d9f41a7b9ca65bccdab74b12bcbf95f1a5afd709a9c6c8a1d7ebba424822d2",
+          "size_bytes": 1514383
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/plot_summary.json",
+          "sha256": "edacc3f68af4998e3f1c7beb6f06f0abb591154c5ce615cc774f82d9e83db5fd",
+          "size_bytes": 4520
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step250_4gpu/provenance.json",
+          "sha256": "e44bc3f6c1661bdc58e364cb8984f6e56f6817bc569e41d16d4fa919c5ad74f1",
+          "size_bytes": 3830
+        }
+      ]
+    },
+    {
+      "label": "Adaptive v1 step80 -> immediate Vanilla OPD",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "1d3833b562a35de3b8bf8f979cd462bf49420cbf9cb3bed0311f373a640dd098",
+          "size_bytes": 1394155
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "7d23f02dd2a81474e23c8b0b092ba8c031ec148d62ff8efb49fcef28667b2e4d",
+          "size_bytes": 1562913
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/plot_summary.json",
+          "sha256": "8e0762d4c0398065fb21a40057ad2ea0dfbde79fb89f01566f2a29231803bfcf",
+          "size_bytes": 5011
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/provenance.json",
+          "sha256": "217fbef4e5f79637e7f51275c7eba38dac69514d32146c57221d6fce03054009",
+          "size_bytes": 5128
+        }
+      ]
+    },
+    {
+      "label": "Adaptive v1 step80 -> linear anneal -> Vanilla OPD",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "167ded18c934d83074888fc6e3595c0e3a5f9bdd0db7af8c66a38e2238f96f19",
+          "size_bytes": 1417605
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "ced5142bb07b38093571349068f3cd242eb89257cfb46ae6a09f5578d248e855",
+          "size_bytes": 1586828
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/plot_summary.json",
+          "sha256": "6cc2f7af05965bd691cd1bc12afd0fbfbbafb015495bfc39034d0aedb4bc1daf",
+          "size_bytes": 5025
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/provenance.json",
+          "sha256": "5e70f0f2175808b7fa8134bbddb46dace4fe2448b697d796470637f00caa5fad",
+          "size_bytes": 5143
+        }
+      ]
+    },
+    {
+      "label": "Adaptive v1 (tau=0.125, 4 GPU)",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0125_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0125_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "c826ee0c1d0b75172b2bae92766de56511f8bc6780bbd9ef85b3da2d2f0981ce",
+          "size_bytes": 1333693
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0125_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "aa42d37b300e1d5032c2a9442f6d61f1ae96f60f0c35e03dc2b87871fe2260eb",
+          "size_bytes": 1507962
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0125_step250_4gpu/plot_summary.json",
+          "sha256": "2ee9103575cc4f7ffcf64284bc8c05f9228f2eef1e83dd6539ddf90d5760a28f",
+          "size_bytes": 4524
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0125_step250_4gpu/provenance.json",
+          "sha256": "7e2ff4dcaa64e2d6101b61553c6d11770a321d2f671b8e95739ac8227415e214",
+          "size_bytes": 3832
+        }
+      ]
+    },
+    {
+      "label": "Adaptive v1 step80 cosine 0.1->0.2, hold",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "670ebe746d38a9c278a41208f1dc42b7e6395dfd2c97986cca8f8f47decc97d9",
+          "size_bytes": 1394849
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "2df19f589be9f882868784f7400409d6c2f5332afcbd1b90bbde0074296cd6cd",
+          "size_bytes": 1564425
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/plot_summary.json",
+          "sha256": "0565996644e0a6d61b17edaccbfde0457130b2b9a1b830f7af85f3e556d0d4f1",
+          "size_bytes": 5007
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/provenance.json",
+          "sha256": "4bd09501e5da09193b17e8335082c6d7d10531709077589c10baeafacb0350f4",
+          "size_bytes": 5142
+        }
+      ]
+    },
+    {
+      "label": "Adaptive v1 step80 cosine 0.1->0.175, hold",
+      "source_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu",
+      "files": [
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+          "sha256": "c270ceca7b52d57105b674bb89a0383d48cea81df459bcc85d1bbc238ced4a7c",
+          "size_bytes": 1398366
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/realized_trainable_turns.csv",
+          "sha256": "d5e180bd8366f0fd6db0ef93a7e86003ad0718f462b1579f4c44e527e94075bb",
+          "size_bytes": 1567516
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/plot_summary.json",
+          "sha256": "035fde686a13fc2a20d42f91a2e92c615727afab13ff75ba37e542ba7cda9c4d",
+          "size_bytes": 5011
+        },
+        {
+          "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/provenance.json",
+          "sha256": "10f30f0302500a9459da52c6a13bbb6341bb6ae79e88e5db15816690e73daac7",
+          "size_bytes": 5142
+        }
+      ]
+    }
+  ],
+  "update_policy": "This directory is the canonical aggregate analysis. Add future experiments to manifest.json and rerun this script.",
+  "outputs": [
+    "curriculum_imposed_loss_horizons.png",
+    "realized_trainable_turns_chronological.png",
+    "curriculum_imposed_loss_horizons.csv",
+    "realized_trainable_turns.csv",
+    "plot_summary.json",
+    "provenance.json"
+  ]
+}

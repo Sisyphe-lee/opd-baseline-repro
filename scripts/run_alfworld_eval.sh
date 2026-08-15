@@ -57,8 +57,9 @@ DASHBOARD_PORT="$((RAY_PORT + 1878))"
 # Keep the worker range separate from the client port and from the training
 # launcher (which uses 36000-38999). Ray's default 10002-19999 range includes
 # the client port for the 640x evaluation ports used by this repository.
-MIN_WORKER_PORT=39000
-MAX_WORKER_PORT=41999
+WORKER_PORT_SLOT="$((RAY_PORT % 8))"
+MIN_WORKER_PORT="$((39000 + WORKER_PORT_SLOT * 3000))"
+MAX_WORKER_PORT="$((MIN_WORKER_PORT + 2999))"
 RAY_SYSTEM_PORT_BASE="$((43000 + (RAY_PORT % 1000) * 10))"
 
 export CUDA_VISIBLE_DEVICES="${GPU_IDS}"
@@ -71,6 +72,12 @@ export VLLM_RAY_PER_WORKER_GPUS=1
 export VLLM_USE_RAY_SPMD_WORKER=1
 export VLLM_USE_RAY_COMPILED_DAG=1
 export VLLM_NO_USAGE_STATS=1
+VERL_OVERRIDE="${ROOT}/.runtime_overrides/verl"
+if [[ -d "${VERL_OVERRIDE}/verl" ]]; then
+  export PYTHONPATH="${VERL_OVERRIDE}:${ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+else
+  export PYTHONPATH="${ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+fi
 unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY all_proxy
 
 mkdir -p "${RAY_TMP}" "${ROOT}/logs"
@@ -80,6 +87,14 @@ cleanup() {
   ray_pids="$(pgrep -f "${RAY_TMP}" || true)"
   if [[ -n "${ray_pids}" ]]; then
     kill ${ray_pids} 2>/dev/null || true
+    for _ in {1..20}; do
+      sleep 0.1
+      ray_pids="$(pgrep -f "${RAY_TMP}" || true)"
+      [[ -z "${ray_pids}" ]] && return 0
+    done
+    # Ray's GCS server can ignore SIGTERM after a completed benchmark. Keep
+    # cleanup scoped to this run's unique temp path, then force only survivors.
+    kill -9 ${ray_pids} 2>/dev/null || true
   fi
 }
 trap cleanup EXIT INT TERM

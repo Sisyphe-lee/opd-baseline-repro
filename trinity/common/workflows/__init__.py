@@ -58,6 +58,7 @@ WORKFLOWS: Registry = Registry(
         "OPD_alfworld_workflow": "trinity.common.workflows.envs.TCOD.alfworld.OPD_workflow.OnPolicyDistillVerlAgentAlfworldWorkflow",
         "OPD_promptfix_alfworld_workflow": "trinity.common.workflows.envs.TCOD.alfworld.OPD_promptfix_workflow.PromptFixedOnPolicyDistillAlfworldWorkflow",
         "TCOD_f2b_alfworld_workflow": "trinity.common.workflows.envs.TCOD.alfworld.TCOD_f2b_workflow.TCOD_f2b_alfworld_workflow",
+        "OPD_entropy_mask_promptfix_alfworld_workflow": "trinity.common.workflows.envs.TCOD.alfworld.OPD_entropy_mask_workflow.EntropyMaskPromptFixedOPDWorkflow",
         "TCOD_eval_alfworld_workflow": "trinity.common.workflows.envs.TCOD.alfworld.eval_workflow.TCODEvalAlfworldWorkflow",
         "TCOD_b2f_alfworld_workflow": "trinity.common.workflows.envs.TCOD.alfworld.TCOD_b2f_workflow.TCOD_b2f_alfworld_workflow",
         "OPD_scienceworld_workflow": "trinity.common.workflows.envs.TCOD.scienceworld.OPD_workflow.OnPolicyDistillVerlAgentScienceworldWorkflow",

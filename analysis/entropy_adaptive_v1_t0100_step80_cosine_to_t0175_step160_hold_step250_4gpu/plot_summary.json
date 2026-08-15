@@ -1,0 +1,175 @@
+{
+  "max_env_steps": 30,
+  "thresholds": {
+    "adaptive_reference": 0.175,
+    "adaptive_target": 0.1
+  },
+  "adaptive_run_diagnostics": {
+    "adaptive_reference": {
+      "raw_row_count": 50878,
+      "selected_row_count": 50470,
+      "trajectory_count": 2736,
+      "frontier_triggered_count": 421,
+      "prompt_truncated_trajectory_count": 1313
+    },
+    "adaptive_target": {
+      "raw_row_count": 47921,
+      "selected_row_count": 47921,
+      "trajectory_count": 2768,
+      "frontier_triggered_count": 608,
+      "prompt_truncated_trajectory_count": 1191,
+      "history_combination": {
+        "branch_model_version": 80,
+        "prefix_rule": "student_model_version < 80",
+        "suffix_rule": "student_model_version >= 80",
+        "prefix_trajectory_count": 912,
+        "suffix_trajectory_count": 1856,
+        "combined_trajectory_count": 2768,
+        "source_trajectory_id_overlap_count": 16,
+        "prefix_row_count": 22312,
+        "suffix_row_count": 25609,
+        "combined_row_count": 47921
+      }
+    }
+  },
+  "reference_t0175_replay_assertions": {
+    "status": "passed",
+    "observed": {
+      "trajectory_count": 2736,
+      "imposed_horizon_mean": 26.970394736842106,
+      "imposed_horizon_at_30_fraction": 0.846125730994152,
+      "realized_trainable_turns_mean": 11.517543859649123,
+      "realized_trainable_turns_at_30_fraction": 0.0
+    },
+    "expected": {
+      "trajectory_count": 2736,
+      "imposed_horizon_mean": 26.970394736842106,
+      "imposed_horizon_at_30_fraction": 0.846125730994152,
+      "realized_trainable_turns_mean": 11.517543859649123,
+      "realized_trainable_turns_at_30_fraction": 0.0
+    }
+  },
+  "reference_realized_baseline_replay_assertions": {
+    "status": "passed",
+    "observed": {
+      "Vanilla OPD": {
+        "count": 2832,
+        "mean": 12.432203389830509,
+        "median": 12.0,
+        "min": 3,
+        "max": 29,
+        "at_max_count": 0,
+        "at_max_fraction": 0.0
+      },
+      "TCOD F2B": {
+        "count": 3088,
+        "mean": 9.178432642487047,
+        "median": 8.0,
+        "min": 1,
+        "max": 29,
+        "at_max_count": 0,
+        "at_max_fraction": 0.0
+      }
+    },
+    "expected": {
+      "Vanilla OPD": {
+        "count": 2832,
+        "mean": 12.432203389830509,
+        "at_max_fraction": 0.0
+      },
+      "TCOD F2B": {
+        "count": 3088,
+        "mean": 9.178432642487047,
+        "at_max_fraction": 0.0
+      }
+    }
+  },
+  "curriculum_imposed_loss_horizons": {
+    "Vanilla OPD": {
+      "count": 2832,
+      "mean": 30.0,
+      "median": 30.0,
+      "min": 30,
+      "max": 30,
+      "at_max_count": 2832,
+      "at_max_fraction": 1.0
+    },
+    "TCOD F2B": {
+      "count": 3088,
+      "mean": 25.642487046632123,
+      "median": 30.0,
+      "min": 1,
+      "max": 30,
+      "at_max_count": 2176,
+      "at_max_fraction": 0.7046632124352331
+    },
+    "Adaptive v1 (tau=0.175)": {
+      "count": 2736,
+      "mean": 26.970394736842106,
+      "median": 30.0,
+      "min": 4,
+      "max": 30,
+      "at_max_count": 2315,
+      "at_max_fraction": 0.846125730994152
+    },
+    "Adaptive v1 step80 cosine 0.1→0.175, hold": {
+      "count": 2768,
+      "mean": 25.44942196531792,
+      "median": 30.0,
+      "min": 3,
+      "max": 30,
+      "at_max_count": 2160,
+      "at_max_fraction": 0.7803468208092486
+    }
+  },
+  "realized_trainable_turns": {
+    "Vanilla OPD": {
+      "count": 2832,
+      "mean": 12.432203389830509,
+      "median": 12.0,
+      "min": 3,
+      "max": 29,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "TCOD F2B": {
+      "count": 3088,
+      "mean": 9.178432642487047,
+      "median": 8.0,
+      "min": 1,
+      "max": 29,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 (tau=0.175)": {
+      "count": 2736,
+      "mean": 11.517543859649123,
+      "median": 10.0,
+      "min": 3,
+      "max": 28,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    },
+    "Adaptive v1 step80 cosine 0.1→0.175, hold": {
+      "count": 2768,
+      "mean": 10.291546242774567,
+      "median": 8.0,
+      "min": 3,
+      "max": 29,
+      "at_max_count": 0,
+      "at_max_fraction": 0.0
+    }
+  },
+  "latest_policy_heatmap_target": {
+    "latest_panel_min_model_version": 219,
+    "latest_panel_max_model_version": 249,
+    "latest_panel_trajectory_count": 336,
+    "latest_panel_failure_count": 78,
+    "latest_panel_success_count": 258,
+    "latest_panel_prompt_truncated_count": 78
+  },
+  "evidence_scope": {
+    "imposed_horizon": "Vanilla is analytically K=30; TCOD uses the recorded F2B schedule K_b=min(1+floor(b/2),30), b=1..193; the reference and target Adaptive panels use recorded entropy_frontier_turn or K=30 when no frontier triggered.",
+    "realized_trainable_turns": "Vanilla/TCOD are reconstructed from frozen checkpoint Experience buffers by counting distinct environment steps with a non-empty, non-zero action_mask. Adaptive panels use loss_retained and exclude prompt_truncated placeholders."
+  }
+}

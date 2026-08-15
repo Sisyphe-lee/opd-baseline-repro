@@ -1,0 +1,86 @@
+{
+  "generated_at_utc": "2026-08-12T21:05:28.773267+00:00",
+  "script": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/plot_adaptive_v1_curriculum.py",
+  "script_sha256": "2cb776be9e64210344a977cb57dfa41dfabc05afb2e3459f163cab418ef4c8d4",
+  "adaptive_reference": {
+    "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_step10_8gpu_s2t4_r16/diagnostics/trajectory_metrics.jsonl",
+    "sha256": "4e8e64c574fc2cf8ab1961e4af9f6dd2a7c84de12599cf5e0c2cfcf2b6ef28c8",
+    "size_bytes": 122864697,
+    "mtime_utc": "2026-08-10T10:56:56.780978+00:00",
+    "threshold": 0.175,
+    "raw_row_count": 50878,
+    "selected_row_count_after_resume_overlap": 50470,
+    "malformed_line_count": 0,
+    "duplicate_turn_row_count": 408,
+    "schema_counts": {
+      "3": 50878
+    },
+    "kind_counts": {
+      "response_topk_head_entropy": 50878
+    },
+    "trajectory_count": 2736,
+    "model_version_min": 0,
+    "model_version_max": 250
+  },
+  "adaptive_target": {
+    "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_t0075_250step_4gpu_s1t1_r4/diagnostics/trajectory_metrics.jsonl",
+    "sha256": "83b247a7ca1cafec022d4bdd065f38c8ff435529bfe95191b1c4b5dacb6e8a82",
+    "size_bytes": 114304411,
+    "mtime_utc": "2026-08-12T18:51:17.700917+00:00",
+    "threshold": 0.075,
+    "raw_row_count": 47198,
+    "selected_row_count_after_resume_overlap": 47198,
+    "malformed_line_count": 0,
+    "duplicate_turn_row_count": 0,
+    "schema_counts": {
+      "3": 47198
+    },
+    "kind_counts": {
+      "response_topk_head_entropy": 47198
+    },
+    "trajectory_count": 2760,
+    "model_version_min": 0,
+    "model_version_max": 250
+  },
+  "vanilla_realized_buffer": {
+    "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/checkpoints/vanilla_opd_step250/buffer/explorer_output.db",
+    "sha256": "c3ff8b301ae4030d8f153e3e587fb42e814d8c8ac5b856adf0568b500bcda6d8",
+    "size_bytes": 3778015232,
+    "mtime_utc": "2026-08-09T07:02:00.393507+00:00",
+    "table": "pipeline_input",
+    "experience_row_count": 50362,
+    "trajectory_count": 2832,
+    "trajectory_key": "(leading integer of eid.batch, str(eid.task), int(eid.run))",
+    "turn_rule": "count distinct eid.step with non-empty action_mask and action_mask.any()"
+  },
+  "tcod_realized_buffer": {
+    "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/checkpoints/tcod_f2b_step250/buffer/explorer_output.db",
+    "sha256": "849e65af3c5194e5d30a8b00482c534c17b9d67310e805f44f7726b6df1c629d",
+    "size_bytes": 2082897920,
+    "mtime_utc": "2026-08-08T13:29:34.822240+00:00",
+    "table": "pipeline_input",
+    "experience_row_count": 34719,
+    "trajectory_count": 3088,
+    "trajectory_key": "(leading integer of eid.batch, str(eid.task), int(eid.run))",
+    "turn_rule": "count distinct eid.step with non-empty action_mask and action_mask.any()"
+  },
+  "analytical_reference_inputs": {
+    "vanilla_trajectory_count": 2832,
+    "vanilla_rule": "K=30 for every trajectory",
+    "tcod_batch_count": 193,
+    "tcod_batch_size": 16,
+    "tcod_trajectory_count": 3088,
+    "tcod_rule": "K_b=min(1+floor(b/2),30), one-based batch b",
+    "tcod_workflow": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/trinity/common/workflows/envs/TCOD/alfworld/TCOD_f2b_workflow.py",
+    "tcod_config": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/configs/train/tcod_f2b.yaml"
+  },
+  "outputs": [
+    "curriculum_imposed_loss_horizons.png",
+    "realized_trainable_turns_chronological.png",
+    "teacher_entropy_frontier_heatmap_latest.png",
+    "curriculum_imposed_loss_horizons.csv",
+    "realized_trainable_turns.csv",
+    "plot_summary.json",
+    "provenance.json"
+  ]
+}

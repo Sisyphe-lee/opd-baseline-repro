@@ -55,6 +55,21 @@ def write_csv(path: Path, rows: list[dict]) -> None:
         writer.writerows(rows)
 
 
+def canonical_game_key(record: dict) -> str:
+    """Return a workspace-independent ALFWorld game identity.
+
+    Historical frozen evaluations were produced from a sibling workspace, so
+    their absolute ``game_file`` prefixes differ even when the manifest entry
+    is identical. Everything below the versioned ALFWorld data root is the
+    stable identity used by the frozen manifests.
+    """
+    game_file = record["game_file"]
+    marker = "/json_2.1.1/"
+    if marker not in game_file:
+        raise ValueError(f"Cannot canonicalize ALFWorld game_file: {game_file}")
+    return game_file.split(marker, 1)[1]
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -79,7 +94,7 @@ def main() -> None:
         datasets[label] = load_jsonl(Path(path_value))
 
     keyed = {
-        label: {record["game_file"]: record for record in records}
+        label: {canonical_game_key(record): record for record in records}
         for label, records in datasets.items()
     }
     reference_label = next(iter(keyed))

@@ -1,0 +1,254 @@
+\documentclass[11pt,a4paper]{ctexart}
+
+\usepackage[
+  left=1.55cm,
+  right=1.55cm,
+  top=0.75cm,
+  bottom=0.85cm
+]{geometry}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{fontawesome5}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\usepackage{array}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\emergencystretch=1.5em
+
+\definecolor{main}{RGB}{35,35,35}
+\definecolor{sub}{RGB}{95,95,95}
+
+% ==================== 字体层级 ====================
+% 尽量避免过重的 \bfseries，主要用字号、黑体和灰度区分层级
+\newcommand{\namefont}{\fontsize{29pt}{32pt}\selectfont\heiti}
+\newcommand{\contactfont}{\fontsize{11.8pt}{13.4pt}\selectfont\songti\color{main}}
+\newcommand{\sectiontitlefont}{\fontsize{12.8pt}{14.2pt}\selectfont\heiti\color{main}}
+\newcommand{\entrytitlefont}{\fontsize{10.8pt}{12.2pt}\selectfont\heiti\color{main}}
+\newcommand{\bodyfont}{\fontsize{9.8pt}{11.8pt}\selectfont\songti\color{main}}
+\newcommand{\metafont}[1]{{\fontsize{9.5pt}{11pt}\selectfont\songti\color{sub}#1}}
+\newcommand{\tagfont}[1]{{\fontsize{9.5pt}{11pt}\selectfont\songti\color{sub}#1}}
+\newcommand{\awardfont}{\fontsize{9.8pt}{11.6pt}\selectfont\songti\color{main}}
+
+% ==================== Section 样式 ====================
+\titleformat{\section}
+  {\sectiontitlefont}
+  {}
+  {0pt}
+  {}
+  [\vspace{-0.42em}{\color{main}\rule{\linewidth}{0.45pt}}\vspace{-0.75em}]
+
+\titlespacing*{\section}{0pt}{0.55em}{0.35em}
+
+% ==================== 列表样式 ====================
+\setlist[itemize,1]{
+  label={\raisebox{0.2ex}{\scriptsize$\bullet$}},
+  leftmargin=1.3em,
+  itemsep=0.08em,
+  topsep=0.08em,
+  parsep=0em,
+  before=\bodyfont
+}
+
+\setlist[itemize,2]{
+  label=\textendash,
+  leftmargin=2.35em,
+  itemsep=0.04em,
+  topsep=0.02em,
+  parsep=0em,
+  before=\bodyfont
+}
+
+% ==================== 基础命令 ====================
+\newcommand{\eduentry}[4]{
+  \noindent
+  {\entrytitlefont #1} \quad {\bodyfont #2} \quad {\bodyfont #3}
+  \hfill \metafont{#4}
+  \par\vspace{0em}
+}
+
+\newcommand{\edulabel}[1]{{\heiti #1：}}
+
+% 右上角照片：请确保 sjx.jpg 与 tex 文件在同一目录下
+\newcommand{\photobox}{
+  {\includegraphics[width=3.6cm,height=4.8cm,keepaspectratio]{sjx.jpg}}
+}
+
+\newcommand{\resumeheader}[3]{
+  \noindent
+  \begin{tabular}{@{}m{3.8cm}@{}>{\centering\arraybackslash}m{\dimexpr\linewidth-7.6cm\relax}@{}>{\raggedleft\arraybackslash}m{3.8cm}@{}}
+    &
+    \begin{minipage}{\linewidth}
+      \centering
+      {\namefont #1}\\[0.15em]
+      {\contactfont #2 \quad | \quad \href{mailto:#3}{\textcolor{main}{\underline{#3}}}}
+    \end{minipage}
+    &
+    \hspace{-0.45cm}\photobox
+  \end{tabular}
+  \vspace{0em}
+}
+
+\newcommand{\projecttitle}[1]{{\entrytitlefont #1}}
+
+\newcommand{\project}[3]{
+  \noindent
+  \projecttitle{#1} {\bodyfont\color{main}{\color{sub}\,|\,}#3}
+  \hfill \metafont{#2}\par
+  \vspace{-0.02em}
+}
+
+\newcommand{\projectwithlink}[4]{
+  \noindent
+  \begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+    \projecttitle{#1} {\bodyfont\color{main}{\color{sub}\,|\,}#3{\color{sub}\,|\,}\href{#4}{\textcolor{main}{\raisebox{-0.08em}{\faGithub}\,GitHub}}} &
+    \metafont{#2} \\
+  \end{tabular*}\par
+  \vspace{-0.02em}
+}
+
+% 与 projectwithlink 同一排版；第 4、5 个参数分别为 GitHub 与 arXiv URL。
+% arXiv URL 为空时显示不可点击的 arXiv 标签。
+\newcommand{\projectwithpaper}[5]{
+  \noindent
+  \begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+    \projecttitle{#1} {\bodyfont\color{main}{\color{sub}\,|\,}#3%
+      {\color{sub}\,|\,}\href{#4}{\textcolor{main}{\raisebox{-0.08em}{\faGithub}\,GitHub}}%
+      {\color{sub}\,|\,}%
+      \if\relax\detokenize{#5}\relax
+        \textcolor{sub}{\raisebox{-0.08em}{\faFilePdf}\,arXiv}%
+      \else
+        \href{#5}{\textcolor{main}{\raisebox{-0.08em}{\faFilePdf}\,arXiv}}%
+      \fi
+    } &
+    \metafont{#2} \\
+  \end{tabular*}\par
+  \vspace{-0.02em}
+}
+
+\newcommand{\compactproject}[2]{
+  \noindent
+  \projecttitle{#1} \hfill \metafont{#2}\par
+  \vspace{-0.02em}
+}
+
+% 仿照泽子 CV 的获奖部分：无 bullet，紧凑逐行，年份靠右
+\newcommand{\awarditem}[2]{
+  \noindent
+  {\awardfont #1 \hfill {\color{sub}#2}}\par
+  \vspace{0.02em}
+}
+
+\begin{document}
+
+\resumeheader
+{孙家兴}
+{+86 188-1171-7335}
+{2501213407@stu.pku.edu.cn}
+
+\vspace{0.12em}
+
+\section{教育背景}
+
+\eduentry
+{北京大学}
+{智能学院}
+{硕士研究生（三年学硕）}
+{2025.09 -- 至今}
+
+\vspace{0.10em}
+
+\eduentry
+{北京大学}
+{信息科学技术学院}
+{本科}
+{2021.09 -- 2025.06}
+
+\section{研究经历}
+
+\projectwithlink
+{熵自适应策略蒸馏}
+{2026.07 -- 至今}
+{Python / PyTorch / veRL / ALFWorld}
+{https://github.com/Sisyphe-lee/opd-baseline-repro}
+
+\begin{itemize}
+  \item 提出熵自适应蒸馏，依据教师熵动态选择可靠轨迹前缀。
+  \item ALFWorld full274 成功率 86.86\%，较 TCOD-F2B / Vanilla OPD 提升 2.19 / 7.30 个百分点。
+\end{itemize}
+
+\vspace{0.2em}
+
+% TODO：论文发布后，在最后一个参数中填入 arXiv URL。
+\projectwithpaper
+{Power Sampling 失效分析与修复}
+{2026.06 -- 2026.08}
+{Power Sampling / Self-Consistency / SoftSat}
+{https://github.com/jiaxingsunpku/SoftSat}
+{}
+
+\begin{itemize}
+  \item 揭示 Power Sampling 可增加正确轨迹质量却降低多轨迹决策性能，并将失效归因于 coverage mismatch 与 dose mismatch；提出 Relative-Rank SoftSat，以相对秩校准锐化强度、以饱和增益保留中等概率路径。
+  \item 在 3 个模型、3 个代码/数学/物理基准的 9 组设置中，固定指数 Power 在 7 组退化、最大下降 18.5 个百分点；SoftSat 在 5 组提升、1 组持平，最大回退仅 1.0 个百分点，加权实现达到 99.55\% 决策一致与 7.42$\times$ 推理加速。
+\end{itemize}
+
+\section{项目经历}
+
+\projectwithlink
+{LightCC Coder: Code Agent Harness}
+{2026.05 -- 至今}
+{TypeScript / Agent Loop / Repo Tooling}
+{https://github.com/Sisyphe-lee/light-cc-coder/tree/main}
+
+\begin{itemize}
+  \item 参与构建面向真实代码仓库的轻量 Claude Code 风格 coder harness，核心约 10k 行 TypeScript；实现交互式 REPL、one-shot CLI、OpenAI-compatible provider、JSONL 事件流，以及受限仓库工具链、transcript 回放、上下文压缩、resume 与可选 OS sandbox。
+  \item 使用 deepseek-v4-flash 在固定子集评测：SWE-bench Verified resolved 10/20、Terminal-Bench 2.1 通过 11/20；SWE-bench 横评中平均请求数、成本、token 使用量和运行时间均低于 OpenCode / OpenHands。
+\end{itemize}
+
+\vspace{0.16em}
+
+\compactproject
+{基于多智能体 PPO / MAPPO 的智能信号灯协同控制}
+{2024.05 -- 2026.05}
+
+\begin{itemize}
+  \item 基于 SUMO / TraCI 搭建多路口交通仿真与 PPO / MAPPO 训练框架，并与 FixedTime、MaxPressure、GreenWave 等基线方法进行统一评测。
+\end{itemize}
+
+\vspace{0.10em}
+
+\section{获奖情况}
+
+\awarditem
+{第一届综合交通运输大模型智能体创新应用大赛，大学生优秀创意奖}
+{2025}
+
+\awarditem
+{第二十届“九坤杯”北京大学程序设计竞赛，三等奖}
+{2022}
+
+\awarditem
+{第三十七届全国高中物理竞赛，省级一等奖}
+{2020}
+
+\awarditem
+{二〇二〇年全国高中数学联赛，省级一等奖}
+{2020}
+
+\section{技能}
+
+{\bodyfont
+\begin{tabularx}{\linewidth}{>{\heiti}p{3.1cm}X}
+编程与工程 & Python，TypeScript / Node.js，C++，Shell，Git，Linux，Docker\\
+模型训练与蒸馏 & PyTorch，Trinity-RFT / veRL，vLLM，FSDP，Ray，在线策略蒸馏，Entropy / KL 分析\\
+智能体与评测 & Tool Calling / ReAct，Agent Loop，ALFWorld，SWE-bench，Terminal-Bench，自动评测与 JSONL artifacts\\
+算法与实验 & Power Sampling，Self-Consistency，PPO / MAPPO，NumPy，Pandas，SUMO / TraCI\\
+语言能力 & CET-6，IELTS Academic 6.5\\
+\end{tabularx}
+}
+
+\end{document}

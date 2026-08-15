@@ -18,7 +18,38 @@ from trinity.common.models.mm_utils import (
     convert_messages_to_mm_format,
 )
 from trinity.common.models.model import BaseInferenceModel
-from trinity.common.models.vllm_patch import get_vllm_version
+from trinity.common.models.vllm_patch import (
+    PROMPT_LOGPROBS_START_ARG,
+    get_vllm_version,
+)
+
+
+def _summarize_logprob_dict(
+    logprob_dict: Optional[Dict[Any, Any]], top_k: Optional[int]
+) -> Tuple[float, float, int, float]:
+    """Return partial entropy, covered mass, count, and top-1 margin."""
+    if not logprob_dict:
+        return 0.0, 0.0, 0, float("nan")
+    items = [item for item in logprob_dict.values() if np.isfinite(float(item.logprob))]
+    items.sort(key=lambda item: getattr(item, "rank", float("inf")))
+    if top_k is not None:
+        items = items[:top_k]
+    logprobs = np.asarray([float(item.logprob) for item in items], dtype=np.float64)
+    if logprobs.size == 0:
+        return 0.0, 0.0, 0, float("nan")
+    probabilities = np.exp(logprobs)
+    sorted_logprobs = np.sort(logprobs)[::-1]
+    margin = (
+        float(sorted_logprobs[0] - sorted_logprobs[1])
+        if sorted_logprobs.size >= 2
+        else float("nan")
+    )
+    return (
+        float(-(probabilities * logprobs).sum()),
+        float(probabilities.sum()),
+        int(logprobs.size),
+        margin,
+    )
 
 
 # V0 engine is deprecated since vLLM v0.10.2, related code will be removed in the future.
@@ -203,31 +234,50 @@ class vLLMRolloutModel(BaseInferenceModel):
         output = await self._generate_internal(
             prompt={"prompt_token_ids": token_ids}, lora_request=lora_request, **kwargs
         )
-        experiences = [
-            Experience(
-                tokens=torch.cat(
-                    (
-                        torch.tensor(output.prompt_token_ids, dtype=torch.int32),
-                        torch.tensor(output.outputs[i].token_ids, dtype=torch.int32),
-                    )
-                ),
-                logprobs=torch.cat(
-                    (
-                        torch.tensor(
-                            [
-                                list(logprob_dict.values())[0].logprob
-                                for logprob_dict in output.outputs[i].logprobs
-                            ],
-                            dtype=torch.float32,
-                        ),
-                    )
-                ),
-                prompt_length=len(output.prompt_token_ids),
-                prompt_text=self.tokenizer.decode(output.prompt_token_ids),
-                response_text=output.outputs[i].text,
+        experiences = []
+        for output_item in output.outputs:
+            if output_item.logprobs is None:
+                raise RuntimeError(
+                    "vLLM did not return response logprobs; set rollout_args.logprobs."
+                )
+            response_logprobs = [
+                list(logprob_dict.values())[0].logprob for logprob_dict in output_item.logprobs
+            ]
+            info: Dict[str, Any] = {}
+            if any(len(logprob_dict) > 1 for logprob_dict in output_item.logprobs):
+                summaries = [
+                    _summarize_logprob_dict(logprob_dict, kwargs.get("logprobs"))
+                    for logprob_dict in output_item.logprobs
+                ]
+                info = {
+                    "rollout_topk_entropy": torch.tensor(
+                        [summary[0] for summary in summaries], dtype=torch.float32
+                    ),
+                    "rollout_topk_mass": torch.tensor(
+                        [summary[1] for summary in summaries], dtype=torch.float32
+                    ),
+                    "rollout_topk_count": torch.tensor(
+                        [summary[2] for summary in summaries], dtype=torch.int32
+                    ),
+                    "rollout_top1_top2_margin": torch.tensor(
+                        [summary[3] for summary in summaries], dtype=torch.float32
+                    ),
+                }
+            experiences.append(
+                Experience(
+                    tokens=torch.cat(
+                        (
+                            torch.tensor(output.prompt_token_ids, dtype=torch.int32),
+                            torch.tensor(output_item.token_ids, dtype=torch.int32),
+                        )
+                    ),
+                    logprobs=torch.tensor(response_logprobs, dtype=torch.float32),
+                    prompt_length=len(output.prompt_token_ids),
+                    prompt_text=self.tokenizer.decode(output.prompt_token_ids),
+                    response_text=output_item.text,
+                    info=info,
+                )
             )
-            for i in range(len(output.outputs))
-        ]
         return experiences
 
     async def chat_mm(
@@ -312,7 +362,10 @@ class vLLMRolloutModel(BaseInferenceModel):
         token_ids: List[int],
         lora_request=None,
         temperature: Optional[float] = None,
-    ) -> torch.Tensor:
+        top_logprobs: Optional[int] = None,
+        return_diagnostics: bool = False,
+        diagnostics_start_index: Optional[int] = None,
+    ) -> Any:
         """Calculate the logprobs of the given tokens in async. Please slice the result carefully
         to align with the actual response length.
 
@@ -331,9 +384,20 @@ class vLLMRolloutModel(BaseInferenceModel):
         kwargs = {
             "n": 1,
             "max_tokens": 1,
-            "prompt_logprobs": 0,  # vLLM return `prompt_logprobs + 1` logrpobs for each token
+            "prompt_logprobs": top_logprobs if return_diagnostics else 0,
             "temperature": temperature,
         }
+        if return_diagnostics and diagnostics_start_index is not None:
+            max_start = len(token_ids) - 1
+            if not 0 <= diagnostics_start_index <= max_start:
+                raise ValueError(
+                    "diagnostics_start_index must index prompt logprobs: "
+                    f"{diagnostics_start_index} not in [0, {max_start}]"
+                )
+            kwargs["extra_args"] = {
+                PROMPT_LOGPROBS_START_ARG: diagnostics_start_index,
+            }
+            kwargs["detokenize"] = False
         # avoid using prefix cache when calculating logprobs, only for vLLM >= 0.12.0
         if self.logprobs_no_prefix_cache:
             kwargs["skip_reading_prefix_cache"] = True
@@ -342,10 +406,45 @@ class vLLMRolloutModel(BaseInferenceModel):
             lora_request=lora_request,
             **kwargs,
         )
-        return torch.tensor(
-            [list(logprob_dict.values())[0].logprob for logprob_dict in output.prompt_logprobs[1:]],
+        prompt_logprob_dicts = output.prompt_logprobs[1:]
+        if return_diagnostics:
+            diagnostics_start_index = diagnostics_start_index or 0
+            expected_suffix_length = len(token_ids) - 1 - diagnostics_start_index
+            if len(prompt_logprob_dicts) == expected_suffix_length:
+                # Suffix-aware worker patch: history rows were never
+                # materialized.
+                selected_dicts = prompt_logprob_dicts
+            elif len(prompt_logprob_dicts) == len(token_ids) - 1:
+                # Compatibility fallback for an unpatched worker. Semantics
+                # remain correct, although this does not receive the speedup.
+                selected_dicts = prompt_logprob_dicts[diagnostics_start_index:]
+            else:
+                raise RuntimeError(
+                    "Unexpected number of prompt logprobs: "
+                    f"got {len(prompt_logprob_dicts)}, expected either "
+                    f"{expected_suffix_length} (suffix) or {len(token_ids) - 1} (full)"
+                )
+        else:
+            selected_dicts = prompt_logprob_dicts
+        selected_logprobs = torch.tensor(
+            [list(logprob_dict.values())[0].logprob for logprob_dict in selected_dicts],
             dtype=torch.float32,
         )
+        if not return_diagnostics:
+            return selected_logprobs
+
+        summaries = [_summarize_logprob_dict(item, top_logprobs) for item in selected_dicts]
+        return {
+            "logprobs": selected_logprobs,
+            "topk_entropy": torch.tensor(
+                [summary[0] for summary in summaries], dtype=torch.float32
+            ),
+            "topk_mass": torch.tensor([summary[1] for summary in summaries], dtype=torch.float32),
+            "topk_count": torch.tensor([summary[2] for summary in summaries], dtype=torch.int32),
+            "top1_top2_margin": torch.tensor(
+                [summary[3] for summary in summaries], dtype=torch.float32
+            ),
+        }
 
     async def add_lora_adapter(self, lora_request: Any) -> int:
         """Add a LoRA adapter to the vLLM engine.
@@ -400,9 +499,11 @@ class vLLMRolloutModel(BaseInferenceModel):
         from tinker.types import SampledSequence, SampleResponse
 
         params = {
-            "max_tokens": sampling_params.max_tokens
-            if sampling_params.max_tokens is not None
-            else self.config.max_response_tokens,
+            "max_tokens": (
+                sampling_params.max_tokens
+                if sampling_params.max_tokens is not None
+                else self.config.max_response_tokens
+            ),
             "seed": sampling_params.seed if sampling_params.seed is not None else self.config.seed,
             "top_k": sampling_params.top_k,
             "top_p": sampling_params.top_p,

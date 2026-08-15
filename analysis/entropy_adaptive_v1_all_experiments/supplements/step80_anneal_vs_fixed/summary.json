@@ -1,0 +1,144 @@
+{
+  "schedule": {
+    "formula": "tau(v)=0.1+0.9*(v-80)/80 for 80<=v<160; full for v>=160",
+    "points": {
+      "80": 0.1,
+      "90": 0.2125,
+      "100": 0.325,
+      "120": 0.55,
+      "140": 0.775,
+      "159": 0.98875,
+      "160": null
+    },
+    "first_full_model_version": 160,
+    "first_full_training_step": 112,
+    "trajectories_before_explicit_full": 880
+  },
+  "full_course": {
+    "Fixed tau=0.1": {
+      "trajectory_count": 2776,
+      "frontier_trigger_rate": 0.25144092219020175,
+      "full_horizon_fraction": 0.7485590778097982,
+      "realized_turns_mean": 9.87391930835735,
+      "available_turns_mean": 12.073847262247838,
+      "masked_turns_mean": 2.19992795389049,
+      "task_success_rate": 0.5767291066282421,
+      "prompt_truncated_rate": 0.42327089337175794
+    },
+    "Linear anneal": {
+      "trajectory_count": 2793,
+      "frontier_trigger_rate": 0.1561045470819907,
+      "full_horizon_fraction": 0.8438954529180093,
+      "realized_turns_mean": 11.181167203723595,
+      "available_turns_mean": 12.585034013605442,
+      "masked_turns_mean": 1.4038668098818474,
+      "task_success_rate": 0.5366988900823487,
+      "prompt_truncated_rate": 0.4633011099176513
+    },
+    "Immediate Vanilla": {
+      "trajectory_count": 2774,
+      "frontier_trigger_rate": 0.14599855803893294,
+      "full_horizon_fraction": 0.8540014419610671,
+      "realized_turns_mean": 11.19718817591925,
+      "available_turns_mean": 12.532804614275415,
+      "masked_turns_mean": 1.3356164383561644,
+      "task_success_rate": 0.5400144196106705,
+      "prompt_truncated_rate": 0.45998558038932946
+    },
+    "TCOD F2B": {
+      "trajectory_count": 2928,
+      "frontier_trigger_rate": 0.3114754098360656,
+      "full_horizon_fraction": 0.6885245901639344,
+      "realized_turns_mean": 9.075819672131148,
+      "available_turns_mean": 10.523809523809524,
+      "masked_turns_mean": 0.0,
+      "task_success_rate": 0.5273224043715847,
+      "prompt_truncated_rate": 0.18135245901639344
+    }
+  },
+  "post_step80": {
+    "Fixed tau=0.1": {
+      "trajectory_count": 1864,
+      "frontier_trigger_rate": 0.15718884120171675,
+      "full_horizon_fraction": 0.8428111587982833,
+      "realized_turns_mean": 9.02736051502146,
+      "available_turns_mean": 10.31598712446352,
+      "masked_turns_mean": 1.28862660944206,
+      "task_success_rate": 0.7322961373390557,
+      "prompt_truncated_rate": 0.2677038626609442
+    },
+    "Linear anneal": {
+      "trajectory_count": 1881,
+      "frontier_trigger_rate": 0.01648059542796385,
+      "full_horizon_fraction": 0.9835194045720361,
+      "realized_turns_mean": 10.976076555023923,
+      "available_turns_mean": 11.090909090909092,
+      "masked_turns_mean": 0.11483253588516747,
+      "task_success_rate": 0.671451355661882,
+      "prompt_truncated_rate": 0.32854864433811803
+    },
+    "Immediate Vanilla": {
+      "trajectory_count": 1862,
+      "frontier_trigger_rate": 0.0,
+      "full_horizon_fraction": 1.0,
+      "realized_turns_mean": 10.997851772287863,
+      "available_turns_mean": 10.997851772287863,
+      "masked_turns_mean": 0.0,
+      "task_success_rate": 0.677765843179377,
+      "prompt_truncated_rate": 0.322234156820623
+    },
+    "TCOD F2B": {
+      "trajectory_count": 1840,
+      "frontier_trigger_rate": 0.0,
+      "full_horizon_fraction": 1.0,
+      "realized_turns_mean": 10.560869565217391,
+      "available_turns_mean": 10.560869565217391,
+      "masked_turns_mean": 0.0,
+      "task_success_rate": 0.716304347826087,
+      "prompt_truncated_rate": 0.28369565217391307
+    }
+  },
+  "metric_semantics": {
+    "curriculum_limited": "Adaptive: frontier_triggered; TCOD: imposed K<30",
+    "tcod_model_version": "resume-log batch mapping matched against pipeline_input.model_version",
+    "tcod_realized_turns": "distinct eid.step with non-empty action_mask containing True",
+    "tcod_available_turns": "observable only after K=30; pre-K30 buffer retains trainable turns but not the excluded counterfactual suffix"
+  },
+  "anneal_frontier": {
+    "triggered_count": 31,
+    "trajectory_count": 1881,
+    "triggered_fraction": 0.01648059542796385,
+    "last_trigger_model_version": 125,
+    "last_trigger_effective_threshold": 0.60625
+  },
+  "window_90_99_jump_decomposition": {
+    "fixed": {
+      "trajectory_count": 112,
+      "frontier_trigger_rate": 0.30357142857142855,
+      "full_horizon_fraction": 0.6964285714285714,
+      "realized_turns_mean": 10.098214285714286,
+      "available_turns_mean": 12.794642857142858,
+      "masked_turns_mean": 2.6964285714285716,
+      "task_success_rate": 0.5178571428571429,
+      "prompt_truncated_rate": 0.48214285714285715
+    },
+    "anneal": {
+      "trajectory_count": 112,
+      "frontier_trigger_rate": 0.044642857142857144,
+      "full_horizon_fraction": 0.9553571428571429,
+      "realized_turns_mean": 13.6875,
+      "available_turns_mean": 14.017857142857142,
+      "masked_turns_mean": 0.33035714285714285,
+      "task_success_rate": 0.45535714285714285,
+      "prompt_truncated_rate": 0.5446428571428571
+    },
+    "realized_turn_delta_anneal_minus_fixed": 3.5892857142857135,
+    "available_turn_delta_task_and_rollout_component": 1.2232142857142847,
+    "reduced_masking_component": 2.366071428571429,
+    "decomposition_residual": 0.0
+  },
+  "interpretation": {
+    "parameter_assessment": "The raw-threshold ramp is functionally too aggressive: masking is nearly absent by model version 100, long before explicit full at 160.",
+    "boundary_assessment": "The first 80-89 versions do not show the largest realized-turn jump. The visible spike is centered around versions 90-99 and is partly task/rollout-length variation, not annealing alone."
+  }
+}

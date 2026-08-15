@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Base Model Class"""
+
 import asyncio
 import copy
 import socket
@@ -36,8 +37,8 @@ class InferenceModel(ABC):
         """Generate experiences from a list of history chat messages in async."""
         raise NotImplementedError
 
-    async def logprobs(self, token_ids: List[int], **kwargs) -> Tensor:
-        """Generate logprobs for a list of tokens in async."""
+    async def logprobs(self, token_ids: List[int], **kwargs) -> Union[Tensor, Dict[str, Any]]:
+        """Generate logprobs, optionally with auxiliary diagnostics."""
         raise NotImplementedError
 
     async def convert_messages_to_experience(
@@ -406,15 +407,41 @@ class ModelWrapper:
     ) -> List[Experience]:
         return await self.model.chat_mm.remote(messages, images=images, videos=videos, **kwargs)
 
-    def logprobs(self, tokens: List[int], temperature: Optional[float] = None) -> Tensor:
-        """Calculate the logprobs of the given tokens."""
-        return ray.get(self.model.logprobs.remote(tokens, temperature=temperature))
+    def logprobs(
+        self,
+        tokens: List[int],
+        temperature: Optional[float] = None,
+        top_logprobs: Optional[int] = None,
+        return_diagnostics: bool = False,
+        diagnostics_start_index: Optional[int] = None,
+    ) -> Union[Tensor, Dict[str, Any]]:
+        """Calculate logprobs, optionally returning a top-k diagnostic head."""
+        return ray.get(
+            self.model.logprobs.remote(
+                tokens,
+                temperature=temperature,
+                top_logprobs=top_logprobs,
+                return_diagnostics=return_diagnostics,
+                diagnostics_start_index=diagnostics_start_index,
+            )
+        )
 
     async def logprobs_async(
-        self, tokens: List[int], temperature: Optional[float] = None
-    ) -> Tensor:
-        """Calculate the logprobs of the given tokens in async."""
-        return await self.model.logprobs.remote(tokens, temperature=temperature)
+        self,
+        tokens: List[int],
+        temperature: Optional[float] = None,
+        top_logprobs: Optional[int] = None,
+        return_diagnostics: bool = False,
+        diagnostics_start_index: Optional[int] = None,
+    ) -> Union[Tensor, Dict[str, Any]]:
+        """Calculate logprobs, optionally returning a top-k diagnostic head."""
+        return await self.model.logprobs.remote(
+            tokens,
+            temperature=temperature,
+            top_logprobs=top_logprobs,
+            return_diagnostics=return_diagnostics,
+            diagnostics_start_index=diagnostics_start_index,
+        )
 
     def convert_messages_to_experience(
         self,

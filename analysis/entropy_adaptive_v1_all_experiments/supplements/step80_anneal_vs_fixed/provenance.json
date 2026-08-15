@@ -1,0 +1,39 @@
+{
+  "generated_at_utc": "2026-08-13T07:27:47.628186+00:00",
+  "script": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/analyze_step80_anneal_vs_fixed.py",
+  "script_sha256": "9aa0da1cef489ef4942b3c4433723e8c2991c8bb0372e549738e8de741d6c429",
+  "inputs": {
+    "Fixed tau=0.1": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_t0100_250step_4gpu_s1t1_r4/diagnostics/trajectory_metrics.jsonl",
+      "sha256": "350a3d0b75690c4f6d92832317ab860821a0fd5b7c4308aa3e3e6f88e7948178",
+      "size_bytes": 115273079
+    },
+    "Linear anneal": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_t0100_step80_linear_anneal_to_full_step160_250step_4gpu_s1t1_r4/diagnostics/trajectory_metrics.jsonl",
+      "sha256": "f271ad0c733daf5c5c76b1bf3c40372b8657bf6fb9d35b0c91a6523a85b3bc6a",
+      "size_bytes": 76361559
+    },
+    "Immediate Vanilla": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_t0100_step80_immediate_full_250step_4gpu_s1t1_r4/diagnostics/trajectory_metrics.jsonl",
+      "sha256": "1bc9bf3fae0f9022bb31df5f7f6a0c3e585ed9375c4245d5c4ca6ca1968095ca",
+      "size_bytes": 74308747
+    },
+    "TCOD F2B buffer": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/checkpoints/tcod_f2b_step250/buffer/explorer_output.db",
+      "sha256": "849e65af3c5194e5d30a8b00482c534c17b9d67310e805f44f7726b6df1c629d",
+      "size_bytes": 2082897920
+    },
+    "TCOD F2B resume log": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/training/tcod_f2b_step250/launcher_logs/f2b_resume80_20260808T0615Z.log",
+      "sha256": "a27beb09ab16b9babf583cdd7121ac47c2203ea07ba5008a1c81ecc0f204e5fd",
+      "size_bytes": 2304061
+    }
+  },
+  "outputs": [
+    "step80_anneal_vs_fixed_detail.png",
+    "version_bin_metrics.csv",
+    "trajectory_chunk_metrics.csv",
+    "summary.json",
+    "provenance.json"
+  ]
+}

@@ -16,3 +16,24 @@
 
 后续训练默认必须启用并保留上述绘图诊断数据，除非对应实验在启动前明确记录豁免原因
 及会缺失的图表；详细字段和配置要求见绘图工具目录的 README 与根目录 `AGENTS.md`。
+
+## Adaptive v1 固定三图流程
+
+每个完成的 Adaptive v1 训练实验都必须运行通用入口：
+
+```bash
+python analysis/plot_adaptive_v1_curriculum.py \
+  --target-diagnostics runs/experiments/<run>/diagnostics/trajectory_metrics.jsonl \
+  --target-threshold <threshold> \
+  --output-dir analysis/<run>
+```
+
+参考阈值 `0.175`、Vanilla 与 TCOD buffer 均有默认路径，也可分别用
+`--reference-diagnostics`、`--vanilla-buffer` 和 `--tcod-buffer` 覆盖。固定产物名为：
+
+- `curriculum_imposed_loss_horizons.png`；
+- `realized_trainable_turns_chronological.png`；
+- `teacher_entropy_frontier_heatmap_latest.png`。
+
+同时必须保留两个 profile CSV、`plot_summary.json` 与 `provenance.json`。脚本会拒绝
+诊断内阈值混杂，并在出图前回放已知的 `0.175`、Vanilla 和 TCOD 统计断言。

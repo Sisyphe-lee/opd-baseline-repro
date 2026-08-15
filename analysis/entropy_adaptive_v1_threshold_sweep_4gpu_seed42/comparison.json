@@ -1,0 +1,336 @@
+{
+  "aggregates": {
+    "tau0.050": {
+      "checkpoint_label": "entropy_adaptive_v1_t0050_4gpu_step250",
+      "evaluation_id": "entropy_adaptive_v1_t0050_4gpu_step250_full274_seed42",
+      "macro_success_rate": 0.8171108742004265,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.9092316017316018,
+          "action_parse_valid_rate": 0.939047619047619,
+          "average_env_rounds": 10.82857142857143,
+          "observation_unchanged_rate": 0.085,
+          "repeated_action_rate": 0.08047619047619047,
+          "success_count": 117,
+          "success_rate": 0.8357142857142857,
+          "task_count": 140,
+          "timeout_rate": 0.16428571428571428
+        },
+        "unseen": {
+          "action_admissible_rate": 0.8823046847104192,
+          "action_parse_valid_rate": 0.9248756218905473,
+          "average_env_rounds": 12.037313432835822,
+          "observation_unchanged_rate": 0.10362660382299031,
+          "repeated_action_rate": 0.09293008641005499,
+          "success_count": 107,
+          "success_rate": 0.7985074626865671,
+          "task_count": 134,
+          "timeout_rate": 0.20149253731343283
+        }
+      },
+      "success_count": 224,
+      "success_rate": 0.8175182481751825,
+      "task_count": 274
+    },
+    "tau0.075": {
+      "checkpoint_label": "entropy_adaptive_v1_t0075_4gpu_step250",
+      "evaluation_id": "entropy_adaptive_v1_t0075_4gpu_step250_full274_seed42",
+      "macro_success_rate": 0.8025053304904051,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.9028843052372464,
+          "action_parse_valid_rate": 0.925,
+          "average_env_rounds": 11.321428571428571,
+          "observation_unchanged_rate": 0.08722222222222221,
+          "repeated_action_rate": 0.07952380952380952,
+          "success_count": 115,
+          "success_rate": 0.8214285714285714,
+          "task_count": 140,
+          "timeout_rate": 0.17857142857142858
+        },
+        "unseen": {
+          "action_admissible_rate": 0.886223981729908,
+          "action_parse_valid_rate": 0.9159203980099503,
+          "average_env_rounds": 12.574626865671641,
+          "observation_unchanged_rate": 0.09823785740159752,
+          "repeated_action_rate": 0.09129353233830845,
+          "success_count": 105,
+          "success_rate": 0.7835820895522388,
+          "task_count": 134,
+          "timeout_rate": 0.21641791044776118
+        }
+      },
+      "success_count": 220,
+      "success_rate": 0.8029197080291971,
+      "task_count": 274
+    },
+    "tau0.100": {
+      "checkpoint_label": "entropy_adaptive_v1_t0100_4gpu_step250",
+      "evaluation_id": "entropy_adaptive_v1_t0100_4gpu_step250_full274_seed42",
+      "macro_success_rate": 0.8683901918976547,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.9355864968364969,
+          "action_parse_valid_rate": 0.9495238095238095,
+          "average_env_rounds": 10.2,
+          "observation_unchanged_rate": 0.05167499167499167,
+          "repeated_action_rate": 0.05054945054945055,
+          "success_count": 123,
+          "success_rate": 0.8785714285714286,
+          "task_count": 140,
+          "timeout_rate": 0.12142857142857143
+        },
+        "unseen": {
+          "action_admissible_rate": 0.9330585264408794,
+          "action_parse_valid_rate": 0.944776119402985,
+          "average_env_rounds": 10.880597014925373,
+          "observation_unchanged_rate": 0.05245646766169154,
+          "repeated_action_rate": 0.05049751243781094,
+          "success_count": 115,
+          "success_rate": 0.8582089552238806,
+          "task_count": 134,
+          "timeout_rate": 0.1417910447761194
+        }
+      },
+      "success_count": 238,
+      "success_rate": 0.8686131386861314,
+      "task_count": 274
+    },
+    "tau0.125": {
+      "checkpoint_label": "entropy_adaptive_v1_t0125_4gpu_step250",
+      "evaluation_id": "entropy_adaptive_v1_t0125_4gpu_step250_full274_seed42",
+      "macro_success_rate": 0.8244136460554371,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.9149470172684457,
+          "action_parse_valid_rate": 0.9430952380952381,
+          "average_env_rounds": 10.542857142857143,
+          "observation_unchanged_rate": 0.07,
+          "repeated_action_rate": 0.06690476190476191,
+          "success_count": 118,
+          "success_rate": 0.8428571428571429,
+          "task_count": 140,
+          "timeout_rate": 0.15714285714285714
+        },
+        "unseen": {
+          "action_admissible_rate": 0.9054205433869612,
+          "action_parse_valid_rate": 0.9273631840796019,
+          "average_env_rounds": 12.0,
+          "observation_unchanged_rate": 0.08269367448471926,
+          "repeated_action_rate": 0.08107675906183369,
+          "success_count": 108,
+          "success_rate": 0.8059701492537313,
+          "task_count": 134,
+          "timeout_rate": 0.19402985074626866
+        }
+      },
+      "success_count": 226,
+      "success_rate": 0.8248175182481752,
+      "task_count": 274
+    }
+  },
+  "paired_comparisons": [
+    {
+      "both_failure": 29,
+      "both_success": 199,
+      "left": "tau0.050",
+      "left_only_success": 25,
+      "mcnemar_exact_pvalue": 0.6587380770236564,
+      "right": "tau0.075",
+      "right_only_success": 21,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 13,
+      "both_success": 105,
+      "left": "tau0.050",
+      "left_only_success": 12,
+      "mcnemar_exact_pvalue": 0.8318119049072266,
+      "right": "tau0.075",
+      "right_only_success": 10,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 16,
+      "both_success": 94,
+      "left": "tau0.050",
+      "left_only_success": 13,
+      "mcnemar_exact_pvalue": 0.8388197422027588,
+      "right": "tau0.075",
+      "right_only_success": 11,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 23,
+      "both_success": 211,
+      "left": "tau0.050",
+      "left_only_success": 13,
+      "mcnemar_exact_pvalue": 0.03847730828420026,
+      "right": "tau0.100",
+      "right_only_success": 27,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 9,
+      "both_success": 109,
+      "left": "tau0.050",
+      "left_only_success": 8,
+      "mcnemar_exact_pvalue": 0.28627872467041016,
+      "right": "tau0.100",
+      "right_only_success": 14,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 14,
+      "both_success": 102,
+      "left": "tau0.050",
+      "left_only_success": 5,
+      "mcnemar_exact_pvalue": 0.09625244140625,
+      "right": "tau0.100",
+      "right_only_success": 13,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 34,
+      "both_success": 210,
+      "left": "tau0.050",
+      "left_only_success": 14,
+      "mcnemar_exact_pvalue": 0.855535551905632,
+      "right": "tau0.125",
+      "right_only_success": 16,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 14,
+      "both_success": 109,
+      "left": "tau0.050",
+      "left_only_success": 8,
+      "mcnemar_exact_pvalue": 1.0,
+      "right": "tau0.125",
+      "right_only_success": 9,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 20,
+      "both_success": 101,
+      "left": "tau0.050",
+      "left_only_success": 6,
+      "mcnemar_exact_pvalue": 1.0,
+      "right": "tau0.125",
+      "right_only_success": 7,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 29,
+      "both_success": 213,
+      "left": "tau0.075",
+      "left_only_success": 7,
+      "mcnemar_exact_pvalue": 0.0021024015732109547,
+      "right": "tau0.100",
+      "right_only_success": 25,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 13,
+      "both_success": 111,
+      "left": "tau0.075",
+      "left_only_success": 4,
+      "mcnemar_exact_pvalue": 0.076812744140625,
+      "right": "tau0.100",
+      "right_only_success": 12,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 16,
+      "both_success": 102,
+      "left": "tau0.075",
+      "left_only_success": 3,
+      "mcnemar_exact_pvalue": 0.021270751953125,
+      "right": "tau0.100",
+      "right_only_success": 13,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 31,
+      "both_success": 203,
+      "left": "tau0.075",
+      "left_only_success": 17,
+      "mcnemar_exact_pvalue": 0.42959050784338615,
+      "right": "tau0.125",
+      "right_only_success": 23,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 12,
+      "both_success": 105,
+      "left": "tau0.075",
+      "left_only_success": 10,
+      "mcnemar_exact_pvalue": 0.6776394844055176,
+      "right": "tau0.125",
+      "right_only_success": 13,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 19,
+      "both_success": 98,
+      "left": "tau0.075",
+      "left_only_success": 7,
+      "mcnemar_exact_pvalue": 0.629058837890625,
+      "right": "tau0.125",
+      "right_only_success": 10,
+      "split": "unseen",
+      "task_count": 134
+    },
+    {
+      "both_failure": 27,
+      "both_success": 217,
+      "left": "tau0.100",
+      "left_only_success": 21,
+      "mcnemar_exact_pvalue": 0.04277394525706768,
+      "right": "tau0.125",
+      "right_only_success": 9,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 11,
+      "both_success": 112,
+      "left": "tau0.100",
+      "left_only_success": 11,
+      "mcnemar_exact_pvalue": 0.332305908203125,
+      "right": "tau0.125",
+      "right_only_success": 6,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 16,
+      "both_success": 105,
+      "left": "tau0.100",
+      "left_only_success": 10,
+      "mcnemar_exact_pvalue": 0.09228515625,
+      "right": "tau0.125",
+      "right_only_success": 3,
+      "split": "unseen",
+      "task_count": 134
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+project: "TCOD-FRESH-COSINE-T0200-ALLCKPT-FULL274"
+group: "fresh-retrain-all-checkpoint-full274-seed42"
+name: "freshallckpt_fresh_cosine_t0200_step40-full274-seed42-h30-4gpu"
+checkpoint_root_dir: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/fresh_retrain_all_checkpoint_full274_seed42/fresh_cosine_t0200/step_40_seed42/trinity_output
+continue_from_checkpoint: false
+mode: bench
+
+algorithm:
+  algorithm_type: grpo
+  repeat_times: 1
+  optimizer:
+    lr: 1.0e-6
+
+model:
+  model_path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/fresh_retrain_all_checkpoint_curve/fresh_cosine_t0200/step_40
+  max_prompt_tokens: 10240
+  max_response_tokens: 512
+
+cluster:
+  node_num: 1
+  gpu_per_node: 4
+
+buffer:
+  batch_size: 4
+  explorer_input:
+    taskset:
+      name: unused_train_set
+      storage_type: file
+      path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/eval_manifests/full_valid_seen.jsonl
+      split: train
+      format:
+        prompt_key: game_file
+    eval_tasksets:
+      - name: freshallckpt_fresh_cosine_t0200_step40_full_seen
+        storage_type: file
+        path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/eval_manifests/full_valid_seen.jsonl
+        split: test
+        format:
+          prompt_key: game_file
+        rollout_args: &sampling
+          temperature: 0.4
+          top_p: 1.0
+          top_k: -1
+          max_tokens: 512
+        workflow_args:
+          max_env_steps: 30
+          accumulate_memory: true
+          strict_action_parser: true
+          result_dir: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/fresh_retrain_all_checkpoint_full274_seed42/fresh_cosine_t0200/step_40_seed42/task_records
+          evaluation_id: freshallckpt_fresh_cosine_t0200_step40_full274_seed42
+          checkpoint_label: fresh_cosine_t0200_step40
+      - name: freshallckpt_fresh_cosine_t0200_step40_full_unseen
+        storage_type: file
+        path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/eval_manifests/full_valid_unseen.jsonl
+        split: test
+        format:
+          prompt_key: game_file
+        rollout_args: *sampling
+        workflow_args:
+          max_env_steps: 30
+          accumulate_memory: true
+          strict_action_parser: true
+          result_dir: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/fresh_retrain_all_checkpoint_full274_seed42/fresh_cosine_t0200/step_40_seed42/task_records
+          evaluation_id: freshallckpt_fresh_cosine_t0200_step40_full274_seed42
+          checkpoint_label: fresh_cosine_t0200_step40
+    default_workflow_type: TCOD_eval_alfworld_workflow
+
+explorer:
+  eval_on_startup: true
+  runner_per_model: 16
+  max_timeout: 7200
+  rollout_model:
+    engine_num: 4
+    tensor_parallel_size: 1
+    use_v1: false
+    enforce_eager: false
+    enable_prefix_caching: false
+    enable_chunked_prefill: true
+    gpu_memory_utilization: 0.45
+    dtype: bfloat16
+    seed: 42
+    enable_thinking: false
+  auxiliary_models: []
+  bench_on_latest_checkpoint: false
+
+monitor:
+  monitor_type: tensorboard
+
+synchronizer:
+  sync_method: checkpoint
+  sync_style: fixed
+  sync_interval: 1
+  sync_timeout: 7200

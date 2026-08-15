@@ -1,0 +1,105 @@
+{
+  "aggregates": {
+    "adaptive": {
+      "checkpoint_label": "entropy_adaptive_v1_step10",
+      "evaluation_id": "entropy_adaptive_v1_step10_full274_seed43",
+      "macro_success_rate": 0.07318763326226013,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.5185381880024738,
+          "action_parse_valid_rate": 0.6392857142857142,
+          "average_env_rounds": 28.835714285714285,
+          "observation_unchanged_rate": 0.44937538651824366,
+          "repeated_action_rate": 0.4086611008039579,
+          "success_count": 9,
+          "success_rate": 0.06428571428571428,
+          "task_count": 140,
+          "timeout_rate": 0.9357142857142857
+        },
+        "unseen": {
+          "action_admissible_rate": 0.5388564172146261,
+          "action_parse_valid_rate": 0.6634328358208954,
+          "average_env_rounds": 28.32089552238806,
+          "observation_unchanged_rate": 0.46354590682948893,
+          "repeated_action_rate": 0.4004296698326549,
+          "success_count": 11,
+          "success_rate": 0.08208955223880597,
+          "task_count": 134,
+          "timeout_rate": 0.917910447761194
+        }
+      },
+      "success_count": 20,
+      "success_rate": 0.072992700729927,
+      "task_count": 274
+    },
+    "full": {
+      "checkpoint_label": "entropy_full_v1_step10_retry4",
+      "evaluation_id": "entropy_full_v1_step10_retry4_full274_seed43",
+      "macro_success_rate": 0.09509594882729211,
+      "schema_version": 1,
+      "splits": {
+        "seen": {
+          "action_admissible_rate": 0.526204390847248,
+          "action_parse_valid_rate": 0.6526190476190475,
+          "average_env_rounds": 28.178571428571427,
+          "observation_unchanged_rate": 0.4523469387755102,
+          "repeated_action_rate": 0.4022108843537415,
+          "success_count": 12,
+          "success_rate": 0.08571428571428572,
+          "task_count": 140,
+          "timeout_rate": 0.9142857142857143
+        },
+        "unseen": {
+          "action_admissible_rate": 0.533947820421701,
+          "action_parse_valid_rate": 0.6674129353233831,
+          "average_env_rounds": 27.753731343283583,
+          "observation_unchanged_rate": 0.445251421464108,
+          "repeated_action_rate": 0.38396558872305137,
+          "success_count": 14,
+          "success_rate": 0.1044776119402985,
+          "task_count": 134,
+          "timeout_rate": 0.8955223880597015
+        }
+      },
+      "success_count": 26,
+      "success_rate": 0.0948905109489051,
+      "task_count": 274
+    }
+  },
+  "paired_comparisons": [
+    {
+      "both_failure": 234,
+      "both_success": 6,
+      "left": "adaptive",
+      "left_only_success": 14,
+      "mcnemar_exact_pvalue": 0.39152830513194203,
+      "right": "full",
+      "right_only_success": 20,
+      "split": "all",
+      "task_count": 274
+    },
+    {
+      "both_failure": 121,
+      "both_success": 2,
+      "left": "adaptive",
+      "left_only_success": 7,
+      "mcnemar_exact_pvalue": 0.629058837890625,
+      "right": "full",
+      "right_only_success": 10,
+      "split": "seen",
+      "task_count": 140
+    },
+    {
+      "both_failure": 113,
+      "both_success": 4,
+      "left": "adaptive",
+      "left_only_success": 7,
+      "mcnemar_exact_pvalue": 0.629058837890625,
+      "right": "full",
+      "right_only_success": 10,
+      "split": "unseen",
+      "task_count": 134
+    }
+  ]
+}

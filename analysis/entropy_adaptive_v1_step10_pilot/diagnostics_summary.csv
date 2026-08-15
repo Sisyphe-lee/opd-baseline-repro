@@ -1,0 +1,12 @@
+metric,adaptive,full
+complete_trajectories,128,128
+recorded_turns,3636,3737
+frontier_triggered_trajectories,68,0
+retained_turns,2274,3737
+dropped_turns,1362,0
+prompt_truncated_turns,1473,1536
+prompt_truncated_retained_turns,702,1536
+retained_action_valid_rate,0.5584872471,0.4230666310
+dropped_action_valid_rate,0.2863436123,
+retained_teacher_top16_head_entropy,0.3254852152,0.3738884874
+dropped_teacher_top16_head_entropy,0.3242096771,

@@ -8,6 +8,9 @@ from packaging.version import parse as parse_version
 from trinity.common.config import InferenceModelConfig
 
 
+PROMPT_LOGPROBS_START_ARG = "trinity_prompt_logprobs_start"
+
+
 def get_vllm_version():
     try:
         vllm_version = parse_version(vllm.__version__)
