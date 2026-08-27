@@ -14,6 +14,11 @@ __pycache__/
 /models/
 /checkpoints/
 /runs/
+# Symlinks into /raid asset store (no trailing slash so links themselves are ignored)
+/models
+/checkpoints
+/data/alfworld_runtime
+*.egg-info/
 *.safetensors
 *.pt
 *.pth

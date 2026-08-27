@@ -62,6 +62,16 @@ MIN_WORKER_PORT="$((39000 + WORKER_PORT_SLOT * 3000))"
 MAX_WORKER_PORT="$((MIN_WORKER_PORT + 2999))"
 RAY_SYSTEM_PORT_BASE="$((43000 + (RAY_PORT % 1000) * 10))"
 
+# Guard against self-conflicts in derived ports (observed: RAY_PORT=16920 puts
+# the client port inside its own worker range; some bases put system ports
+# inside the worker range). Shift the offending value out of the worker range.
+while (( RAY_SYSTEM_PORT_BASE + 5 >= MIN_WORKER_PORT && RAY_SYSTEM_PORT_BASE <= MAX_WORKER_PORT )); do
+  RAY_SYSTEM_PORT_BASE=$((RAY_SYSTEM_PORT_BASE + MAX_WORKER_PORT - MIN_WORKER_PORT + 11))
+done
+while (( CLIENT_PORT >= MIN_WORKER_PORT && CLIENT_PORT <= MAX_WORKER_PORT )); do
+  CLIENT_PORT=$((CLIENT_PORT + MAX_WORKER_PORT - MIN_WORKER_PORT + 13))
+done
+
 export CUDA_VISIBLE_DEVICES="${GPU_IDS}"
 export TOKENIZERS_PARALLELISM=false
 export OMP_NUM_THREADS=1

@@ -1,0 +1,4 @@
+left,right,split,task_count,both_success,left_only_success,right_only_success,both_failure,mcnemar_exact_pvalue
+frozen_vanilla,b200_vanilla,all,274,199,19,25,31,0.4513808323961257
+frozen_vanilla,b200_vanilla,seen,140,107,8,10,15,0.8145294189453125
+frozen_vanilla,b200_vanilla,unseen,134,92,11,15,16,0.557197093963623

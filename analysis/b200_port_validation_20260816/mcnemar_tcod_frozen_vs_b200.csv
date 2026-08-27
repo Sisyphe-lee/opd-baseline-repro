@@ -1,0 +1,4 @@
+left,right,split,task_count,both_success,left_only_success,right_only_success,both_failure,mcnemar_exact_pvalue
+frozen_a100,b200_rerun,all,274,206,26,17,25,0.2220528201560228
+frozen_a100,b200_rerun,seen,140,110,12,7,11,0.359283447265625
+frozen_a100,b200_rerun,unseen,134,96,14,10,14,0.5412561893463135

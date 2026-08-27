@@ -1,0 +1,68 @@
+# B200 port validation smoke: run the frozen 2-task live-smoke manifest with the
+# raw Qwen2.5-3B student initialization (zero-shot). This exists only to verify
+# the trinity bench pipeline (Ray + vLLM V0 + ALFWorld + strict parser + result
+# collection) on the 8xB200 machine before any checkpoint is available. It is a
+# copy of configs/validation/tcod_step250_one_task.yaml with model_path pointed
+# at the student init and outputs redirected to runs/experiments/.
+project: "B200-PORT-VALIDATION"
+group: "live-smoke"
+name: "b200-smoke-student-zeroshot-2task"
+checkpoint_root_dir: /localhome/local-tianhej/opd-baseline-repro/runs/experiments/b200_smoke_zeroshot/trinity_output
+continue_from_checkpoint: false
+mode: bench
+algorithm:
+  algorithm_type: grpo
+  repeat_times: 1
+  optimizer: {lr: 1.0e-6}
+model:
+  model_path: /localhome/local-tianhej/opd-baseline-repro/models/Qwen2.5-3B-Instruct
+  max_prompt_tokens: 10240
+  max_response_tokens: 512
+cluster: {node_num: 1, gpu_per_node: 1}
+buffer:
+  batch_size: 1
+  explorer_input:
+    taskset:
+      name: unused_train_set
+      storage_type: file
+      path: /localhome/local-tianhej/opd-baseline-repro/data/eval_manifests/live_smoke_seen_unseen.jsonl
+      split: train
+      format: {prompt_key: game_file}
+    eval_tasksets:
+      - name: b200_smoke_student_zeroshot
+        storage_type: file
+        path: /localhome/local-tianhej/opd-baseline-repro/data/eval_manifests/live_smoke_seen_unseen.jsonl
+        split: test
+        format: {prompt_key: game_file}
+        rollout_args:
+          temperature: 0.4
+          top_p: 1.0
+          top_k: -1
+          max_tokens: 512
+        workflow_args:
+          max_env_steps: 30
+          accumulate_memory: true
+          strict_action_parser: true
+          result_dir: /localhome/local-tianhej/opd-baseline-repro/runs/experiments/b200_smoke_zeroshot/task_records
+          evaluation_id: b200_smoke_student_zeroshot_seed42
+          checkpoint_label: student_init
+    default_workflow_type: TCOD_eval_alfworld_workflow
+explorer:
+  eval_on_startup: true
+  runner_per_model: 1
+  max_timeout: 3600
+  rollout_model:
+    engine_num: 1
+    tensor_parallel_size: 1
+    use_v1: false
+    enforce_eager: false
+    enable_prefix_caching: false
+    enable_chunked_prefill: true
+    gpu_memory_utilization: 0.45
+    dtype: bfloat16
+    seed: 42
+    enable_thinking: false
+  auxiliary_models: []
+  bench_on_latest_checkpoint: false
+monitor: {monitor_type: tensorboard}
+synchronizer: {sync_method: checkpoint, sync_style: fixed, sync_interval: 1, sync_timeout: 3600}

@@ -1,0 +1,4 @@
+left,right,split,task_count,both_success,left_only_success,right_only_success,both_failure,mcnemar_exact_pvalue
+b200_tcod,b200_vanilla,all,274,199,24,25,26,1.0
+b200_tcod,b200_vanilla,seen,140,107,10,10,13,1.0
+b200_tcod,b200_vanilla,unseen,134,92,14,15,13,1.0
