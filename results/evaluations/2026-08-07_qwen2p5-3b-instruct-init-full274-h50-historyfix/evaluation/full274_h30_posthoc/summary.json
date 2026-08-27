@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "derivation": "posthoc prefix truncation of full274 h50 trajectories; success iff won=true or step_reward>0 within trajectory turns 0..29",
+  "source_record_dir": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/opd-alfworld-sync-repro/runs/2026-08-07_qwen2p5-3b-instruct-init-full274-h50-historyfix/evaluation/full274_h50/task_records",
+  "checkpoint_label": "qwen2p5_3b_instruct_init_historyfix",
+  "max_env_steps": 30,
+  "task_count": 274,
+  "success_count": 35,
+  "success_rate": 0.12773722627737227,
+  "h50_success_count": 54,
+  "late_success_count": 19,
+  "macro_success_rate": 0.12771855010660982,
+  "splits": {
+    "seen": {
+      "task_count": 140,
+      "success_count": 18,
+      "success_rate": 0.12857142857142856,
+      "h50_success_count": 29,
+      "late_success_count": 11
+    },
+    "unseen": {
+      "task_count": 134,
+      "success_count": 17,
+      "success_rate": 0.12686567164179105,
+      "h50_success_count": 25,
+      "late_success_count": 8
+    }
+  },
+  "paper_zero_shot_reference": {
+    "seen": {
+      "success_count": 11,
+      "task_count": 140,
+      "success_rate": 0.07857142857142857
+    },
+    "unseen": {
+      "success_count": 3,
+      "task_count": 134,
+      "success_rate": 0.022388059701492536
+    }
+  }
+}

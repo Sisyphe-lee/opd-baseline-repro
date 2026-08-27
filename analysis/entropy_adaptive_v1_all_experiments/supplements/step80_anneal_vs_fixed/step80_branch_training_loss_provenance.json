@@ -1,0 +1,30 @@
+{
+  "generated_at_utc": "2026-08-13T09:35:49.950779+00:00",
+  "script": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/plot_step80_branch_training_loss.py",
+  "script_sha256": "73a15652bb48eda08f2469ca553ee447750785db7f410e88cb1e484965f0e6cd",
+  "loss_metric": "actor/final_loss",
+  "smoothing": "centered 11-step rolling arithmetic mean; raw step values retained",
+  "splice": "Linear anneal and Immediate Vanilla use fixed tau=0.1 steps 1-80, then their own steps 81-250",
+  "inputs": {
+    "Fixed tau=0.1": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_t0100_250step_4gpu_s1t1_r4/checkpoints/ALFWORLD_ENTROPY_ADAPTIVE_V1/entropy_adaptive_v1_t0100_250step_4gpu_s1t1_r4_seed42/log/trainer.log",
+      "sha256": "ef9d6a5e944b8bb03f81bd629f41342176896c7e95b3cc4fb005e8a8ef0a3df9",
+      "size_bytes": 639129
+    },
+    "Linear anneal": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_t0100_step80_linear_anneal_to_full_step160_250step_4gpu_s1t1_r4/checkpoints/ALFWORLD_ENTROPY_ADAPTIVE_V1/entropy_adaptive_v1_t0100_step80_linear_anneal_to_full_step160_250step_4gpu_s1t1_r4_seed42/log/trainer.log",
+      "sha256": "7d8ca4139f28add54b656a0bd24e45492761c2b10abe3d23f4ed82e3052f566a",
+      "size_bytes": 437199
+    },
+    "Immediate Vanilla": {
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_t0100_step80_immediate_full_250step_4gpu_s1t1_r4/checkpoints/ALFWORLD_ENTROPY_ADAPTIVE_V1/entropy_adaptive_v1_t0100_step80_immediate_full_250step_4gpu_s1t1_r4_seed42/log/trainer.log",
+      "sha256": "8036b52d40789b1fb0611b7aa9d2f074c2ab0222b4dd5160a2f7570d6fcb7cea",
+      "size_bytes": 436709
+    }
+  },
+  "outputs": [
+    "step80_branch_training_loss.png",
+    "step80_branch_training_loss.csv",
+    "step80_branch_training_loss_summary.json"
+  ]
+}

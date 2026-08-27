@@ -1,0 +1,33 @@
+{
+  "checkpoint_label": "gigpo_qwen2p5_7b_rl_historyfix",
+  "evaluation_id": "full274_h50_gigpo_qwen2p5_7b_historyfix_seed42",
+  "macro_success_rate": 0.9485607675906184,
+  "schema_version": 1,
+  "splits": {
+    "seen": {
+      "action_admissible_rate": 0.9961403834260978,
+      "action_parse_valid_rate": 1.0,
+      "average_env_rounds": 9.092857142857143,
+      "observation_unchanged_rate": 0.0012987012987012987,
+      "repeated_action_rate": 0.0006493506493506494,
+      "success_count": 135,
+      "success_rate": 0.9642857142857143,
+      "task_count": 140,
+      "timeout_rate": 0.03571428571428571
+    },
+    "unseen": {
+      "action_admissible_rate": 0.9985162423178228,
+      "action_parse_valid_rate": 1.0,
+      "average_env_rounds": 11.977611940298507,
+      "observation_unchanged_rate": 0.0005558414822439526,
+      "repeated_action_rate": 0.0011440767763615997,
+      "success_count": 125,
+      "success_rate": 0.9328358208955224,
+      "task_count": 134,
+      "timeout_rate": 0.06716417910447761
+    }
+  },
+  "success_count": 260,
+  "success_rate": 0.948905109489051,
+  "task_count": 274
+}

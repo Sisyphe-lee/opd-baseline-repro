@@ -1,0 +1,86 @@
+project: TCOD-F2B-REPRO
+group: full274-h30-parser-ablation
+name: b158-repro-f2b-qwen25-3b-step250-promptfix-accmemory-strict-full274-h30-4gpu-step100
+checkpoint_root_dir: /localhome/local-tianhej/opd-baseline-repro/runs/ckpt_store/evaluation/allckpt/tcod158/step_100/trinity_output
+continue_from_checkpoint: false
+mode: bench
+algorithm:
+  algorithm_type: grpo
+  repeat_times: 1
+  optimizer:
+    lr: 1.0e-06
+model:
+  model_path: /localhome/local-tianhej/opd-baseline-repro/runs/ckpt_store/exports_allckpt/tcod158/step_100
+  max_prompt_tokens: 10240
+  max_response_tokens: 512
+cluster:
+  node_num: 1
+  gpu_per_node: 4
+buffer:
+  batch_size: 4
+  explorer_input:
+    taskset:
+      name: unused_train_set
+      storage_type: file
+      path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/eval_manifests/full_valid_seen.jsonl
+      split: train
+      format:
+        prompt_key: game_file
+    eval_tasksets:
+    - name: f2b_step250_full_seen_h30_promptfix_accmemory_strict
+      storage_type: file
+      path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/eval_manifests/full_valid_seen.jsonl
+      split: test
+      format:
+        prompt_key: game_file
+      rollout_args: &id001
+        temperature: 0.4
+        top_p: 1.0
+        top_k: -1
+        max_tokens: 512
+      workflow_args:
+        max_env_steps: 30
+        accumulate_memory: true
+        strict_action_parser: true
+        result_dir: /localhome/local-tianhej/opd-baseline-repro/runs/ckpt_store/evaluation/allckpt/tcod158/step_100/task_records
+        evaluation_id: b158_repro_full274_h30_f2b_qwen25_3b_step250_promptfix_accmemory_strict_seed42_step100
+        checkpoint_label: b158_repro_f2b_step250_promptfix_accmemory_strict_step100
+    - name: f2b_step250_full_unseen_h30_promptfix_accmemory_strict
+      storage_type: file
+      path: /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/eval_manifests/full_valid_unseen.jsonl
+      split: test
+      format:
+        prompt_key: game_file
+      rollout_args: *id001
+      workflow_args:
+        max_env_steps: 30
+        accumulate_memory: true
+        strict_action_parser: true
+        result_dir: /localhome/local-tianhej/opd-baseline-repro/runs/ckpt_store/evaluation/allckpt/tcod158/step_100/task_records
+        evaluation_id: b158_repro_full274_h30_f2b_qwen25_3b_step250_promptfix_accmemory_strict_seed42_step100
+        checkpoint_label: b158_repro_f2b_step250_promptfix_accmemory_strict_step100
+    default_workflow_type: TCOD_eval_alfworld_workflow
+explorer:
+  eval_on_startup: true
+  runner_per_model: 16
+  max_timeout: 7200
+  rollout_model:
+    engine_num: 4
+    tensor_parallel_size: 1
+    use_v1: false
+    enforce_eager: false
+    enable_prefix_caching: false
+    enable_chunked_prefill: true
+    gpu_memory_utilization: 0.45
+    dtype: bfloat16
+    seed: 42
+    enable_thinking: false
+  auxiliary_models: []
+  bench_on_latest_checkpoint: false
+monitor:
+  monitor_type: tensorboard
+synchronizer:
+  sync_method: checkpoint
+  sync_style: fixed
+  sync_interval: 1
+  sync_timeout: 7200

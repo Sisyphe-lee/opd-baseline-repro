@@ -1,0 +1,126 @@
+# B200 port validation: 10-step TCOD-F2B training smoke on the 8xB200 machine.
+# Byte-equivalent to the frozen configs/train/tcod_f2b.yaml except for: run
+# naming, output paths (isolated under runs/experiments/), total_steps 250->10,
+# and trainer.save_interval 20->10 so the final step-10 checkpoint is saved.
+# Purpose: verify teacher engine, NCCL weight sync, FSDP trainer, checkpoint
+# save, and HF export on sm100 before any official run. Diagnostics exemption
+# (BASELINE_SPEC future-training rule): this is a disposable pipeline smoke,
+# not a science experiment; no entropy/KL/trajectory figures will be derived
+# from it, and its outputs must not be cited as results.
+
+project: "B200-PORT-VALIDATION"
+name: "b200_train_smoke_tcod_f2b_step10"
+checkpoint_root_dir: /localhome/local-tianhej/opd-baseline-repro/runs/ckpt_store/experiments/b200_train_smoke_tcod/checkpoints
+continue_from_checkpoint: false
+
+algorithm:
+  sample_strategy: staleness_control
+  sample_strategy_args:
+    max_staleness: 2
+  algorithm_type: on_policy_distill
+  advantage_fn: multi_turn_opd
+  repeat_times: 1
+  advantage_fn_args:
+    kl_coef: 1.0
+  loss_agg_mode: "seq-mean-token-mean"
+  optimizer:
+    lr: 1e-6
+
+model:
+  model_path: /localhome/local-tianhej/opd-baseline-repro/models/Qwen2.5-3B-Instruct
+  max_prompt_tokens: 10240
+  max_response_tokens: 512
+
+cluster:
+  node_num: 1
+  gpu_per_node: 4
+
+buffer:
+  total_steps: 10
+  batch_size: 16
+  train_batch_size: 64
+  explorer_input:
+    taskset:
+      name: alfworld
+      storage_type: file
+      path: /localhome/local-tianhej/opd-baseline-repro/data/tcod_official_alfworld/train_expert.jsonl
+      split: train
+      format:
+        prompt_key: 'game_file'
+      rollout_args:
+        temperature: 1.0
+        logprobs: 0
+      workflow_args:
+        temperature: 1.0
+        max_env_steps: 30
+        total_steps: 10
+        checkpoint_strategy: linear
+        checkpoint_steps: 2
+    eval_tasksets:
+      - name: alfworld_eval_seen
+        storage_type: file
+        path: /localhome/local-tianhej/opd-baseline-repro/data/tcod_official_alfworld/test.jsonl
+        split: test
+        total_steps: 10
+        task_selector:
+          selector_type: random
+          seed: 42
+        format:
+          prompt_key: 'game_file'
+        rollout_args:
+          temperature: 0.4
+          logprobs: 0
+    default_workflow_type: 'TCOD_f2b_alfworld_workflow'
+  trainer_input:
+    experience_buffer:
+      name: b200_train_smoke_tcod_f2b_buffer
+      storage_type: queue
+      path: 'sqlite:////localhome/local-tianhej/opd-baseline-repro/runs/experiments/b200_train_smoke_tcod/experience_buffer.db'
+
+explorer:
+  eval_interval: 20
+  runner_per_model: 4
+  max_timeout: 3600
+  rollout_model:
+    engine_num: 1
+    tensor_parallel_size: 1
+    use_v1: false
+    enable_prefix_caching: false
+    enforce_eager: true
+    dtype: bfloat16
+    seed: 42
+    gpu_memory_utilization: 0.7
+    enable_chunked_prefill: true
+  auxiliary_models:
+    - model_path: /localhome/local-tianhej/opd-baseline-repro/models/GiGPO-Qwen2.5-7B-Instruct-ALFWorld
+      engine_num: 1
+      tensor_parallel_size: 1
+      use_v1: false
+      enable_prefix_caching: false
+      enforce_eager: true
+      dtype: bfloat16
+      seed: 42
+      gpu_memory_utilization: 0.7
+      max_model_len: 20480
+      max_prompt_tokens: 16384
+      max_response_tokens: 512
+  env_vars:
+    TMPDIR: /dev/shm/tmp
+    RAY_TMPDIR: /dev/shm/ray_tmp
+
+synchronizer:
+  sync_method: 'nccl'
+  sync_style: 'dynamic_by_explorer'
+  sync_interval: 1
+  sync_timeout: 3600
+
+trainer:
+  total_steps: 10
+  save_interval: 10
+  grad_clip: 1.0
+  use_dynamic_bsz: true
+  max_token_len_per_gpu: 16384
+  ulysses_sequence_parallel_size: 1
+
+monitor:
+  monitor_type: wandb

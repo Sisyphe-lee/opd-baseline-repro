@@ -1,0 +1,40 @@
+{
+  "checkpoint": "models/GiGPO-Qwen2.5-7B-Instruct-ALFWorld",
+  "evaluator": "langfengQ/verl-agent@35b3da38293993f9bf4f7873dfb3262a361e956c",
+  "protocol": {
+    "split": "eval_in_distribution (valid_seen)",
+    "environment_count": 128,
+    "environment_seed_range": [1000, 1127],
+    "max_env_steps": 50,
+    "history_length": 2,
+    "max_prompt_tokens": 2048,
+    "max_response_tokens": 512,
+    "temperature": 0.4,
+    "top_p": 1.0,
+    "top_k": -1
+  },
+  "result": {
+    "success_count": 125,
+    "task_count": 128,
+    "success_rate": 0.9765625,
+    "task_score_mean": 8.614958448753463,
+    "task_family_success_rates": {
+      "pick_and_place": 1.0,
+      "pick_clean_then_place_in_recep": 1.0,
+      "pick_cool_then_place_in_recep": 0.9615384615384616,
+      "look_at_obj_in_light": 0.9285714285714286,
+      "pick_heat_then_place_in_recep": 0.9444444444444444,
+      "pick_two_obj_and_place": 1.0
+    }
+  },
+  "compatibility_changes": [
+    "Temporary pkg_resources shim because setuptools 83 removed pkg_resources.",
+    "Temporary gymnasium 1.1.1 package because the TCOD environment did not include gymnasium.",
+    "Changed limit_mm_per_prompt from null to an empty dictionary in the temporary official checkout for vLLM 0.10.2 compatibility.",
+    "Redirected Ray and Python temporary files to repository-backed storage."
+  ],
+  "comparison": {
+    "tcod_wrapper_full_seen_h50_success_rate": 0.35,
+    "official_native_seen_success_rate": 0.9765625
+  }
+}

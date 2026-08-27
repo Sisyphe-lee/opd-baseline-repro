@@ -1,0 +1,33 @@
+{
+  "checkpoint_label": "f2b_qwen25_3b_step250_promptfix",
+  "evaluation_id": "full274_h30_f2b_qwen25_3b_step250_promptfix_seed42",
+  "macro_success_rate": 0.4154584221748401,
+  "schema_version": 1,
+  "splits": {
+    "seen": {
+      "action_admissible_rate": 0.8762419326705041,
+      "action_parse_valid_rate": 1.0,
+      "average_env_rounds": 20.478571428571428,
+      "observation_unchanged_rate": 0.057847331240188385,
+      "repeated_action_rate": 0.08602978370835514,
+      "success_count": 62,
+      "success_rate": 0.44285714285714284,
+      "task_count": 140,
+      "timeout_rate": 0.5571428571428572
+    },
+    "unseen": {
+      "action_admissible_rate": 0.861389944155749,
+      "action_parse_valid_rate": 0.9997512437810946,
+      "average_env_rounds": 21.850746268656717,
+      "observation_unchanged_rate": 0.07241671125683558,
+      "repeated_action_rate": 0.08936787063174575,
+      "success_count": 52,
+      "success_rate": 0.3880597014925373,
+      "task_count": 134,
+      "timeout_rate": 0.6119402985074627
+    }
+  },
+  "success_count": 114,
+  "success_rate": 0.41605839416058393,
+  "task_count": 274
+}

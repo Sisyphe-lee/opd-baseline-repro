@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "analysis": "seed42_full274_tau_0125_vs_tau_0175_and_frozen_baselines",
+  "evaluation_contract": {
+    "tasks": 274,
+    "seen": 140,
+    "unseen": 134,
+    "horizon": 30,
+    "temperature": 0.4,
+    "top_p": 1.0,
+    "top_k": -1,
+    "response_tokens": 512,
+    "action_parser": "strict_public_tcod"
+  },
+  "input_validation": [
+    {
+      "method": "Adaptive v1 tau=0.125",
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_t0125_250step_8gpu_s2t4_r16/evaluation/step250_full274/task_results.jsonl",
+      "file_sha256": "e3ae0bcaf2b4b493c36d15ddca74dee031c6875bc671573883ff6f5a6b564b2e",
+      "rows": 274,
+      "unique_identities": 274,
+      "identity_sha256": "31f850e107008763eacffe8c3b265cab97b857f1fac97ef6edd098a48093fbc1",
+      "split_counts": {
+        "seen": 140,
+        "unseen": 134
+      },
+      "evaluation_ids": [
+        "entropy_adaptive_v1_t0125_step250_full274_seed42"
+      ],
+      "frozen_protocol_validated": true
+    },
+    {
+      "method": "Adaptive v1 tau=0.175",
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/entropy_adaptive_v1_step10_8gpu_s2t4_r16/evaluation/step250_full274/task_results.jsonl",
+      "file_sha256": "f91fe8e3b8d80d6503f316188fb81e8e8702b5007248fa52e4091e157dd33f29",
+      "rows": 274,
+      "unique_identities": 274,
+      "identity_sha256": "31f850e107008763eacffe8c3b265cab97b857f1fac97ef6edd098a48093fbc1",
+      "split_counts": {
+        "seen": 140,
+        "unseen": 134
+      },
+      "evaluation_ids": [
+        "entropy_adaptive_v1_step250_full274_seed42"
+      ],
+      "frozen_protocol_validated": true
+    },
+    {
+      "method": "TCOD F2B (frozen)",
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/evaluations/2026-08-08_tcod-f2b-qwen25-3b-step250-full274-h30-accmemory-strict/evaluation/full274_h30/task_results.jsonl",
+      "file_sha256": "d59a7579e0b4892e999463ad70e39e3fe1c8a5a418c997d68b12d74b0db91658",
+      "rows": 274,
+      "unique_identities": 274,
+      "identity_sha256": "31f850e107008763eacffe8c3b265cab97b857f1fac97ef6edd098a48093fbc1",
+      "split_counts": {
+        "seen": 140,
+        "unseen": 134
+      },
+      "evaluation_ids": [
+        "full274_h30_f2b_qwen25_3b_step250_promptfix_accmemory_strict_seed42"
+      ],
+      "frozen_protocol_validated": true
+    },
+    {
+      "method": "Vanilla OPD (frozen)",
+      "path": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/results/evaluations/2026-08-09_vanilla-opd-qwen25-3b-step250-full274-h30-accmemory-strict/evaluation/full274_h30/task_results.jsonl",
+      "file_sha256": "43cc3b3cc9d1fe3172ff09a5a259ace5217c0321650f3ad56381718a044a5875",
+      "rows": 274,
+      "unique_identities": 274,
+      "identity_sha256": "31f850e107008763eacffe8c3b265cab97b857f1fac97ef6edd098a48093fbc1",
+      "split_counts": {
+        "seen": 140,
+        "unseen": 134
+      },
+      "evaluation_ids": [
+        "full274_h30_vanilla_qwen25_3b_step250_promptfix_accmemory_strict_seed42"
+      ],
+      "frozen_protocol_validated": true
+    }
+  ],
+  "pairing_validation": {
+    "reference_method": "Adaptive v1 tau=0.125",
+    "exact_identity_sets_equal": true,
+    "paired_split_and_task_type_equal": true,
+    "paired_tasks": 274,
+    "common_identity_sha256": "31f850e107008763eacffe8c3b265cab97b857f1fac97ef6edd098a48093fbc1"
+  },
+  "overall_results": [
+    {
+      "method": "Adaptive v1 tau=0.125",
+      "subset": "overall",
+      "n": 274,
+      "success_count": 222,
+      "success_rate": 0.8102189781021898,
+      "wilson95_low": 0.7596227085161412,
+      "wilson95_high": 0.85223702156723,
+      "mean_env_rounds": 11.704379562043796,
+      "parse_valid_rate": 0.9249391727493917,
+      "admissible_rate": 0.9049814373880497,
+      "repeat_rate": 0.07706812652068126,
+      "timeout_rate": 0.1897810218978102
+    },
+    {
+      "method": "Adaptive v1 tau=0.175",
+      "subset": "overall",
+      "n": 274,
+      "success_count": 193,
+      "success_rate": 0.7043795620437956,
+      "wilson95_low": 0.6478232049109253,
+      "wilson95_high": 0.7552843819675311,
+      "mean_env_rounds": 14.116788321167883,
+      "parse_valid_rate": 0.887956204379562,
+      "admissible_rate": 0.8390089229505288,
+      "repeat_rate": 0.12627737226277372,
+      "timeout_rate": 0.2956204379562044
+    },
+    {
+      "method": "TCOD F2B (frozen)",
+      "subset": "overall",
+      "n": 274,
+      "success_count": 232,
+      "success_rate": 0.8467153284671532,
+      "wilson95_low": 0.7992901009509277,
+      "wilson95_high": 0.8845531267893108,
+      "mean_env_rounds": 11.094890510948906,
+      "parse_valid_rate": 0.9427007299270074,
+      "admissible_rate": 0.9202202576725185,
+      "repeat_rate": 0.06167883211678832,
+      "timeout_rate": 0.15328467153284672
+    },
+    {
+      "method": "Vanilla OPD (frozen)",
+      "subset": "overall",
+      "n": 274,
+      "success_count": 218,
+      "success_rate": 0.7956204379562044,
+      "wilson95_low": 0.7439417266712121,
+      "wilson95_high": 0.8391246043494123,
+      "mean_env_rounds": 11.981751824817518,
+      "parse_valid_rate": 0.9250608272506082,
+      "admissible_rate": 0.8982201437225052,
+      "repeat_rate": 0.07849935594675826,
+      "timeout_rate": 0.20437956204379562
+    }
+  ],
+  "overall_paired_comparisons": [
+    {
+      "comparison": "Adaptive v1 tau=0.125 vs Adaptive v1 tau=0.175",
+      "stratum": "overall",
+      "stratum_value": "all",
+      "n": 274,
+      "new_success": 222,
+      "reference_success": 193,
+      "success_rate_delta": 0.1058394160583942,
+      "both_success": 180,
+      "new_only": 42,
+      "reference_only": 13,
+      "both_failure": 39,
+      "discordant": 55,
+      "mcnemar_exact_two_sided_p": 0.00011361060320691506
+    },
+    {
+      "comparison": "Adaptive v1 tau=0.125 vs TCOD F2B (frozen)",
+      "stratum": "overall",
+      "stratum_value": "all",
+      "n": 274,
+      "new_success": 222,
+      "reference_success": 232,
+      "success_rate_delta": -0.03649635036496346,
+      "both_success": 206,
+      "new_only": 16,
+      "reference_only": 26,
+      "both_failure": 26,
+      "discordant": 42,
+      "mcnemar_exact_two_sided_p": 0.16414940178310644
+    },
+    {
+      "comparison": "Adaptive v1 tau=0.125 vs Vanilla OPD (frozen)",
+      "stratum": "overall",
+      "stratum_value": "all",
+      "n": 274,
+      "new_success": 222,
+      "reference_success": 218,
+      "success_rate_delta": 0.014598540145985384,
+      "both_success": 203,
+      "new_only": 19,
+      "reference_only": 15,
+      "both_failure": 37,
+      "discordant": 34,
+      "mcnemar_exact_two_sided_p": 0.6075913612730801
+    }
+  ],
+  "mcnemar_definition": "Exact two-sided binomial test on discordant paired outcomes under p=0.5.",
+  "artifacts": {
+    "method_summary_csv": "evaluation_method_summary.csv",
+    "task_type_summary_csv": "evaluation_task_type_summary.csv",
+    "paired_comparisons_csv": "evaluation_paired_comparisons.csv",
+    "paired_task_results_csv": "evaluation_paired_task_results.csv",
+    "overall_seen_unseen_figure": "evaluation_overall_seen_unseen.png",
+    "task_type_differences_figure": "evaluation_task_type_differences.png"
+  }
+}

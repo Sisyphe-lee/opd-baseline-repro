@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/root/miniconda3/bin/tensorboard", line 5, in <module>
+    from tensorboard.main import run_main
+  File "/root/miniconda3/lib/python3.10/site-packages/tensorboard/main.py", line 27, in <module>
+    from tensorboard import default
+  File "/root/miniconda3/lib/python3.10/site-packages/tensorboard/default.py", line 30, in <module>
+    import pkg_resources
+ModuleNotFoundError: No module named 'pkg_resources'

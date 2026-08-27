@@ -1,0 +1,15 @@
+{
+  "counts": {
+    "train": 3553,
+    "valid_seen": 140,
+    "valid_unseen": 134
+  },
+  "seed": 42,
+  "sha256": {
+    "test.jsonl": "3ee2a3b27f4688780b77db50039f274a5342b14d1930d13e3385f75312aec4c8",
+    "test_unseen.jsonl": "1e273e89632f971a777afabd5a59e61e0a36360bd898cedda55124f067f499cc",
+    "train.jsonl": "5d57eb951f436bba515b743eb5deebfbe6d416e2f722bf8dbb9762b1d71f6430",
+    "train_expert.jsonl": "5d57eb951f436bba515b743eb5deebfbe6d416e2f722bf8dbb9762b1d71f6430"
+  },
+  "source_algorithm": "TCOD_examples/alfworld/get_alfworld_data.py"
+}

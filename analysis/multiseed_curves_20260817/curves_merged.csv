@@ -1,0 +1,104 @@
+method,run,step,success_count,success_rate_percent
+adaptive,A100 seed42 (合作者),20,40,14.6
+adaptive,A100 seed42 (合作者),40,96,35.04
+adaptive,A100 seed42 (合作者),60,111,40.51
+adaptive,A100 seed42 (合作者),80,126,45.99
+adaptive,A100 seed42 (合作者),100,174,63.5
+adaptive,A100 seed42 (合作者),120,211,77.01
+adaptive,A100 seed42 (合作者),140,197,71.9
+adaptive,A100 seed42 (合作者),160,204,74.45
+adaptive,A100 seed42 (合作者),180,217,79.2
+adaptive,A100 seed42 (合作者),200,225,82.12
+adaptive,A100 seed42 (合作者),220,224,81.75
+adaptive,A100 seed42 (合作者),240,227,82.85
+adaptive,A100 seed42 (合作者),250,238,86.86
+adaptive,B200 seed42,20,33,12.04
+adaptive,B200 seed42,40,105,38.32
+adaptive,B200 seed42,60,141,51.46
+adaptive,B200 seed42,80,148,54.01
+adaptive,B200 seed42,100,138,50.36
+adaptive,B200 seed42,120,177,64.6
+adaptive,B200 seed42,140,194,70.8
+adaptive,B200 seed42,160,219,79.93
+adaptive,B200 seed42,180,215,78.47
+adaptive,B200 seed42,200,219,79.93
+adaptive,B200 seed42,220,208,75.91
+adaptive,B200 seed42,240,215,78.47
+adaptive,B200 seed42,250,230,83.94
+adaptive,B200 seed43,20,37,13.5
+adaptive,B200 seed43,40,115,41.97
+adaptive,B200 seed43,60,134,48.91
+adaptive,B200 seed43,80,159,58.03
+adaptive,B200 seed43,100,161,58.76
+adaptive,B200 seed43,120,183,66.79
+adaptive,B200 seed43,140,200,72.99
+adaptive,B200 seed43,160,208,75.91
+adaptive,B200 seed43,180,221,80.66
+adaptive,B200 seed43,200,219,79.93
+adaptive,B200 seed43,220,222,81.02
+adaptive,B200 seed43,240,225,82.12
+adaptive,B200 seed43,250,234,85.4
+tcod,A100 seed42 (合作者),20,57,20.8
+tcod,A100 seed42 (合作者),40,98,35.77
+tcod,A100 seed42 (合作者),60,142,51.82
+tcod,A100 seed42 (合作者),80,122,44.53
+tcod,A100 seed42 (合作者),100,169,61.68
+tcod,A100 seed42 (合作者),120,177,64.6
+tcod,A100 seed42 (合作者),140,199,72.63
+tcod,A100 seed42 (合作者),160,206,75.18
+tcod,A100 seed42 (合作者),180,212,77.37
+tcod,A100 seed42 (合作者),200,234,85.4
+tcod,A100 seed42 (合作者),220,227,82.85
+tcod,A100 seed42 (合作者),240,233,85.04
+tcod,A100 seed42 (合作者),250,232,84.67
+tcod,B200 seed42,20,38,13.87
+tcod,B200 seed42,40,82,29.93
+tcod,B200 seed42,60,127,46.35
+tcod,B200 seed42,80,167,60.95
+tcod,B200 seed42,100,180,65.69
+tcod,B200 seed42,120,205,74.82
+tcod,B200 seed42,140,185,67.52
+tcod,B200 seed42,160,211,77.01
+tcod,B200 seed42,180,216,78.83
+tcod,B200 seed42,200,216,78.83
+tcod,B200 seed42,220,207,75.55
+tcod,B200 seed42,240,221,80.66
+tcod,B200 seed42,250,223,81.39
+vanilla,A100 seed42 (合作者),20,34,12.41
+vanilla,A100 seed42 (合作者),40,97,35.4
+vanilla,A100 seed42 (合作者),60,92,33.58
+vanilla,A100 seed42 (合作者),80,126,45.99
+vanilla,A100 seed42 (合作者),100,133,48.54
+vanilla,A100 seed42 (合作者),120,178,64.96
+vanilla,A100 seed42 (合作者),140,191,69.71
+vanilla,A100 seed42 (合作者),160,209,76.28
+vanilla,A100 seed42 (合作者),180,225,82.12
+vanilla,A100 seed42 (合作者),200,226,82.48
+vanilla,A100 seed42 (合作者),220,224,81.75
+vanilla,A100 seed42 (合作者),240,227,82.85
+vanilla,A100 seed42 (合作者),250,218,79.56
+vanilla,B200 seed42,20,34,12.41
+vanilla,B200 seed42,40,106,38.69
+vanilla,B200 seed42,60,103,37.59
+vanilla,B200 seed42,80,117,42.7
+vanilla,B200 seed42,100,135,49.27
+vanilla,B200 seed42,120,157,57.3
+vanilla,B200 seed42,140,183,66.79
+vanilla,B200 seed42,160,181,66.06
+vanilla,B200 seed42,180,182,66.42
+vanilla,B200 seed42,200,194,70.8
+vanilla,B200 seed42,220,183,66.79
+vanilla,B200 seed42,240,199,72.63
+vanilla,B200 seed42,250,224,81.75
+adaptive,B200 seed42,270,231,84.31
+adaptive,B200 seed42,290,230,83.94
+adaptive,B200 seed42,310,225,82.12
+adaptive,B200 seed43,270,212,77.37
+adaptive,B200 seed43,290,227,82.85
+adaptive,B200 seed43,310,220,80.29
+tcod,B200 seed43,270,231,84.31
+tcod,B200 seed43,290,224,81.75
+tcod,B200 seed43,310,228,83.21
+tcod,B200 seed44,270,236,86.13
+tcod,B200 seed44,290,228,83.21
+tcod,B200 seed44,310,224,81.75

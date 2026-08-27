@@ -1,0 +1,23 @@
+{
+  "Fixed tau=0.1": {
+    "step_count": 250,
+    "post_step80_mean": 0.02312398987714439,
+    "post_step80_median": 0.0203739499556832,
+    "last50_mean": 0.018840245872604557,
+    "step250": 0.015564808301860467
+  },
+  "Linear anneal": {
+    "step_count": 250,
+    "post_step80_mean": 0.018699768878649083,
+    "post_step80_median": 0.01631060095844857,
+    "last50_mean": 0.017309229136459704,
+    "step250": 0.015146849618759006
+  },
+  "Immediate Vanilla": {
+    "step_count": 250,
+    "post_step80_mean": 0.01825404685088846,
+    "post_step80_median": 0.016079027533123735,
+    "last50_mean": 0.01806492913758559,
+    "step250": 0.01446000517171342
+  }
+}

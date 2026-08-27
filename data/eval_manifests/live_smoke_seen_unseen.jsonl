@@ -1,0 +1,2 @@
+{"game_file": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/alfworld_runtime/json_2.1.1/valid_seen/pick_two_obj_and_place-Box-None-CoffeeTable-213/trial_T20190906_200927_069627/game.tw-pddl", "target": "", "split": "seen", "task_type": "pick_two_obj_and_place"}
+{"game_file": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/alfworld_runtime/json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222917_366542/game.tw-pddl", "target": "", "split": "unseen", "task_type": "look_at_obj_in_light"}

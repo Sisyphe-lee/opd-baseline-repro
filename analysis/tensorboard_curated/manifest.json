@@ -1,0 +1,69 @@
+{
+  "created_at_utc": "2026-08-14T06:42:19Z",
+  "scalar_events": 7358,
+  "scalar_cards": 11,
+  "image_cards": 5,
+  "series": [
+    "Adaptive_tau_0.050",
+    "Adaptive_tau_0.075",
+    "Adaptive_tau_0.100",
+    "Adaptive_tau_0.125",
+    "Adaptive_tau_0.175",
+    "Dashboard_notes",
+    "Reference_figures",
+    "Step80_cosine_to_tau_0.175",
+    "Step80_cosine_to_tau_0.200",
+    "Step80_immediate_full",
+    "Step80_linear_to_full",
+    "TCOD_F2B",
+    "Vanilla_OPD"
+  ],
+  "sources": [
+    {
+      "path": "analysis/recent_three_post80_curve_seed42/overall_success_curve.csv",
+      "sha256": "26b0f926d4bc821eab7823a623fba46d05f7611cfd34ef69f5f3402988f819d5",
+      "bytes": 24087
+    },
+    {
+      "path": "analysis/entropy_adaptive_v1_all_experiments/supplements/training_loss_baselines/vanilla_tcod_adaptive_t0100_training_loss.csv",
+      "sha256": "9477efb116cb594e581ede3a108452a6376ccd92a5c5f24305b5a193f80a2b1a",
+      "bytes": 44277
+    },
+    {
+      "path": "analysis/entropy_adaptive_v1_all_experiments/realized_trainable_turns.csv",
+      "sha256": "5f681f0ca07720cc707f94593bf27f2cb2efaf47c5ec869144a1bdc44628e25f",
+      "bytes": 6209482
+    },
+    {
+      "path": "analysis/entropy_adaptive_v1_step250/diagnostics_by_explorer_step_nontruncated.csv",
+      "sha256": "036201cc31ac80e0a134697b999bb9408ac57756dc7a999f399baf6bc470ca54",
+      "bytes": 57483
+    },
+    {
+      "path": "analysis/recent_three_post80_curve_seed42/overall_success_curve.png",
+      "sha256": "8bbc8b6d5b95c95e5fef482adb9169a66eb7772a9c7f70c5efb2e7d5292363d1",
+      "bytes": 254614
+    },
+    {
+      "path": "analysis/entropy_adaptive_v1_all_experiments/supplements/training_loss_baselines/vanilla_tcod_adaptive_t0100_training_loss.png",
+      "sha256": "f9b7754f0413ab95b819a91f55e30b0e3784fcc7af87b70ae2b1b1810b9bf1ac",
+      "bytes": 534516
+    },
+    {
+      "path": "analysis/entropy_adaptive_v1_all_experiments/curriculum_imposed_loss_horizons.png",
+      "sha256": "191285786f4e63579c9a47b4ace8b47e9c910eff1f71b0698d1ccf9ad3efbb09",
+      "bytes": 272515
+    },
+    {
+      "path": "analysis/entropy_adaptive_v1_all_experiments/realized_trainable_turns_chronological.png",
+      "sha256": "2ca674d1796a5e88f73c2ee75355a7fab46fa8d99b7fa7bdbc5b2d981c3d2e62",
+      "bytes": 952466
+    },
+    {
+      "path": "analysis/entropy_adaptive_v1_step250/teacher_entropy_frontier_heatmap_latest.png",
+      "sha256": "bbe950c8fc5561db647fb90ecc0800b39f2321a993d6825589f7e0a2ba2ba92b",
+      "bytes": 159769
+    }
+  ],
+  "full_archive_preserved": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/tensorboard_all_analysis"
+}

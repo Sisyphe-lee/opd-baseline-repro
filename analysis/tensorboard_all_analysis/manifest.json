@@ -1,0 +1,3764 @@
+{
+  "created_at_utc": "2026-08-14T06:21:42Z",
+  "analysis_root": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis",
+  "output": "/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/analysis/tensorboard_all_analysis",
+  "git_head": "4c22a02d3f7cb15ad95d97e1a63ba9cf2ec8b97b",
+  "git_status_short": "M analysis/plot_adaptive_v1_curriculum.py\n M scripts/_run_entropy_experiment.sh\n M scripts/compare_alfworld_eval_results.py\n M scripts/run_alfworld_eval.sh\n M tests/common/test_entropy_mask_workflow.py\n M trinity/common/config.py\n M trinity/common/workflows/envs/TCOD/alfworld/OPD_entropy_mask_workflow.py\n M trinity/trainer/trainer.py\n?? analysis/all_checkpoint_overall_success_curve_seed42/\n?? analysis/analyze_step80_anneal_vs_fixed.py\n?? analysis/entropy_adaptive_v1_all_experiments/\n?? analysis/entropy_adaptive_v1_final_comparison_seed42/\n?? analysis/entropy_adaptive_v1_t0050_step250_4gpu/\n?? analysis/entropy_adaptive_v1_t0075_step250_4gpu/\n?? analysis/entropy_adaptive_v1_t0100_step80_anneal_comparison_with_cosine_t0200_seed42/\n?? analysis/entropy_adaptive_v1_t0100_step80_branch_comparison_seed42/\n?? analysis/entropy_adaptive_v1_t0100_step80_branches/\n?? analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/\n?? analysis/entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/\n?? analysis/entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/\n?? analysis/entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/\n?? analysis/entropy_adaptive_v1_threshold_sweep_4gpu_seed42/\n?? analysis/estimate_adaptive_threshold_response.py\n?? analysis/export_analysis_to_tensorboard.py\n?? analysis/plot_adaptive_v1_all_experiments.py\n?? analysis/plot_all_checkpoint_overall_success.py\n?? analysis/plot_baseline_training_loss.py\n?? analysis/plot_recent_three_post80_curve.py\n?? analysis/plot_step80_branch_training_loss.py\n?? analysis/recent_three_post80_curve_seed42/\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step100_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step120_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step140_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step160_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step180_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step200_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step20_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step220_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step240_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step40_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step60_full274_seed42.yaml\n?? configs/experiments/allckpt_entropy_adaptive_v1_t0175_step80_full274_seed42.yaml\n?? configs/experiments/entropy_adaptive_v1_t0050_4gpu_step250_full274.yaml\n?? configs/experiments/entropy_adaptive_v1_t0075_4gpu_step250_full274.yaml\n?? configs/experiments/entropy_adaptive_v1_t0100_extend_step250_to310_4gpu_s1t1_r4.yaml\n?? configs/experiments/entropy_adaptive_v1_t0100_step80_cosine_to_t0175_hold_4gpu_step250_full274.yaml\n?? configs/experiments/entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_250step_4gpu_s1t1_r4.yaml\n?? configs/experiments/entropy_adaptive_v1_t0100_step80_cosine_to_t0200_hold_4gpu_step250_full274.yaml\n?? configs/experiments/entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_250step_4gpu_s1t1_r4.yaml\n?? configs/experiments/entropy_adaptive_v1_t0100_step80_immediate_full_250step_4gpu_s1t1_r4.yaml\n?? configs/experiments/entropy_adaptive_v1_t0100_step80_immediate_full_4gpu_step250_full274.yaml\n?? configs/experiments/entropy_adaptive_v1_t0100_step80_linear_anneal_full_4gpu_step250_full274.yaml\n?? configs/experiments/entropy_adaptive_v1_t0100_step80_linear_anneal_to_full_step160_250step_4gpu_s1t1_r4.yaml\n?? configs/experiments/post80_cosine_to_t0175_step100_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0175_step120_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0175_step140_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0175_step160_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0175_step180_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0175_step200_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0175_step220_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0175_step240_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0175_step250_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0200_step100_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0200_step120_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0200_step140_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0200_step160_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0200_step180_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0200_step200_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0200_step220_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0200_step240_full274_seed42.yaml\n?? configs/experiments/post80_cosine_to_t0200_step250_full274_seed42.yaml\n?? configs/experiments/post80_linear_to_full_step100_full274_seed42.yaml\n?? configs/experiments/post80_linear_to_full_step120_full274_seed42.yaml\n?? configs/experiments/post80_linear_to_full_step140_full274_seed42.yaml\n?? configs/experiments/post80_linear_to_full_step160_full274_seed42.yaml\n?? configs/experiments/post80_linear_to_full_step180_full274_seed42.yaml\n?? configs/experiments/post80_linear_to_full_step200_full274_seed42.yaml\n?? configs/experiments/post80_linear_to_full_step220_full274_seed42.yaml\n?? configs/experiments/post80_linear_to_full_step240_full274_seed42.yaml\n?? configs/experiments/post80_linear_to_full_step250_full274_seed42.yaml\n?? configs/experiments/tcod_f2b_extend_step250_to310_4gpu_s1t1_r4.yaml\n?? data/two_stage_distillation/\n?? deliverables/\n?? logs/allckpt-entropy_adaptive_v1_t0100-step120-seed42-lanea.log\n?? logs/allckpt-entropy_adaptive_v1_t0100-step140-seed42-lanea.log\n?? logs/allckpt-entropy_adaptive_v1_t0100-step160-seed42-lanea.log\n?? logs/allckpt-entropy_adaptive_v1_t0100-step180-seed42-lanea.log\n?? logs/allckpt-entropy_adaptive_v1_t0100-step20-seed42-lanea.log\n?? logs/allckpt-entropy_adaptive_v1_t0100-step200-seed42-lanea.log\n?? logs/allckpt-entropy_adaptive_v1_t0100-step220-seed42-lanea.log\n?? logs/allckpt-entropy_adaptive_v1_t0100-step240-seed42-lanea.log\n?? logs/allckpt-entropy_adaptive_v1_t0100-step40-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step120-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step140-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step160-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step180-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step20-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step200-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step220-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step240-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step40-seed42-lanea.log\n?? logs/allckpt-tcod_f2b-step40-seed42-laneb.log\n?? logs/allckpt-vanilla_opd-step120-seed42-lanea.log\n?? logs/allckpt-vanilla_opd-step140-seed42-lanea.log\n?? logs/allckpt-vanilla_opd-step160-seed42-lanea.log\n?? logs/allckpt-vanilla_opd-step180-seed42-lanea.log\n?? logs/allckpt-vanilla_opd-step20-seed42-lanea.log\n?? logs/allckpt-vanilla_opd-step200-seed42-lanea.log\n?? logs/allckpt-vanilla_opd-step220-seed42-lanea.log\n?? logs/allckpt-vanilla_opd-step240-seed42-lanea.log\n?? logs/allckpt-vanilla_opd-step40-seed42-lanea.log\n?? logs/entropy-adaptive-v1-cosine-t0175-hold-step250-full274-retry1.log\n?? logs/entropy-adaptive-v1-cosine-t0200-hold-step250-full274.log\n?? logs/entropy-adaptive-v1-t0100-4gpu-step250-full274.log\n?? logs/entropy-adaptive-v1-t0125-4gpu-step250-full274.log\n?? logs/entropy-adaptive-v1-t0125-train4-step250-full274-seed43.log\n?? logs/entropy-adaptive-v1-t0125-train4-step250-full274-seed44.log\n?? logs/entropy-adaptive-v1-t0125-train8-step250-full274-seed43.log\n?? logs/entropy-adaptive-v1-t0125-train8-step250-full274-seed44.log\n?? logs/entropy_adaptive_step250_seed42.log\n?? logs/entropy_adaptive_step250_seed43.log\n?? logs/entropy_adaptive_step250_seed44.log\n?? logs/entropy_adaptive_v1_step10_full274.log\n?? logs/entropy_adaptive_v1_step10_full274_seed43.log\n?? logs/entropy_adaptive_v1_step10_full274_seed44.log\n?? logs/entropy_adaptive_v1_step80_immediate_full_4gpu_step250_full274_seed42.log\n?? logs/entropy_adaptive_v1_step80_linear_anneal_4gpu_step250_full274_seed42.log\n?? logs/entropy_adaptive_v1_t0050_4gpu_step250_full274_seed42.log\n?? logs/entropy_adaptive_v1_t0075_4gpu_step250_full274_seed42.log\n?? logs/entropy_adaptive_v1_t0125_step250_full274_seed42.log\n?? logs/entropy_full_v1_step10_retry4_full274.log\n?? logs/entropy_full_v1_step10_retry4_full274_seed43.log\n?? logs/entropy_full_v1_step10_retry4_full274_seed44.log\n?? logs/offline30_online220_seed42_full274.log\n?? logs/offline30_seed42_full274.log\n?? logs/post80-cosine_to_t0175-step100-seed42.log\n?? logs/post80-cosine_to_t0175-step120-seed42.log\n?? logs/post80-cosine_to_t0175-step140-seed42.log\n?? logs/post80-cosine_to_t0175-step160-seed42.log\n?? logs/post80-cosine_to_t0175-step180-seed42.log\n?? logs/post80-cosine_to_t0175-step200-seed42.log\n?? logs/post80-cosine_to_t0175-step220-seed42.log\n?? logs/post80-cosine_to_t0175-step240-seed42.log\n?? logs/post80-cosine_to_t0175-step250-seed42.log\n?? logs/post80-cosine_to_t0200-step100-seed42.log\n?? logs/post80-cosine_to_t0200-step120-seed42.log\n?? logs/post80-cosine_to_t0200-step140-seed42.log\n?? logs/post80-cosine_to_t0200-step160-seed42.log\n?? logs/post80-cosine_to_t0200-step180-seed42.log\n?? logs/post80-cosine_to_t0200-step200-seed42.log\n?? logs/post80-cosine_to_t0200-step220-seed42.log\n?? logs/post80-cosine_to_t0200-step240-seed42.log\n?? logs/post80-linear_to_full-step100-seed42.log\n?? logs/post80-linear_to_full-step120-seed42.log\n?? logs/post80-linear_to_full-step140-seed42.log\n?? logs/post80-linear_to_full-step160-seed42.log\n?? logs/post80-linear_to_full-step180-seed42.log\n?? logs/post80-linear_to_full-step200-seed42.log\n?? logs/post80-linear_to_full-step220-seed42.log\n?? logs/post80-linear_to_full-step240-seed42.log\n?? logs/student_init_seed42_full274.log\n?? logs/t0175-allckpt-step100-seed42.log\n?? logs/t0175-allckpt-step120-seed42.log\n?? logs/t0175-allckpt-step140-seed42.log\n?? logs/t0175-allckpt-step160-seed42.log\n?? logs/t0175-allckpt-step180-seed42.log\n?? logs/t0175-allckpt-step20-seed42.log\n?? logs/t0175-allckpt-step200-seed42.log\n?? logs/t0175-allckpt-step220-seed42.log\n?? logs/t0175-allckpt-step240-seed42.log\n?? logs/t0175-allckpt-step40-seed42.log\n?? logs/t0175-allckpt-step60-seed42.log\n?? logs/t0175-allckpt-step80-seed42.log\n?? logs/two_stage_teacher_collection_seed42.log\n?? logs/vanilla_taskmatched_step276_full274.log\n?? logs/vanilla_taskmatched_step276_full274_8gpu.log\n?? resume_tcod.tex\n?? scripts/_run_recent_three_post80_eval_queue.sh\n?? scripts/_run_recent_three_post80_eval_queue.sh.orig\n?? scripts/_run_t0175_all_checkpoint_eval_queue.sh\n?? scripts/launch_recent_three_post80_eval_queue_tmux.sh\n?? scripts/launch_t0175_all_checkpoint_eval_queue_tmux.sh\n?? scripts/prepare_recent_three_post80_full274.py\n?? scripts/prepare_t0175_all_checkpoint_full274.py\n?? tools/\n?? wandb/",
+  "scientific_namespace_rule": {
+    "current": "current experiment analyses",
+    "legacy_reference": "paths containing legacy/reference_legacy/qwen3; displayed separately and never merged"
+  },
+  "files": [
+    {
+      "source": "all_checkpoint_overall_success_curve_seed42/overall_success_curve.csv",
+      "kind": "csv",
+      "sha256": "b9f8a9b8842bed81c657893ec418b664a01e60b7c5d6972e7bad4a1c12063a7d",
+      "bytes": 13477,
+      "rows": 53,
+      "columns": [
+        "method",
+        "method_label",
+        "step",
+        "success_count",
+        "task_count",
+        "success_rate",
+        "success_rate_percent",
+        "seen_success_count",
+        "unseen_success_count",
+        "engine_num",
+        "source",
+        "source_sha256"
+      ],
+      "step_axis": "step",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "task_count",
+        "success_rate",
+        "success_rate_percent",
+        "seen_success_count",
+        "unseen_success_count",
+        "engine_num"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 371
+    },
+    {
+      "source": "all_checkpoint_overall_success_curve_seed42/overall_success_curve.png",
+      "kind": "png",
+      "sha256": "a2ef52136026394d378b02076a62799d16229817a0464e9803c93e3e05eeaab6",
+      "bytes": 215695,
+      "original_size": [
+        2304,
+        1296
+      ],
+      "imported_size": [
+        2048,
+        1152
+      ]
+    },
+    {
+      "source": "all_checkpoint_overall_success_curve_seed42/provenance.json",
+      "kind": "json",
+      "sha256": "58fe8ca749ec3af446e9e5c7f6fc01269460d6bee9ad4d5f2aeccb851208bb0d",
+      "bytes": 548,
+      "scalar_events": 9
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "465310a6d36792aec0d0e4ee7d37fd058104250539c5346ad28b743a5bf16548",
+      "bytes": 5683243,
+      "rows": 28115,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon",
+        "source_method",
+        "panel_order"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon",
+        "panel_order"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 84345
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "191285786f4e63579c9a47b4ace8b47e9c910eff1f71b0698d1ccf9ad3efbb09",
+      "bytes": 272515,
+      "original_size": [
+        3296,
+        2801
+      ],
+      "imported_size": [
+        2048,
+        1740
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/manifest.json",
+      "kind": "json",
+      "sha256": "5fa1431dba739ed54b9580a80959b39ae3f2c3fd4af433dc09585a32fb7edacf",
+      "bytes": 2544,
+      "scalar_events": 2
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/plot_summary.json",
+      "kind": "json",
+      "sha256": "ce2ce57c8e6d2f0eb05d6a5d5e32c1dabd8ff31d577fb08d66271d869c71bfd1",
+      "bytes": 5996,
+      "scalar_events": 154
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/provenance.json",
+      "kind": "json",
+      "sha256": "72b484e335d1a2b533857034a5eaa2285c713d5efa6e7cc1e7bd8707bf4a005a",
+      "bytes": 15726,
+      "scalar_events": 40
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "5f681f0ca07720cc707f94593bf27f2cb2efaf47c5ec869144a1bdc44628e25f",
+      "bytes": 6209482,
+      "rows": 28115,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent",
+        "source_method",
+        "panel_order"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent",
+        "panel_order"
+      ],
+      "same_step_groups_aggregated": 10,
+      "scalar_events": 67100
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "2ca674d1796a5e88f73c2ee75355a7fab46fa8d99b7fa7bdbc5b2d981c3d2e62",
+      "bytes": 952466,
+      "original_size": [
+        3296,
+        2847
+      ],
+      "imported_size": [
+        2048,
+        1769
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/step80_anneal_vs_fixed/provenance.json",
+      "kind": "json",
+      "sha256": "f739386c7ed97a593140620b88d2d9d8f8c5d26fc4b23f5f0db11bec340db4ee",
+      "bytes": 2101,
+      "scalar_events": 5
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/step80_anneal_vs_fixed/step80_anneal_vs_fixed_detail.png",
+      "kind": "png",
+      "sha256": "0d8911928a63c292ea3badb76066f34c9a63cd4f8565bf4eaf36784416133963",
+      "bytes": 594404,
+      "original_size": [
+        2810,
+        1910
+      ],
+      "imported_size": [
+        2048,
+        1392
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/step80_anneal_vs_fixed/step80_branch_training_loss.csv",
+      "kind": "csv",
+      "sha256": "14b21370e85335a623a34ae394f26db672073df33112145d3de08418f1255b21",
+      "bytes": 122494,
+      "rows": 750,
+      "columns": [
+        "method",
+        "trainer_step",
+        "actor/pg_loss",
+        "actor/final_loss",
+        "actor/ppo_kl",
+        "actor/grad_norm",
+        "actor/pg_clipfrac",
+        "actor/lr",
+        "perf/total_num_tokens",
+        "sample/model_version/mean",
+        "final_loss_rolling_mean_11"
+      ],
+      "step_axis": "trainer_step",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "actor/pg_loss",
+        "actor/final_loss",
+        "actor/ppo_kl",
+        "actor/grad_norm",
+        "actor/pg_clipfrac",
+        "actor/lr",
+        "perf/total_num_tokens",
+        "sample/model_version/mean",
+        "final_loss_rolling_mean_11"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 6750
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/step80_anneal_vs_fixed/step80_branch_training_loss.png",
+      "kind": "png",
+      "sha256": "7d2ca1e13784fd0e9a37166f116c10c3c1ffddbf4984d1ebd2f545c87503bbde",
+      "bytes": 766467,
+      "original_size": [
+        2450,
+        1730
+      ],
+      "imported_size": [
+        2048,
+        1446
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/step80_anneal_vs_fixed/step80_branch_training_loss_provenance.json",
+      "kind": "json",
+      "sha256": "e1e9fb881cc4fa855b9267ae1866b964551276a55edceb5d8b19e238c8a534f7",
+      "bytes": 1987,
+      "scalar_events": 3
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/step80_anneal_vs_fixed/step80_branch_training_loss_summary.json",
+      "kind": "json",
+      "sha256": "232892131adf89904ebc08927159e39aba4587ab72602fb1f2312c7d56ca3684",
+      "bytes": 660,
+      "scalar_events": 15
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/step80_anneal_vs_fixed/summary.json",
+      "kind": "json",
+      "sha256": "ab98395cb5c6bf1dc35204c8314cc4e9b1ae9d82441ab196db7e2479fbf2b6b3",
+      "bytes": 5695,
+      "scalar_events": 98
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/step80_anneal_vs_fixed/trajectory_chunk_metrics.csv",
+      "kind": "csv",
+      "sha256": "5665bda48f5996cc1706d4b02db21601def6b38165594d91a1106968e9d6da06",
+      "bytes": 52621,
+      "rows": 706,
+      "columns": [
+        "method",
+        "chunk_index",
+        "trajectory_count",
+        "trajectory_start",
+        "version_min",
+        "version_max",
+        "effective_threshold",
+        "frontier_trigger_rate",
+        "realized_turns_mean",
+        "realized_turns_median",
+        "available_turns_mean",
+        "masked_turns_mean",
+        "task_success_rate",
+        "prompt_truncated_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chunk_index",
+        "trajectory_count",
+        "trajectory_start",
+        "version_min",
+        "version_max",
+        "effective_threshold",
+        "frontier_trigger_rate",
+        "realized_turns_mean",
+        "realized_turns_median",
+        "available_turns_mean",
+        "masked_turns_mean",
+        "task_success_rate",
+        "prompt_truncated_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 8818
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/step80_anneal_vs_fixed/version_bin_metrics.csv",
+      "kind": "csv",
+      "sha256": "8f62992f361799f37ccad59a6f6268d271c472f42159b22ac864f2e0b7c39fc4",
+      "bytes": 24312,
+      "rows": 200,
+      "columns": [
+        "method",
+        "version_bin_start",
+        "trajectory_count",
+        "version_min",
+        "version_max",
+        "effective_threshold",
+        "full_strategy_fraction",
+        "frontier_trigger_rate",
+        "imposed_horizon_mean",
+        "full_horizon_fraction",
+        "realized_turns_mean",
+        "realized_turns_median",
+        "available_turns_mean",
+        "masked_turns_mean",
+        "task_success_rate",
+        "prompt_truncated_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "version_bin_start",
+        "trajectory_count",
+        "version_min",
+        "version_max",
+        "effective_threshold",
+        "full_strategy_fraction",
+        "frontier_trigger_rate",
+        "imposed_horizon_mean",
+        "full_horizon_fraction",
+        "realized_turns_mean",
+        "realized_turns_median",
+        "available_turns_mean",
+        "masked_turns_mean",
+        "task_success_rate",
+        "prompt_truncated_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 2908
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/threshold_response_fixed_t0100.csv",
+      "kind": "csv",
+      "sha256": "52e333e9b49028d423fad4e7bc030ab5b3a25b724666188cb642886030b97f7b",
+      "bytes": 4071,
+      "rows": 54,
+      "columns": [
+        "version_bin",
+        "threshold",
+        "trajectory_count",
+        "trigger_rate",
+        "mean_imposed_horizon",
+        "mean_realized_turns"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "trajectory_count",
+        "trigger_rate",
+        "mean_imposed_horizon",
+        "mean_realized_turns"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 216
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/training_loss_baselines/provenance.json",
+      "kind": "json",
+      "sha256": "ffea9fb934e795da4b1043171c6752ff59abac57806f857a8c641c6cc9bd8ec7",
+      "bytes": 2810,
+      "scalar_events": 6
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/training_loss_baselines/summary.json",
+      "kind": "json",
+      "sha256": "94fa61ec05e43b72ca27fb5307d3e6741a48b05965a11ee1865e464ebcda54c0",
+      "bytes": 629,
+      "scalar_events": 15
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/training_loss_baselines/vanilla_tcod_adaptive_t0100_training_loss.csv",
+      "kind": "csv",
+      "sha256": "9477efb116cb594e581ede3a108452a6376ccd92a5c5f24305b5a193f80a2b1a",
+      "bytes": 44277,
+      "rows": 750,
+      "columns": [
+        "trainer_step",
+        "actor/final_loss",
+        "method",
+        "final_loss_rolling_mean_11"
+      ],
+      "step_axis": "trainer_step",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "actor/final_loss",
+        "final_loss_rolling_mean_11"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 1500
+    },
+    {
+      "source": "entropy_adaptive_v1_all_experiments/supplements/training_loss_baselines/vanilla_tcod_adaptive_t0100_training_loss.png",
+      "kind": "png",
+      "sha256": "f9b7754f0413ab95b819a91f55e30b0e3784fcc7af87b70ae2b1b1810b9bf1ac",
+      "bytes": 534516,
+      "original_size": [
+        2450,
+        1730
+      ],
+      "imported_size": [
+        2048,
+        1446
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_final_comparison_seed42/aggregate.csv",
+      "kind": "csv",
+      "sha256": "c3177e2ef979bdc962b00771ff50def14fb6af296d4f51a9edf0d6f21b886c57",
+      "bytes": 1243,
+      "rows": 9,
+      "columns": [
+        "method",
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 90
+    },
+    {
+      "source": "entropy_adaptive_v1_final_comparison_seed42/comparison.json",
+      "kind": "json",
+      "sha256": "dca0d3c5fae8f0d0902eedb891164798580de9a97633ceb4292ddf2f89ea4be8",
+      "bytes": 43503,
+      "scalar_events": 855
+    },
+    {
+      "source": "entropy_adaptive_v1_final_comparison_seed42/paired_comparisons.csv",
+      "kind": "csv",
+      "sha256": "3333515ef8a4df1982f9058e4c6d496b57d0373d283f970998418b3fec98ab30",
+      "bytes": 8171,
+      "rows": 108,
+      "columns": [
+        "left",
+        "right",
+        "split",
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 648
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/comparison/aggregate.csv",
+      "kind": "csv",
+      "sha256": "f1f8780911b71b548631bf5959d5fcade1019f784d0fa38e51b5245b97ebd920",
+      "bytes": 375,
+      "rows": 2,
+      "columns": [
+        "method",
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 20
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/comparison/comparison.json",
+      "kind": "json",
+      "sha256": "e40da93a6cbac2f0e3645e9977dbd2d62f7eef9cf60e2318e2a73ed55856a86e",
+      "bytes": 3349,
+      "scalar_events": 64
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/comparison/paired_comparisons.csv",
+      "kind": "csv",
+      "sha256": "51366b88e48b754ef74b756e12f6137b1d37411b92ac65b2434183451e823ca6",
+      "bytes": 243,
+      "rows": 3,
+      "columns": [
+        "left",
+        "right",
+        "split",
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 18
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/comparison_seed43/aggregate.csv",
+      "kind": "csv",
+      "sha256": "f4732ff3a7328b796ce3f64ef5728aba8e18b321bb5ae015f9ca4caa978f72df",
+      "bytes": 387,
+      "rows": 2,
+      "columns": [
+        "method",
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 20
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/comparison_seed43/comparison.json",
+      "kind": "json",
+      "sha256": "cfa0c20155f98bcb338bcff3531c4be2ed2277a3c574a7021270977ca253391d",
+      "bytes": 3404,
+      "scalar_events": 64
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/comparison_seed43/paired_comparisons.csv",
+      "kind": "csv",
+      "sha256": "1e7cb075633937ebc45b642ba39a238b56d3fd4f79f97dcd5860599929c2b199",
+      "bytes": 272,
+      "rows": 3,
+      "columns": [
+        "left",
+        "right",
+        "split",
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 18
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/comparison_seed44/aggregate.csv",
+      "kind": "csv",
+      "sha256": "15aa07be6295a209d02bfc5e2e587869673c7f4d121f3120c9721d8d7276e13b",
+      "bytes": 375,
+      "rows": 2,
+      "columns": [
+        "method",
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 20
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/comparison_seed44/comparison.json",
+      "kind": "json",
+      "sha256": "283d4fa626169b2896b9cd0fc339952cf3c9c47341351ccec68f9a8e163e0e73",
+      "bytes": 3365,
+      "scalar_events": 64
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/comparison_seed44/paired_comparisons.csv",
+      "kind": "csv",
+      "sha256": "105e1a1634f91b5eedacd3a8a5f99b71fab3ab05b36673104b42507e1db89fcf",
+      "bytes": 258,
+      "rows": 3,
+      "columns": [
+        "left",
+        "right",
+        "split",
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 18
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/diagnostics_summary.csv",
+      "kind": "csv",
+      "sha256": "bb5bc7d9d37257ca66b536251594f4703b3bd38d728abebe8b0f7dab8e255600",
+      "bytes": 437,
+      "rows": 11,
+      "columns": [
+        "metric",
+        "adaptive",
+        "full"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "adaptive",
+        "full"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 20
+    },
+    {
+      "source": "entropy_adaptive_v1_step10_pilot/multi_seed_eval.csv",
+      "kind": "csv",
+      "sha256": "20b169ad90d4bc1772fdba48d0968501dde940730208e9eae4e88e0de9746729",
+      "bytes": 470,
+      "rows": 4,
+      "columns": [
+        "seed",
+        "adaptive_success",
+        "full_success",
+        "task_count",
+        "adaptive_rate",
+        "full_rate",
+        "difference_pp",
+        "both_success",
+        "adaptive_only",
+        "full_only",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "seed"
+      ],
+      "numeric_metrics": [
+        "adaptive_success",
+        "full_success",
+        "task_count",
+        "adaptive_rate",
+        "full_rate",
+        "difference_pp",
+        "both_success",
+        "adaptive_only",
+        "full_only",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 43
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/cutoff_schedule_by_model_version.csv",
+      "kind": "csv",
+      "sha256": "25a8907ba8f2a0cc70618ab68d3f9a0953f22a7c3ccc39bd60699b574cd5fa6b",
+      "bytes": 1095,
+      "rows": 8,
+      "columns": [
+        "model_version_bin",
+        "trajectory_count",
+        "success_rate",
+        "frontier_trigger_rate",
+        "triggered_count",
+        "triggered_crossing_mean",
+        "triggered_crossing_p25",
+        "triggered_crossing_median",
+        "triggered_crossing_p75",
+        "implicit_policy_limit_mean",
+        "implicit_policy_limit_median",
+        "realized_retained_turns_mean"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "trajectory_count",
+        "success_rate",
+        "frontier_trigger_rate",
+        "triggered_count",
+        "triggered_crossing_mean",
+        "triggered_crossing_p25",
+        "triggered_crossing_median",
+        "triggered_crossing_p75",
+        "implicit_policy_limit_mean",
+        "implicit_policy_limit_median",
+        "realized_retained_turns_mean"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 88
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/cutoff_schedule_over_training.png",
+      "kind": "png",
+      "sha256": "191b2c4fedc28476192e2b5571d6e4814091f610fd3676febd524afcfc2fbce4",
+      "bytes": 152452,
+      "original_size": [
+        2720,
+        884
+      ],
+      "imported_size": [
+        2048,
+        666
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/diagnostics_by_explorer_step.csv",
+      "kind": "csv",
+      "sha256": "aa78d6b926c0b740860522eebd5c95810a2c1a3c17602aefc1dcf427d3d5da58",
+      "bytes": 56818,
+      "rows": 171,
+      "columns": [
+        "training_step",
+        "model_version",
+        "trajectories",
+        "success_rate",
+        "frontier_trigger_rate",
+        "retained_fraction",
+        "mean_env_rounds",
+        "mean_full_turns",
+        "mean_retained_turns",
+        "teacher_entropy",
+        "student_entropy",
+        "sampled_reverse_kl",
+        "valid_action_rate",
+        "prompt_truncated_turn_rate",
+        "recorded_turns",
+        "success_rate_smooth",
+        "frontier_trigger_rate_smooth",
+        "retained_fraction_smooth",
+        "teacher_entropy_smooth",
+        "student_entropy_smooth",
+        "sampled_reverse_kl_smooth",
+        "valid_action_rate_smooth",
+        "prompt_truncated_turn_rate_smooth",
+        "mean_env_rounds_smooth"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "model_version",
+        "trajectories",
+        "success_rate",
+        "frontier_trigger_rate",
+        "retained_fraction",
+        "mean_env_rounds",
+        "mean_full_turns",
+        "mean_retained_turns",
+        "teacher_entropy",
+        "student_entropy",
+        "sampled_reverse_kl",
+        "valid_action_rate",
+        "prompt_truncated_turn_rate",
+        "recorded_turns",
+        "success_rate_smooth",
+        "frontier_trigger_rate_smooth",
+        "retained_fraction_smooth",
+        "teacher_entropy_smooth",
+        "student_entropy_smooth",
+        "sampled_reverse_kl_smooth",
+        "valid_action_rate_smooth",
+        "prompt_truncated_turn_rate_smooth",
+        "mean_env_rounds_smooth"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 3933
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/diagnostics_by_explorer_step_nontruncated.csv",
+      "kind": "csv",
+      "sha256": "036201cc31ac80e0a134697b999bb9408ac57756dc7a999f399baf6bc470ca54",
+      "bytes": 57483,
+      "rows": 171,
+      "columns": [
+        "training_step",
+        "model_version",
+        "trajectories",
+        "success_rate",
+        "frontier_trigger_rate",
+        "retained_fraction",
+        "mean_env_rounds",
+        "mean_full_turns",
+        "mean_retained_turns",
+        "teacher_entropy",
+        "student_entropy",
+        "sampled_reverse_kl",
+        "valid_action_rate",
+        "prompt_truncated_turn_rate",
+        "recorded_turns",
+        "success_rate_smooth",
+        "frontier_trigger_rate_smooth",
+        "retained_fraction_smooth",
+        "teacher_entropy_smooth",
+        "student_entropy_smooth",
+        "sampled_reverse_kl_smooth",
+        "valid_action_rate_smooth",
+        "prompt_truncated_turn_rate_smooth",
+        "mean_env_rounds_smooth",
+        "real_response_turns"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "model_version",
+        "trajectories",
+        "success_rate",
+        "frontier_trigger_rate",
+        "retained_fraction",
+        "mean_env_rounds",
+        "mean_full_turns",
+        "mean_retained_turns",
+        "teacher_entropy",
+        "student_entropy",
+        "sampled_reverse_kl",
+        "valid_action_rate",
+        "prompt_truncated_turn_rate",
+        "recorded_turns",
+        "success_rate_smooth",
+        "frontier_trigger_rate_smooth",
+        "retained_fraction_smooth",
+        "teacher_entropy_smooth",
+        "student_entropy_smooth",
+        "sampled_reverse_kl_smooth",
+        "valid_action_rate_smooth",
+        "prompt_truncated_turn_rate_smooth",
+        "mean_env_rounds_smooth",
+        "real_response_turns"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 4104
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/diagnostics_by_trajectory_turn.csv",
+      "kind": "csv",
+      "sha256": "b2469ad42f22e03ae9c329ea5fde3bde579c208d4204c58d19240cf4d50bb628",
+      "bytes": 3773,
+      "rows": 53,
+      "columns": [
+        "turn",
+        "task_success",
+        "teacher_entropy",
+        "student_entropy",
+        "valid_action_rate",
+        "trajectory_count"
+      ],
+      "step_axis": "turn",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "task_success",
+        "teacher_entropy",
+        "student_entropy",
+        "valid_action_rate",
+        "trajectory_count"
+      ],
+      "same_step_groups_aggregated": 1,
+      "scalar_events": 592
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/diagnostics_by_trajectory_turn_nontruncated.csv",
+      "kind": "csv",
+      "sha256": "b912d51111ab45b871a30e84c7a0d4d5752f8fde6e50eabb25981c95655b8c0a",
+      "bytes": 3078,
+      "rows": 53,
+      "columns": [
+        "turn",
+        "task_success",
+        "teacher_entropy_real",
+        "real_trajectory_count",
+        "truncated_trajectory_count",
+        "total_trajectory_count",
+        "real_valid_action_rate"
+      ],
+      "step_axis": "turn",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "task_success",
+        "teacher_entropy_real",
+        "real_trajectory_count",
+        "truncated_trajectory_count",
+        "total_trajectory_count",
+        "real_valid_action_rate"
+      ],
+      "same_step_groups_aggregated": 1,
+      "scalar_events": 704
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/evaluation_by_seed.csv",
+      "kind": "csv",
+      "sha256": "45f2a7b6c978efe698e821853ab2f7eed883b48829d3084c7af98e13f306b0d7",
+      "bytes": 1065,
+      "rows": 9,
+      "columns": [
+        "method",
+        "seed",
+        "success_count",
+        "success_rate",
+        "seen_success",
+        "unseen_success",
+        "parse_valid_rate",
+        "admissible_rate",
+        "timeout_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method",
+        "seed"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "success_rate",
+        "seen_success",
+        "unseen_success",
+        "parse_valid_rate",
+        "admissible_rate",
+        "timeout_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 63
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/evaluation_seed42_frozen_baselines.png",
+      "kind": "png",
+      "sha256": "a4dac3efff3d46f3f75f63d175e7ac760d71d82479226baaf5eeabe8952ae84f",
+      "bytes": 61046,
+      "original_size": [
+        1910,
+        1028
+      ],
+      "imported_size": [
+        1910,
+        1028
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/evaluation_summary.json",
+      "kind": "json",
+      "sha256": "d4af8bfc062bae55526084c1c7f76b9dcb01860d44903e4e3dbf8cb93cb16578",
+      "bytes": 2646,
+      "scalar_events": 73
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/evaluation_task_type.csv",
+      "kind": "csv",
+      "sha256": "f9ddccd8d05185185262aaebb504e1b1ea67eae2e88803018f136d6263679ce9",
+      "bytes": 824,
+      "rows": 6,
+      "columns": [
+        "task_type",
+        "n",
+        "adaptive",
+        "tcod",
+        "vanilla",
+        "adaptive_minus_tcod",
+        "adaptive_minus_vanilla"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "task_type"
+      ],
+      "numeric_metrics": [
+        "n",
+        "adaptive",
+        "tcod",
+        "vanilla",
+        "adaptive_minus_tcod",
+        "adaptive_minus_vanilla"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 36
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/evaluation_task_type_deltas.png",
+      "kind": "png",
+      "sha256": "8b634f3c1824834206c89e4b5ad55380f07995b93f47e987d0b63067153d83d9",
+      "bytes": 80764,
+      "original_size": [
+        2000,
+        1136
+      ],
+      "imported_size": [
+        2000,
+        1136
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/evaluation_three_seed_comparison.png",
+      "kind": "png",
+      "sha256": "eb7ef689af1e69fd3881b6d85520da33974f53439326e55f63bd197925c12038",
+      "bytes": 62136,
+      "original_size": [
+        1910,
+        1028
+      ],
+      "imported_size": [
+        1910,
+        1028
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/explorer_timing.csv",
+      "kind": "csv",
+      "sha256": "f2498f0024dc2f4995e40026ad0c77b7d9f5ece5de29433b20e6fdc5d40ff638",
+      "bytes": 8553,
+      "rows": 163,
+      "columns": [
+        "explorer_step",
+        "rollout/model_version",
+        "time/wait_explore_step",
+        "experience_pipeline/experience_count",
+        "rollout/time/run_execution/mean"
+      ],
+      "step_axis": "explorer_step",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "rollout/model_version",
+        "time/wait_explore_step",
+        "experience_pipeline/experience_count",
+        "rollout/time/run_execution/mean"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 652
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/frontier_aligned_rows.csv",
+      "kind": "csv",
+      "sha256": "9f1ce1fab9109e4acd3a1b6b42978f5c9156dbdac89c32f19ff9a17ce4e4fa6b",
+      "bytes": 290831,
+      "rows": 9027,
+      "columns": [
+        "relative_turn",
+        "delta_teacher_entropy",
+        "task_success",
+        "model_version"
+      ],
+      "step_axis": "model_version",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "relative_turn",
+        "delta_teacher_entropy",
+        "task_success"
+      ],
+      "same_step_groups_aggregated": 1,
+      "scalar_events": 1836
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/frontier_aligned_rows_nontruncated.csv",
+      "kind": "csv",
+      "sha256": "264bb2f1837beaac153808a29bd79bb8401a887e75ce4e76589e5a97cd9499f2",
+      "bytes": 204683,
+      "rows": 6367,
+      "columns": [
+        "relative_turn",
+        "delta_teacher_entropy",
+        "task_success",
+        "model_version"
+      ],
+      "step_axis": "model_version",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "relative_turn",
+        "delta_teacher_entropy",
+        "task_success"
+      ],
+      "same_step_groups_aggregated": 1,
+      "scalar_events": 1836
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/frontier_mechanism.png",
+      "kind": "png",
+      "sha256": "273c071cf07d9d1d81f66f65e2310582a32c97932efde4a401aefc415a206429",
+      "bytes": 146644,
+      "original_size": [
+        2360,
+        884
+      ],
+      "imported_size": [
+        2048,
+        767
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/frontier_mechanism_contaminated.png",
+      "kind": "png",
+      "sha256": "0e671ca5208007c96e17e469bd2478195d96ab5808c85d426f246bd38c9f2952",
+      "bytes": 138203,
+      "original_size": [
+        2360,
+        884
+      ],
+      "imported_size": [
+        2048,
+        767
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/paired_comparisons.csv",
+      "kind": "csv",
+      "sha256": "27fcac3fe26d74294f87b561ac81bf536a209d19c5d2c489e2af7630e13f2e9a",
+      "bytes": 650,
+      "rows": 8,
+      "columns": [
+        "comparison",
+        "seed",
+        "left_success",
+        "right_success",
+        "left_only",
+        "right_only",
+        "both_success",
+        "both_failure",
+        "mcnemar_exact_p"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "seed"
+      ],
+      "numeric_metrics": [
+        "left_success",
+        "right_success",
+        "left_only",
+        "right_only",
+        "both_success",
+        "both_failure",
+        "mcnemar_exact_p"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 56
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/pipeline_timing.png",
+      "kind": "png",
+      "sha256": "1513b3d0f7fcf22f217b644cd6fb05fca6b6b59f8412724656830ab5087765b9",
+      "bytes": 324222,
+      "original_size": [
+        2360,
+        884
+      ],
+      "imported_size": [
+        2048,
+        767
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/prompt_truncation_contamination_audit.png",
+      "kind": "png",
+      "sha256": "2637a1f3f2f4482bb2a24a2f7189877ff4b60be9c073376b6541a59f8829868d",
+      "bytes": 209119,
+      "original_size": [
+        2360,
+        884
+      ],
+      "imported_size": [
+        2048,
+        767
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/summary.json",
+      "kind": "json",
+      "sha256": "87adb4a7dbcebade1bfbe09fd17fba081d5fe8bd42b8ce3f93e5e684d0b3bef6",
+      "bytes": 2104,
+      "scalar_events": 46
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/summary_nontruncated.json",
+      "kind": "json",
+      "sha256": "e656ece7b26799cd9d29fe09c17e3bb8e095ab619e2b56f37f383118f1f60216",
+      "bytes": 1047,
+      "scalar_events": 23
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/teacher_entropy_by_turn_outcome.png",
+      "kind": "png",
+      "sha256": "0e0004ef5d08796925f2eb2b97afd2ab7df5372f043568f996d3f54dde94a18d",
+      "bytes": 187735,
+      "original_size": [
+        1910,
+        1424
+      ],
+      "imported_size": [
+        1910,
+        1424
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/teacher_entropy_by_turn_outcome_contaminated.png",
+      "kind": "png",
+      "sha256": "da32dcc1d58465cac887d7ec63d10ec6916977c4bbb418855942a3b42b1cda6e",
+      "bytes": 135261,
+      "original_size": [
+        1910,
+        1424
+      ],
+      "imported_size": [
+        1910,
+        1424
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "bbe950c8fc5561db647fb90ecc0800b39f2321a993d6825589f7e0a2ba2ba92b",
+      "bytes": 159769,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/teacher_entropy_frontier_heatmap_latest_contaminated.png",
+      "kind": "png",
+      "sha256": "9151128b638bf96509026388f9212293a920f127dc9cb2845e88441c573562e5",
+      "bytes": 139301,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/trainer_timing.csv",
+      "kind": "csv",
+      "sha256": "b960c793ad4bd73c2766092b4bd4a718be02a8fc73f0a21253acfeb4c76485d9",
+      "bytes": 27036,
+      "rows": 240,
+      "columns": [
+        "trainer_step",
+        "time/read_experience",
+        "time/train_step",
+        "sample/model_version/mean",
+        "actor/final_loss",
+        "actor/grad_norm",
+        "perf/throughput",
+        "prompt_length/clip_ratio"
+      ],
+      "step_axis": "trainer_step",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "time/read_experience",
+        "time/train_step",
+        "sample/model_version/mean",
+        "actor/final_loss",
+        "actor/grad_norm",
+        "perf/throughput",
+        "prompt_length/clip_ratio"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 1680
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/training_overview.png",
+      "kind": "png",
+      "sha256": "45a0262441179a909ca8be70a9a62cee936e254bf8a93d19231b7be5b3540509",
+      "bytes": 316115,
+      "original_size": [
+        2360,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1267
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/training_overview_contaminated.png",
+      "kind": "png",
+      "sha256": "b0f0233bb0c5809d90157a2f92c5d1ffbfff87e467255f94cc46ffe8c5d9a3c9",
+      "bytes": 359800,
+      "original_size": [
+        2360,
+        1550
+      ],
+      "imported_size": [
+        2048,
+        1345
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_step250/trajectory_summary.csv",
+      "kind": "csv",
+      "sha256": "1c8224bbf7e2f0df45d8e4d96bfff77ef2ce2a7ea2205bc9e0454a9e41013108",
+      "bytes": 1118028,
+      "rows": 2736,
+      "columns": [
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "game_id",
+        "task_type",
+        "task_success",
+        "env_done",
+        "env_lost",
+        "env_rounds",
+        "full_turns",
+        "retained_turns",
+        "retained_fraction",
+        "frontier_triggered",
+        "frontier_turn",
+        "baseline_teacher_entropy",
+        "crossing_teacher_entropy",
+        "suffix_teacher_entropy",
+        "last3_post_frontier_entropy",
+        "teacher_entropy",
+        "student_entropy",
+        "sampled_reverse_kl",
+        "valid_action_rate",
+        "retained_valid_action_rate",
+        "dropped_valid_action_rate",
+        "prompt_truncated_turns",
+        "prompt_truncated",
+        "prompt_truncated_retained_turns",
+        "response_tokens"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "task_type"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "task_success",
+        "env_done",
+        "env_lost",
+        "env_rounds",
+        "full_turns",
+        "retained_turns",
+        "retained_fraction",
+        "frontier_triggered",
+        "frontier_turn",
+        "baseline_teacher_entropy",
+        "crossing_teacher_entropy",
+        "suffix_teacher_entropy",
+        "last3_post_frontier_entropy",
+        "teacher_entropy",
+        "student_entropy",
+        "sampled_reverse_kl",
+        "valid_action_rate",
+        "retained_valid_action_rate",
+        "dropped_valid_action_rate",
+        "prompt_truncated_turns",
+        "prompt_truncated",
+        "prompt_truncated_retained_turns",
+        "response_tokens"
+      ],
+      "same_step_groups_aggregated": 6,
+      "scalar_events": 78032
+    },
+    {
+      "source": "entropy_adaptive_v1_t0050_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "a5e469acf03808d84884d707bf408a632c58f86cd93a18aa666b6c53c99d3349",
+      "bytes": 1353878,
+      "rows": 11484,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 22968
+    },
+    {
+      "source": "entropy_adaptive_v1_t0050_step250_4gpu/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "7200745fcde36518c3164fca6affc16dfa901d9278c60c71843abe95f3a9b664",
+      "bytes": 113021,
+      "original_size": [
+        3044,
+        992
+      ],
+      "imported_size": [
+        2048,
+        667
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0050_step250_4gpu/plot_summary.json",
+      "kind": "json",
+      "sha256": "6163263dd5172940130b689257872ab2a4d5853f448ef50cbb62717f9ca9d6a4",
+      "bytes": 4523,
+      "scalar_events": 105
+    },
+    {
+      "source": "entropy_adaptive_v1_t0050_step250_4gpu/provenance.json",
+      "kind": "json",
+      "sha256": "ca7e220327c143e6212290cb08c0cf0edb0283e19c22fea484bc38ea52d78eb1",
+      "bytes": 3831,
+      "scalar_events": 32
+    },
+    {
+      "source": "entropy_adaptive_v1_t0050_step250_4gpu/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "525e1c4884f500327c2be2293bf7c843b282325d3d480b7f05a0277f44b6aba3",
+      "bytes": 1528609,
+      "rows": 11484,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "same_step_groups_aggregated": 4,
+      "scalar_events": 19772
+    },
+    {
+      "source": "entropy_adaptive_v1_t0050_step250_4gpu/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "ef95377bc2052a2efd62dad198bef1395b0b15c2f07433a26c0fb635b2b891b6",
+      "bytes": 412880,
+      "original_size": [
+        3044,
+        1093
+      ],
+      "imported_size": [
+        2048,
+        735
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0050_step250_4gpu/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "7182e4e4e420d72dbb99d31fb59d885e83b5ef1555233a89e72f7ea5c7d94b6a",
+      "bytes": 169025,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0075_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "f6d2a794d46471e056112e33d68d0dd22981f47a1d319515faa3d09986508d7a",
+      "bytes": 1341302,
+      "rows": 11416,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 22832
+    },
+    {
+      "source": "entropy_adaptive_v1_t0075_step250_4gpu/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "63a3113f6f4d514a0ee16cc4157c64adc615559c5143bcad1473321a1c30f235",
+      "bytes": 112241,
+      "original_size": [
+        3044,
+        992
+      ],
+      "imported_size": [
+        2048,
+        667
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0075_step250_4gpu/plot_summary.json",
+      "kind": "json",
+      "sha256": "328d6cdb5a0fecc06745dfd7bf570438c4d50621b921d887a0856d293369a0d0",
+      "bytes": 4524,
+      "scalar_events": 105
+    },
+    {
+      "source": "entropy_adaptive_v1_t0075_step250_4gpu/provenance.json",
+      "kind": "json",
+      "sha256": "1e2fb65c84ac9fcb5921e0281b9da8b2f86fe402d6f1f30ca3b8d8219d09fb6e",
+      "bytes": 3832,
+      "scalar_events": 32
+    },
+    {
+      "source": "entropy_adaptive_v1_t0075_step250_4gpu/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "6129dc90444a58d25fb810d6538eb48194b3e22f9bbd1cf6a19018b00d1f3cbc",
+      "bytes": 1517108,
+      "rows": 11416,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "same_step_groups_aggregated": 4,
+      "scalar_events": 19596
+    },
+    {
+      "source": "entropy_adaptive_v1_t0075_step250_4gpu/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "93f86cfa4c75380a2e66cf54cd7ccd77da2b9a9d85a667dc957f0d6ab975c61a",
+      "bytes": 417245,
+      "original_size": [
+        3044,
+        1093
+      ],
+      "imported_size": [
+        2048,
+        735
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0075_step250_4gpu/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "413a282b3c9773cf515016fdd7f5c758ea005369c1a863ad948f437ccdec481c",
+      "bytes": 162873,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "46b5cf47462ac5abd55ad028d774bc77d85ffefe5cc1ed92fc8abd0923a593c9",
+      "bytes": 1344461,
+      "rows": 11432,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 22864
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step250_4gpu/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "e2d164fb9ee732bee1aad2b960bfc14399be2a75d216c33fbfabcaef699f1ddd",
+      "bytes": 111041,
+      "original_size": [
+        3044,
+        992
+      ],
+      "imported_size": [
+        2048,
+        667
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step250_4gpu/plot_summary.json",
+      "kind": "json",
+      "sha256": "edacc3f68af4998e3f1c7beb6f06f0abb591154c5ce615cc774f82d9e83db5fd",
+      "bytes": 4520,
+      "scalar_events": 105
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step250_4gpu/provenance.json",
+      "kind": "json",
+      "sha256": "e44bc3f6c1661bdc58e364cb8984f6e56f6817bc569e41d16d4fa919c5ad74f1",
+      "bytes": 3830,
+      "scalar_events": 32
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step250_4gpu/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "64d9f41a7b9ca65bccdab74b12bcbf95f1a5afd709a9c6c8a1d7ebba424822d2",
+      "bytes": 1514383,
+      "rows": 11432,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "same_step_groups_aggregated": 4,
+      "scalar_events": 19592
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step250_4gpu/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "9e40592804e2c5911e5161765f58f3bdca9e8ef84469826bbc8984fffcc36025",
+      "bytes": 419028,
+      "original_size": [
+        3044,
+        1093
+      ],
+      "imported_size": [
+        2048,
+        735
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step250_4gpu/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "7316779fe2d49321a63115fc3ab9e5155199d53883596650af9e38c2cb6bb225",
+      "bytes": 150050,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_anneal_comparison_with_cosine_t0200_seed42/aggregate.csv",
+      "kind": "csv",
+      "sha256": "ce788953096ed5089c4acedf687aeecf069a8f8cea177b2a116ede215d754ade",
+      "bytes": 643,
+      "rows": 4,
+      "columns": [
+        "method",
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 40
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_anneal_comparison_with_cosine_t0200_seed42/comparison.json",
+      "kind": "json",
+      "sha256": "7bca0d5b18a021a67ab5602d025ea66530502b14cddabfa2ba105c8f12c68588",
+      "bytes": 10573,
+      "scalar_events": 200
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_anneal_comparison_with_cosine_t0200_seed42/paired_comparisons.csv",
+      "kind": "csv",
+      "sha256": "46712ffa2a8ac99a26af785d7d372bf115550265807a60efb16493ee1e252384",
+      "bytes": 1429,
+      "rows": 18,
+      "columns": [
+        "left",
+        "right",
+        "split",
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 108
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_branch_comparison_seed42/aggregate.csv",
+      "kind": "csv",
+      "sha256": "8732247c03a3dd984d7f4e56ba467df3266be84c7ab2642249f5a40a9ae96507",
+      "bytes": 768,
+      "rows": 5,
+      "columns": [
+        "method",
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 50
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_branch_comparison_seed42/comparison.json",
+      "kind": "json",
+      "sha256": "d1accf41fd52b3793ee089af4a9be8ead0a00f28f5f78affed5b187f4902b825",
+      "bytes": 15483,
+      "scalar_events": 295
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_branch_comparison_seed42/paired_comparisons.csv",
+      "kind": "csv",
+      "sha256": "fe0bfb6f7391c910ce870a6dd03892925171ab83683aba9bcbb8a9140e50b836",
+      "bytes": 2383,
+      "rows": 30,
+      "columns": [
+        "left",
+        "right",
+        "split",
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 180
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "c270ceca7b52d57105b674bb89a0383d48cea81df459bcc85d1bbc238ced4a7c",
+      "bytes": 1398366,
+      "rows": 11424,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 22848
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "e910c33ad6499e27c6fdfacb31185afe91e24b4c9e859e1016b9d07d929841cf",
+      "bytes": 117099,
+      "original_size": [
+        3044,
+        992
+      ],
+      "imported_size": [
+        2048,
+        667
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/plot_summary.json",
+      "kind": "json",
+      "sha256": "035fde686a13fc2a20d42f91a2e92c615727afab13ff75ba37e542ba7cda9c4d",
+      "bytes": 5011,
+      "scalar_events": 113
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/provenance.json",
+      "kind": "json",
+      "sha256": "10f30f0302500a9459da52c6a13bbb6341bb6ae79e88e5db15816690e73daac7",
+      "bytes": 5142,
+      "scalar_events": 51
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "d5e180bd8366f0fd6db0ef93a7e86003ad0718f462b1579f4c44e527e94075bb",
+      "bytes": 1567516,
+      "rows": 11424,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "same_step_groups_aggregated": 4,
+      "scalar_events": 19456
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "3f3c9dbd0756ad23d365d474ea10ef18dc5d7d670c80aaea7f6611fea288a0f1",
+      "bytes": 426020,
+      "original_size": [
+        3044,
+        1093
+      ],
+      "imported_size": [
+        2048,
+        735
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0175_step160_hold_step250_4gpu/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "ea1542a1300d260e642c578c257c1c3a0127eb312ba736ae1f25b184a75abe3a",
+      "bytes": 151387,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "670ebe746d38a9c278a41208f1dc42b7e6395dfd2c97986cca8f8f47decc97d9",
+      "bytes": 1394849,
+      "rows": 11434,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 22868
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "6371f759555fc878a40cd4e1bcf1e50238812afe19007717b7ff346baf06998c",
+      "bytes": 116543,
+      "original_size": [
+        3044,
+        992
+      ],
+      "imported_size": [
+        2048,
+        667
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/plot_summary.json",
+      "kind": "json",
+      "sha256": "0565996644e0a6d61b17edaccbfde0457130b2b9a1b830f7af85f3e556d0d4f1",
+      "bytes": 5007,
+      "scalar_events": 113
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/provenance.json",
+      "kind": "json",
+      "sha256": "4bd09501e5da09193b17e8335082c6d7d10531709077589c10baeafacb0350f4",
+      "bytes": 5142,
+      "scalar_events": 51
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "2df19f589be9f882868784f7400409d6c2f5332afcbd1b90bbde0074296cd6cd",
+      "bytes": 1564425,
+      "rows": 11434,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "same_step_groups_aggregated": 4,
+      "scalar_events": 19484
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "a780cedfb1f63d542488e7c7e4f3bbaf48c78493299be40d813db3cfc7e7a3e5",
+      "bytes": 426184,
+      "original_size": [
+        3044,
+        1093
+      ],
+      "imported_size": [
+        2048,
+        735
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_cosine_to_t0200_step160_hold_step250_4gpu/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "02a360fd46fa4b22d644b0b40b1df71bb9e7fbdd9117d4abe7b60d2c1bb51ab5",
+      "bytes": 156842,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "1d3833b562a35de3b8bf8f979cd462bf49420cbf9cb3bed0311f373a640dd098",
+      "bytes": 1394155,
+      "rows": 11430,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 22860
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "ec2dccd822f16fa1faf62bccb06683855bfd62d8e1d93446767a786694e197a6",
+      "bytes": 115758,
+      "original_size": [
+        3044,
+        992
+      ],
+      "imported_size": [
+        2048,
+        667
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/plot_summary.json",
+      "kind": "json",
+      "sha256": "8e0762d4c0398065fb21a40057ad2ea0dfbde79fb89f01566f2a29231803bfcf",
+      "bytes": 5011,
+      "scalar_events": 113
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/provenance.json",
+      "kind": "json",
+      "sha256": "217fbef4e5f79637e7f51275c7eba38dac69514d32146c57221d6fce03054009",
+      "bytes": 5128,
+      "scalar_events": 51
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "7d23f02dd2a81474e23c8b0b092ba8c031ec148d62ff8efb49fcef28667b2e4d",
+      "bytes": 1562913,
+      "rows": 11430,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "same_step_groups_aggregated": 4,
+      "scalar_events": 19152
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "ec095e4e0fb0d56d3956751e24e074c7a0787414413f573549adad996150013a",
+      "bytes": 430251,
+      "original_size": [
+        3044,
+        1093
+      ],
+      "imported_size": [
+        2048,
+        735
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_immediate_full_step250_4gpu/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "1640d8496cc33df44538ef95274f4567533d99b8a04ec90e1aaf21998e2842a4",
+      "bytes": 148324,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "167ded18c934d83074888fc6e3595c0e3a5f9bdd0db7af8c66a38e2238f96f19",
+      "bytes": 1417605,
+      "rows": 11449,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 22898
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "5dd3f4dd0821da7fc52d8d17a4bd3119854b3592a47b670ae7cb593e1285325a",
+      "bytes": 113604,
+      "original_size": [
+        3091,
+        992
+      ],
+      "imported_size": [
+        2048,
+        657
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/plot_summary.json",
+      "kind": "json",
+      "sha256": "6cc2f7af05965bd691cd1bc12afd0fbfbbafb015495bfc39034d0aedb4bc1daf",
+      "bytes": 5025,
+      "scalar_events": 113
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/provenance.json",
+      "kind": "json",
+      "sha256": "5e70f0f2175808b7fa8134bbddb46dace4fe2448b697d796470637f00caa5fad",
+      "bytes": 5143,
+      "scalar_events": 51
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "ced5142bb07b38093571349068f3cd242eb89257cfb46ae6a09f5578d248e855",
+      "bytes": 1586828,
+      "rows": 11449,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "same_step_groups_aggregated": 4,
+      "scalar_events": 19236
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "3dfc6e70ee8a3f9cbea88dd6bbac8102df27779e094cbb1f91af2d2ec31df109",
+      "bytes": 430560,
+      "original_size": [
+        3124,
+        1093
+      ],
+      "imported_size": [
+        2048,
+        717
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0100_step80_linear_anneal_full_step250_4gpu/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "66b02b7e0d26dd6c2a0f690b7465999663760ff5e23a89b36f17dc6df54754f2",
+      "bytes": 150248,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_4gpu_vs_8gpu_multiseed/comparison.json",
+      "kind": "json",
+      "sha256": "fa81dd3998c212945530aafa9d7d39e2d0392f8a997eb5356434f0add900b4f4",
+      "bytes": 2551,
+      "scalar_events": 59
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_4gpu_vs_8gpu_multiseed/per_seed_comparison.csv",
+      "kind": "csv",
+      "sha256": "1975ec46a6238839c801568c0fa2ec1ec71d33c1a027bd574b255fbaa93725b7",
+      "bytes": 498,
+      "rows": 3,
+      "columns": [
+        "evaluation_seed",
+        "train_layout_8gpu_success",
+        "train_layout_8gpu_rate",
+        "train_layout_4gpu_success",
+        "train_layout_4gpu_rate",
+        "difference_tasks_4gpu_minus_8gpu",
+        "difference_pp",
+        "mcnemar_4gpu_only",
+        "mcnemar_8gpu_only",
+        "mcnemar_exact_p"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "evaluation_seed",
+        "train_layout_8gpu_success",
+        "train_layout_8gpu_rate",
+        "train_layout_4gpu_success",
+        "train_layout_4gpu_rate",
+        "difference_tasks_4gpu_minus_8gpu",
+        "difference_pp",
+        "mcnemar_4gpu_only",
+        "mcnemar_8gpu_only",
+        "mcnemar_exact_p"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 30
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "753425917aa010b9bb0fcc817e96954ac2be51b87441f8a12b45db94baadb573",
+      "bytes": 1312446,
+      "rows": 11392,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 22784
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "da1abac150159754718646ee806ff0fd7131f9e8f6f967a2b7df3cd0fed57bf7",
+      "bytes": 108183,
+      "original_size": [
+        3044,
+        992
+      ],
+      "imported_size": [
+        2048,
+        667
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/diagnostics_by_explorer_step_nontruncated.csv",
+      "kind": "csv",
+      "sha256": "c3c84c088452eb060842e3acd1d681ca806680d9b416109ab13f9fe2b84647ad",
+      "bytes": 57431,
+      "rows": 171,
+      "columns": [
+        "training_step",
+        "model_version",
+        "trajectories",
+        "success_rate",
+        "frontier_trigger_rate",
+        "retained_fraction",
+        "mean_env_rounds",
+        "mean_full_turns",
+        "mean_retained_turns",
+        "teacher_entropy",
+        "student_entropy",
+        "sampled_reverse_kl",
+        "valid_action_rate",
+        "prompt_truncated_turn_rate",
+        "recorded_turns",
+        "success_rate_smooth",
+        "frontier_trigger_rate_smooth",
+        "retained_fraction_smooth",
+        "teacher_entropy_smooth",
+        "student_entropy_smooth",
+        "sampled_reverse_kl_smooth",
+        "valid_action_rate_smooth",
+        "prompt_truncated_turn_rate_smooth",
+        "mean_env_rounds_smooth",
+        "real_response_turns"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "model_version",
+        "trajectories",
+        "success_rate",
+        "frontier_trigger_rate",
+        "retained_fraction",
+        "mean_env_rounds",
+        "mean_full_turns",
+        "mean_retained_turns",
+        "teacher_entropy",
+        "student_entropy",
+        "sampled_reverse_kl",
+        "valid_action_rate",
+        "prompt_truncated_turn_rate",
+        "recorded_turns",
+        "success_rate_smooth",
+        "frontier_trigger_rate_smooth",
+        "retained_fraction_smooth",
+        "teacher_entropy_smooth",
+        "student_entropy_smooth",
+        "sampled_reverse_kl_smooth",
+        "valid_action_rate_smooth",
+        "prompt_truncated_turn_rate_smooth",
+        "mean_env_rounds_smooth",
+        "real_response_turns"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 4104
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/diagnostics_by_trajectory_turn_nontruncated.csv",
+      "kind": "csv",
+      "sha256": "2c1cd4a6191bfef9a62981d79aef8d69bd99189d01c4308f6a72b3e5d602ddb5",
+      "bytes": 3040,
+      "rows": 52,
+      "columns": [
+        "turn",
+        "task_success",
+        "teacher_entropy_real",
+        "real_trajectory_count",
+        "truncated_trajectory_count",
+        "total_trajectory_count",
+        "real_valid_action_rate"
+      ],
+      "step_axis": "turn",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "task_success",
+        "teacher_entropy_real",
+        "real_trajectory_count",
+        "truncated_trajectory_count",
+        "total_trajectory_count",
+        "real_valid_action_rate"
+      ],
+      "same_step_groups_aggregated": 1,
+      "scalar_events": 704
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/evaluation_method_summary.csv",
+      "kind": "csv",
+      "sha256": "876d39c4851cb30baa5375b4ce86ac091ebaf282043acde63f9b575578db209a",
+      "bytes": 2391,
+      "rows": 12,
+      "columns": [
+        "method",
+        "subset",
+        "n",
+        "success_count",
+        "success_rate",
+        "wilson95_low",
+        "wilson95_high",
+        "mean_env_rounds",
+        "parse_valid_rate",
+        "admissible_rate",
+        "repeat_rate",
+        "timeout_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "n",
+        "success_count",
+        "success_rate",
+        "wilson95_low",
+        "wilson95_high",
+        "mean_env_rounds",
+        "parse_valid_rate",
+        "admissible_rate",
+        "repeat_rate",
+        "timeout_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 120
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/evaluation_overall_seen_unseen.png",
+      "kind": "png",
+      "sha256": "e2787e10ac9d83f4772e90bfad0e8f5d28d4f1af2e37facc510aa634988c9555",
+      "bytes": 89952,
+      "original_size": [
+        2463,
+        1263
+      ],
+      "imported_size": [
+        2048,
+        1050
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/evaluation_paired_comparisons.csv",
+      "kind": "csv",
+      "sha256": "e75d73aa0ad662fee972fd5aae0a36dc9558f9b26dbfa3bd672703b3fce177b9",
+      "bytes": 3588,
+      "rows": 27,
+      "columns": [
+        "comparison",
+        "stratum",
+        "stratum_value",
+        "n",
+        "new_success",
+        "reference_success",
+        "success_rate_delta",
+        "both_success",
+        "new_only",
+        "reference_only",
+        "both_failure",
+        "discordant",
+        "mcnemar_exact_two_sided_p"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "n",
+        "new_success",
+        "reference_success",
+        "success_rate_delta",
+        "both_success",
+        "new_only",
+        "reference_only",
+        "both_failure",
+        "discordant",
+        "mcnemar_exact_two_sided_p"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 270
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/evaluation_paired_task_results.csv",
+      "kind": "csv",
+      "sha256": "546384b22ebbc2679b4370691bcb52d30f38470502a99c2525413f2d0e301777",
+      "bytes": 41974,
+      "rows": 274,
+      "columns": [
+        "identity",
+        "split",
+        "task_type",
+        "success_adaptive_v1_tau0125",
+        "success_adaptive_v1_tau0175",
+        "success_tcod_f2b_frozen",
+        "success_vanilla_opd_frozen",
+        "delta_new_minus_adaptive_v1_tau0175",
+        "delta_new_minus_tcod_f2b_frozen",
+        "delta_new_minus_vanilla_opd_frozen"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split",
+        "task_type"
+      ],
+      "numeric_metrics": [
+        "success_adaptive_v1_tau0125",
+        "success_adaptive_v1_tau0175",
+        "success_tcod_f2b_frozen",
+        "success_vanilla_opd_frozen",
+        "delta_new_minus_adaptive_v1_tau0175",
+        "delta_new_minus_tcod_f2b_frozen",
+        "delta_new_minus_vanilla_opd_frozen"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 1918
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/evaluation_summary.json",
+      "kind": "json",
+      "sha256": "cf630a6da23d062b01393889933e8f4f1e558d3e6140a1f48c89f00133693b88",
+      "bytes": 7284,
+      "scalar_events": 102
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/evaluation_task_type_differences.png",
+      "kind": "png",
+      "sha256": "0da4299ceb82714a96a31469a30cd6ad489921b7c44866fff29f4ba94be29ad9",
+      "bytes": 196437,
+      "original_size": [
+        3223,
+        1503
+      ],
+      "imported_size": [
+        2048,
+        955
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/evaluation_task_type_summary.csv",
+      "kind": "csv",
+      "sha256": "f9cdc3ed3972b3c1a16c29ba19337bf0c75efa37ca85d51c84b1c10edba8856d",
+      "bytes": 4991,
+      "rows": 24,
+      "columns": [
+        "method",
+        "n",
+        "success_count",
+        "success_rate",
+        "wilson95_low",
+        "wilson95_high",
+        "mean_env_rounds",
+        "parse_valid_rate",
+        "admissible_rate",
+        "repeat_rate",
+        "timeout_rate",
+        "task_type"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method",
+        "task_type"
+      ],
+      "numeric_metrics": [
+        "n",
+        "success_count",
+        "success_rate",
+        "wilson95_low",
+        "wilson95_high",
+        "mean_env_rounds",
+        "parse_valid_rate",
+        "admissible_rate",
+        "repeat_rate",
+        "timeout_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 240
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/frontier_aligned_rows_nontruncated.csv",
+      "kind": "csv",
+      "sha256": "5a3a53ebc6d8124ff89ab0e7778e973bfd1df6c5d838bb2cbec8edec0592f58f",
+      "bytes": 297400,
+      "rows": 9244,
+      "columns": [
+        "relative_turn",
+        "delta_teacher_entropy",
+        "task_success",
+        "model_version"
+      ],
+      "step_axis": "model_version",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "relative_turn",
+        "delta_teacher_entropy",
+        "task_success"
+      ],
+      "same_step_groups_aggregated": 1,
+      "scalar_events": 1848
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/frontier_mechanism.png",
+      "kind": "png",
+      "sha256": "eff0a48a7185d6d7ffa03c793fe22da4132fcf899dac81a9c670aa94db303bb5",
+      "bytes": 145903,
+      "original_size": [
+        2360,
+        884
+      ],
+      "imported_size": [
+        2048,
+        767
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/plot_summary.json",
+      "kind": "json",
+      "sha256": "0eba42d2b2b841793e0cb998b60c36d1c3fda75b7b0a9493a1b08e3495772ad1",
+      "bytes": 4511,
+      "scalar_events": 105
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/prompt_truncation_contamination_audit.png",
+      "kind": "png",
+      "sha256": "d28bf41079a049169c0775579be9ac70c6ca7e4db384ad286b70b78ae9ca9808",
+      "bytes": 211199,
+      "original_size": [
+        2360,
+        884
+      ],
+      "imported_size": [
+        2048,
+        767
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/provenance.json",
+      "kind": "json",
+      "sha256": "69a49228a21c895ecac27687f2bf192e31e56356ae65262a1e15ef3bd1980c96",
+      "bytes": 3833,
+      "scalar_events": 32
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "6ab04f28759190862bf4a0351993b55c7444f03d2434b9e7a4c8197fd366ef16",
+      "bytes": 1487136,
+      "rows": 11392,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "same_step_groups_aggregated": 4,
+      "scalar_events": 19476
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "5032046a0b7ce9a2d6c8c69eaf46a053f6157f4f92f1ef67aaf59d422f0630c0",
+      "bytes": 418695,
+      "original_size": [
+        3044,
+        1093
+      ],
+      "imported_size": [
+        2048,
+        735
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/summary_nontruncated.json",
+      "kind": "json",
+      "sha256": "e5ab8a95ff81398788fe8e75f6066df58de27eb0c3848610c5cab3e671dda5fe",
+      "bytes": 1047,
+      "scalar_events": 23
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/teacher_entropy_by_turn_outcome.png",
+      "kind": "png",
+      "sha256": "46fbf1ccc578910f5d90c46aaee600ac6ae020e5b438d89796d53d82001be59b",
+      "bytes": 212483,
+      "original_size": [
+        1910,
+        1424
+      ],
+      "imported_size": [
+        1910,
+        1424
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "4abd94ea779ef9fa481ee14b537d1be04d994a38cb673848a4078e8a389cf20d",
+      "bytes": 149896,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250/training_overview.png",
+      "kind": "png",
+      "sha256": "8ac8c0a8ad90afed0195e1d9134cd9bb5767a06715085b96ddfc994f992ed39d",
+      "bytes": 319063,
+      "original_size": [
+        2360,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1267
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250_4gpu/curriculum_imposed_loss_horizons.csv",
+      "kind": "csv",
+      "sha256": "c826ee0c1d0b75172b2bae92766de56511f8bc6780bbd9ef85b3da2d2f0981ce",
+      "bytes": 1333693,
+      "rows": 11374,
+      "columns": [
+        "method",
+        "source_kind",
+        "unit_id",
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "chronological_rank",
+        "imposed_horizon"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 22748
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250_4gpu/curriculum_imposed_loss_horizons.png",
+      "kind": "png",
+      "sha256": "156a45493385db37639788f77b9ba4a0c8e08a4b5689d6ccea9ac5713b02a70a",
+      "bytes": 111827,
+      "original_size": [
+        3044,
+        992
+      ],
+      "imported_size": [
+        2048,
+        667
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250_4gpu/plot_summary.json",
+      "kind": "json",
+      "sha256": "2ee9103575cc4f7ffcf64284bc8c05f9228f2eef1e83dd6539ddf90d5760a28f",
+      "bytes": 4524,
+      "scalar_events": 105
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250_4gpu/provenance.json",
+      "kind": "json",
+      "sha256": "7e2ff4dcaa64e2d6101b61553c6d11770a321d2f671b8e95739ac8227415e214",
+      "bytes": 3832,
+      "scalar_events": 32
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250_4gpu/realized_trainable_turns.csv",
+      "kind": "csv",
+      "sha256": "aa42d37b300e1d5032c2a9442f6d61f1ae96f60f0c35e03dc2b87871fe2260eb",
+      "bytes": 1507962,
+      "rows": 11374,
+      "columns": [
+        "method",
+        "threshold",
+        "trajectory_id",
+        "training_step",
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "step_axis": "training_step",
+      "categorical_series": [
+        "method",
+        "threshold"
+      ],
+      "numeric_metrics": [
+        "model_version",
+        "first_source_row_index",
+        "task_success",
+        "frontier_triggered",
+        "frontier_turn",
+        "imposed_horizon",
+        "realized_trainable_turns",
+        "prompt_truncated",
+        "chronological_rank",
+        "training_progress_percent"
+      ],
+      "same_step_groups_aggregated": 4,
+      "scalar_events": 19436
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250_4gpu/realized_trainable_turns_chronological.png",
+      "kind": "png",
+      "sha256": "c39556c9af63966dc0fe392a72ed3e94e71f5df36ea4ec3e7ac06238e6ad17bb",
+      "bytes": 419352,
+      "original_size": [
+        3044,
+        1093
+      ],
+      "imported_size": [
+        2048,
+        735
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_t0125_step250_4gpu/teacher_entropy_frontier_heatmap_latest.png",
+      "kind": "png",
+      "sha256": "43bbb47fb42b7959b1e2bc055c679de70dacda3f05b2c3a71eebf26da9505704",
+      "bytes": 151636,
+      "original_size": [
+        2180,
+        1460
+      ],
+      "imported_size": [
+        2048,
+        1372
+      ]
+    },
+    {
+      "source": "entropy_adaptive_v1_threshold_sweep_4gpu_seed42/aggregate.csv",
+      "kind": "csv",
+      "sha256": "fd9c8581261cda62845928d005dbfeb680eb3e0641864e77f5f8571ecb0fd2cb",
+      "bytes": 617,
+      "rows": 4,
+      "columns": [
+        "method",
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "task_count",
+        "success_rate",
+        "seen_success_count",
+        "seen_task_count",
+        "seen_success_rate",
+        "unseen_success_count",
+        "unseen_task_count",
+        "unseen_success_rate",
+        "macro_success_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 40
+    },
+    {
+      "source": "entropy_adaptive_v1_threshold_sweep_4gpu_seed42/comparison.json",
+      "kind": "json",
+      "sha256": "de12808f76e455e760aab8d908a4185a849937092b86605cff61d0d133a350ad",
+      "bytes": 10141,
+      "scalar_events": 200
+    },
+    {
+      "source": "entropy_adaptive_v1_threshold_sweep_4gpu_seed42/paired_comparisons.csv",
+      "kind": "csv",
+      "sha256": "7922561ae1176852c35dd887c9d113b357623dcbcb353b0e293190fedd889681",
+      "bytes": 1148,
+      "rows": 18,
+      "columns": [
+        "left",
+        "right",
+        "split",
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "both_success",
+        "left_only_success",
+        "right_only_success",
+        "both_failure",
+        "mcnemar_exact_pvalue"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 108
+    },
+    {
+      "source": "frozen_full274_reproduction/method_summary.csv",
+      "kind": "csv",
+      "sha256": "cc6a0b363acb5ab90237d9ee7e8c73815327a94c2817a2d3bfbbeeb6146cb4a2",
+      "bytes": 952,
+      "rows": 6,
+      "columns": [
+        "method",
+        "split",
+        "task_count",
+        "success_count",
+        "success_rate",
+        "average_rounds",
+        "timeout_rate",
+        "action_parse_valid_rate",
+        "action_admissible_rate",
+        "repeated_action_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "method",
+        "split"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "success_count",
+        "success_rate",
+        "average_rounds",
+        "timeout_rate",
+        "action_parse_valid_rate",
+        "action_admissible_rate",
+        "repeated_action_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 48
+    },
+    {
+      "source": "frozen_full274_reproduction/paired_outcome_heatmap.png",
+      "kind": "png",
+      "sha256": "ffdc12c9db6f97d9b911a479fcb3ed8b8b0a8e69327f5513a2c90b3c18892e72",
+      "bytes": 101766,
+      "original_size": [
+        1890,
+        864
+      ],
+      "imported_size": [
+        1890,
+        864
+      ]
+    },
+    {
+      "source": "frozen_full274_reproduction/paired_outcome_summary.csv",
+      "kind": "csv",
+      "sha256": "d9119b026a25aa2efc29b502639ad04814fac9d4da4e3fe412a6b57ac3a1d284",
+      "bytes": 150,
+      "rows": 3,
+      "columns": [
+        "split",
+        "task_count",
+        "both_success",
+        "tcod_only_success",
+        "vanilla_only_success",
+        "both_failure"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "both_success",
+        "tcod_only_success",
+        "vanilla_only_success",
+        "both_failure"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 15
+    },
+    {
+      "source": "frozen_full274_reproduction/paired_task_results.csv",
+      "kind": "csv",
+      "sha256": "788457da8b847bf9136ff9467f603aaf41943dc7ecc9c691993ac245d3dc7e68",
+      "bytes": 48644,
+      "rows": 274,
+      "columns": [
+        "task_key",
+        "split",
+        "task_type",
+        "outcome",
+        "tcod_success",
+        "vanilla_success",
+        "tcod_rounds",
+        "vanilla_rounds",
+        "rounds_delta_tcod_minus_vanilla",
+        "tcod_admissible_rate",
+        "vanilla_admissible_rate"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split",
+        "task_type"
+      ],
+      "numeric_metrics": [
+        "tcod_success",
+        "vanilla_success",
+        "tcod_rounds",
+        "vanilla_rounds",
+        "rounds_delta_tcod_minus_vanilla",
+        "tcod_admissible_rate",
+        "vanilla_admissible_rate"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 1918
+    },
+    {
+      "source": "frozen_full274_reproduction/paper_vs_local_reproduction.png",
+      "kind": "png",
+      "sha256": "4d71afc13286fbac14a415aadb97ad51f445941517bbfaa18be15660c881562e",
+      "bytes": 111291,
+      "original_size": [
+        2430,
+        1007
+      ],
+      "imported_size": [
+        2048,
+        849
+      ]
+    },
+    {
+      "source": "frozen_full274_reproduction/per_task_outcome_matrix.png",
+      "kind": "png",
+      "sha256": "02bb2acfd1b42de5df08e381dc46e5dcead9ac0eae7aea1b8122b602b5e3cc11",
+      "bytes": 57777,
+      "original_size": [
+        1116,
+        2250
+      ],
+      "imported_size": [
+        1016,
+        2048
+      ]
+    },
+    {
+      "source": "frozen_full274_reproduction/provenance.json",
+      "kind": "json",
+      "sha256": "f50d4aadc69058d65f3b0a8eedda79b5afe910f23e90058cab3f3d4a9941581d",
+      "bytes": 2594,
+      "scalar_events": 16
+    },
+    {
+      "source": "frozen_full274_reproduction/rounds_distribution.png",
+      "kind": "png",
+      "sha256": "484c9a74217acaf44795bd9f97cfa70bdc8319afa43ad0eac6d6cfb118460c9f",
+      "bytes": 256202,
+      "original_size": [
+        2250,
+        972
+      ],
+      "imported_size": [
+        2048,
+        885
+      ]
+    },
+    {
+      "source": "frozen_full274_reproduction/task_type_success_heatmap.png",
+      "kind": "png",
+      "sha256": "642e21c350f630f895f0c0522a174141aa9cf3aeefcda69f90995d751d22e10f",
+      "bytes": 163214,
+      "original_size": [
+        2610,
+        1224
+      ],
+      "imported_size": [
+        2048,
+        960
+      ]
+    },
+    {
+      "source": "frozen_full274_reproduction/task_type_summary.csv",
+      "kind": "csv",
+      "sha256": "2a7bdb38105ae5d24ec54bcd0ce7082952a7a6067a3361dcb79d56a5451974c0",
+      "bytes": 1570,
+      "rows": 12,
+      "columns": [
+        "split",
+        "task_type",
+        "task_count",
+        "tcod_success_count",
+        "tcod_success_rate",
+        "vanilla_success_count",
+        "vanilla_success_rate",
+        "delta_tcod_minus_vanilla",
+        "tcod_average_rounds",
+        "vanilla_average_rounds"
+      ],
+      "step_axis": "row_index",
+      "categorical_series": [
+        "split",
+        "task_type"
+      ],
+      "numeric_metrics": [
+        "task_count",
+        "tcod_success_count",
+        "tcod_success_rate",
+        "vanilla_success_count",
+        "vanilla_success_rate",
+        "delta_tcod_minus_vanilla",
+        "tcod_average_rounds",
+        "vanilla_average_rounds"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 96
+    },
+    {
+      "source": "frozen_full274_reproduction/training_rollout_comparison.png",
+      "kind": "png",
+      "sha256": "bf05ffa92c04316b5c0bf096b9b3465f596c228fb8e1441828e9272146650099",
+      "bytes": 479459,
+      "original_size": [
+        2250,
+        1890
+      ],
+      "imported_size": [
+        2048,
+        1720
+      ]
+    },
+    {
+      "source": "frozen_full274_reproduction/training_tcod_rollouts.csv",
+      "kind": "csv",
+      "sha256": "29be127a54d60cac3a200a86ab77e6440e3d05d40c16ca79351a1d398d873ee9",
+      "bytes": 4978,
+      "rows": 114,
+      "columns": [
+        "model_version",
+        "completion_rate",
+        "rounds",
+        "kl",
+        "task_count"
+      ],
+      "step_axis": "model_version",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "completion_rate",
+        "rounds",
+        "kl",
+        "task_count"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 456
+    },
+    {
+      "source": "frozen_full274_reproduction/training_vanilla_rollouts.csv",
+      "kind": "csv",
+      "sha256": "4a7f83dd08b55973c1ae5d42b0b86da0afb334f80596aaca419e945503a134e0",
+      "bytes": 7230,
+      "rows": 166,
+      "columns": [
+        "model_version",
+        "completion_rate",
+        "rounds",
+        "kl",
+        "task_count"
+      ],
+      "step_axis": "model_version",
+      "categorical_series": [],
+      "numeric_metrics": [
+        "completion_rate",
+        "rounds",
+        "kl",
+        "task_count"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 664
+    },
+    {
+      "source": "recent_three_post80_curve_seed42/overall_success_curve.csv",
+      "kind": "csv",
+      "sha256": "26b0f926d4bc821eab7823a623fba46d05f7611cfd34ef69f5f3402988f819d5",
+      "bytes": 24087,
+      "rows": 83,
+      "columns": [
+        "branch",
+        "branch_label",
+        "step",
+        "success_count",
+        "task_count",
+        "success_rate",
+        "success_rate_percent",
+        "seen_success_count",
+        "unseen_success_count",
+        "engine_num",
+        "provenance",
+        "source",
+        "source_sha256"
+      ],
+      "step_axis": "step",
+      "categorical_series": [
+        "branch"
+      ],
+      "numeric_metrics": [
+        "success_count",
+        "task_count",
+        "success_rate",
+        "success_rate_percent",
+        "seen_success_count",
+        "unseen_success_count",
+        "engine_num"
+      ],
+      "same_step_groups_aggregated": 0,
+      "scalar_events": 581
+    },
+    {
+      "source": "recent_three_post80_curve_seed42/overall_success_curve.png",
+      "kind": "png",
+      "sha256": "8bbc8b6d5b95c95e5fef482adb9169a66eb7772a9c7f70c5efb2e7d5292363d1",
+      "bytes": 254614,
+      "original_size": [
+        2304,
+        1296
+      ],
+      "imported_size": [
+        2048,
+        1152
+      ]
+    },
+    {
+      "source": "recent_three_post80_curve_seed42/provenance.json",
+      "kind": "json",
+      "sha256": "7b4c56f8d429b47a556f90d9827f2d02c7e9942e6c8e63799b262267fc869cc2",
+      "bytes": 1037,
+      "scalar_events": 12
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/entropy_by_model_version.png",
+      "kind": "png",
+      "sha256": "00fd7d473414c2c8ff52cecea184c417a4c066695df9ececaf177852cbbc2fd3",
+      "bytes": 310249,
+      "original_size": [
+        1760,
+        992
+      ],
+      "imported_size": [
+        1760,
+        992
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/entropy_curve.png",
+      "kind": "png",
+      "sha256": "ca7e940cb9eadc17ee5028b0f0eb9ffd23ffd352d8823d78371b7a4271606222",
+      "bytes": 150487,
+      "original_size": [
+        1760,
+        1280
+      ],
+      "imported_size": [
+        1760,
+        1280
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/kl_surprisal_curve.png",
+      "kind": "png",
+      "sha256": "2f65ad8bc492c13bf663df24d7de7fcbe4eb91a6ac3abae8efa97a2bda499035",
+      "bytes": 288146,
+      "original_size": [
+        1920,
+        928
+      ],
+      "imported_size": [
+        1920,
+        928
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/mass_success_curve.png",
+      "kind": "png",
+      "sha256": "962568e9a86796ff6c9c31cd5f3097b53d801eab2d5975a996cf6b2fdd0b1ecc",
+      "bytes": 326269,
+      "original_size": [
+        1760,
+        1280
+      ],
+      "imported_size": [
+        1760,
+        1280
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/reverse_kl_loss_curve.png",
+      "kind": "png",
+      "sha256": "1108dd4d8236581cb90886ed178b69efa2fd98a3d709cc8738979cbaf082134b",
+      "bytes": 249246,
+      "original_size": [
+        1760,
+        704
+      ],
+      "imported_size": [
+        1760,
+        704
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/teacher_entropy_by_outcome_progress.png",
+      "kind": "png",
+      "sha256": "7f6057d876ace01e129e8bb8702025c99fb33cc23880fca5c8f7d819f1bca7d7",
+      "bytes": 159300,
+      "original_size": [
+        1760,
+        1312
+      ],
+      "imported_size": [
+        1760,
+        1312
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/teacher_entropy_frontier_heatmap.png",
+      "kind": "png",
+      "sha256": "384ad6caa1ef5370e79685ca7a6e8317ca892016f44964edfdc6107b4be5010d",
+      "bytes": 424551,
+      "original_size": [
+        2040,
+        2550
+      ],
+      "imported_size": [
+        1638,
+        2048
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/teacher_entropy_observation_boundary.png",
+      "kind": "png",
+      "sha256": "9e0cd3610ff237807b9e0eab847b4c994d22b034de433a7c66d3de3a045fb0ac",
+      "bytes": 196125,
+      "original_size": [
+        1870,
+        1393
+      ],
+      "imported_size": [
+        1870,
+        1393
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/teacher_entropy_rollout_variability.png",
+      "kind": "png",
+      "sha256": "473b7b82b010155f06ad8b41a850c8fe8c055dbdab442dd8725eb2b527a2ec17",
+      "bytes": 975742,
+      "original_size": [
+        2240,
+        1632
+      ],
+      "imported_size": [
+        2048,
+        1492
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/teacher_entropy_threshold_crossing_all.png",
+      "kind": "png",
+      "sha256": "08c357cb07d1803525f61f87400523245b056cd3380cf941886ab2b044e33ea7",
+      "bytes": 94107,
+      "original_size": [
+        1870,
+        1071
+      ],
+      "imported_size": [
+        1870,
+        1071
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/teacher_entropy_threshold_crossing_failure.png",
+      "kind": "png",
+      "sha256": "5c3299df16ab7aa0987cf480409289bbd4fcfc48231d22345db3d4de3777643f",
+      "bytes": 96358,
+      "original_size": [
+        1870,
+        1071
+      ],
+      "imported_size": [
+        1870,
+        1071
+      ]
+    },
+    {
+      "source": "reference_legacy_qwen3_entropy_diagnostics/teacher_entropy_threshold_crossing_success.png",
+      "kind": "png",
+      "sha256": "1c86d477d8b7991a80cda5b1b9d1d7ceaf29c0d88c51e99f5f2dda2b633ba92e",
+      "bytes": 95548,
+      "original_size": [
+        1870,
+        1071
+      ],
+      "imported_size": [
+        1870,
+        1071
+      ]
+    }
+  ],
+  "failures": [],
+  "counts": {
+    "csv": 70,
+    "png": 72,
+    "json": 43
+  },
+  "scalar_events": 664727
+}

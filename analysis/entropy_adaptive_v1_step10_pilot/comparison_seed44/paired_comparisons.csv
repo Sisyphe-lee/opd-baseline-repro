@@ -1,0 +1,4 @@
+left,right,split,task_count,both_success,left_only_success,right_only_success,both_failure,mcnemar_exact_pvalue
+adaptive,full,all,274,4,21,17,232,0.6271025701571489
+adaptive,full,seen,140,3,11,10,116,1.0
+adaptive,full,unseen,134,1,10,7,116,0.629058837890625

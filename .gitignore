@@ -1,0 +1,70 @@
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local Python environment
+/.venv_tcod/
+/.venv/
+/venv/
+
+# Large model and training artifacts
+/models/
+/checkpoints/
+/runs/
+# Symlinks into /raid asset store (no trailing slash so links themselves are ignored)
+/models
+/checkpoints
+/data/alfworld_runtime
+*.egg-info/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.incomplete
+
+# Generated ALFWorld runtime, local experiment trackers, and worker caches
+/data/alfworld_runtime/
+/data/two_stage_distillation/generated/*.jsonl
+/wandb/
+**/ray_tmp/
+**/worker_tmp/
+
+# Patch/editor backup files
+*.orig
+
+# Local secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+*.token
+
+# Private local instructions and remote-machine usage documentation
+/AGENTS.md
+/agents.md
+/REMOTE_MACHINE.md
+/REMOTE_MACHINE_USAGE.md
+/remote_machine.md
+/remote_machine_usage.md
+/REMOTE_SERVER.md
+/REMOTE_SERVER_USAGE.md
+/remote_server.md
+/remote_server_usage.md
+/docs/REMOTE_MACHINE.md
+/docs/REMOTE_MACHINE_USAGE.md
+/docs/remote_machine.md
+/docs/remote_machine_usage.md
+/docs/REMOTE_SERVER.md
+/docs/REMOTE_SERVER_USAGE.md
+/docs/remote_server.md
+/docs/remote_server_usage.md
+/private/
+
+# Editor and OS files
+.DS_Store
+*.swp
+*.swo
+*~

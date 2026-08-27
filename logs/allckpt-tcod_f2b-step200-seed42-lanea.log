@@ -1,0 +1,1320 @@
+WARNING 08-13 08:22:31 [config_validator.py:462] `max_model_len` is set to 10752 from `max_prompt_tokens` and `max_response_tokens`.
+WARNING 08-13 08:22:31 [config_validator.py:508] `enable_prompt_truncation` is set to True; the prompt will be truncated to `max_prompt_tokens`=10240 tokens if it is too long.
+INFO 08-13 08:22:31 [config_validator.py:789] `buffer.train_batch_size` is set to `buffer.batch_size` * `algorithm.repeat_times`
+The tokenizer you are loading from '/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+INFO 08-13 08:22:35 [config_validator.py:1096] `trainer_config` is not provided, using default trainer config.
+2026-08-13 08:22:35,764	INFO worker.py:1692 -- Using address 127.0.0.1:18944 set in the environment variable RAY_ADDRESS
+2026-08-13 08:22:35,769	INFO worker.py:1833 -- Connecting to existing Ray cluster at address: 192.168.6.251:18944...
+2026-08-13 08:22:35,781	INFO worker.py:2013 -- Connected to Ray cluster.
+/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/.venv_tcod/lib/python3.10/site-packages/ray/_private/worker.py:2052: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+Config(mode='bench',
+       project='TCOD-ALL-CHECKPOINT-FULL274',
+       group='all-checkpoint-full274-seed42',
+       name='allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu',
+       checkpoint_root_dir='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/trinity_output',
+       checkpoint_job_dir='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/trinity_output/TCOD-ALL-CHECKPOINT-FULL274/all-checkpoint-full274-seed42/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu',
+       ray_namespace='TCOD-ALL-CHECKPOINT-FULL274/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu',
+       continue_from_checkpoint=False,
+       algorithm=AlgorithmConfig(algorithm_type='grpo',
+                                 repeat_times=1,
+                                 optimizer=OptimizerConfig(lr=1e-06,
+                                                           lr_warmup_steps=-1,
+                                                           lr_warmup_steps_ratio=0.0,
+                                                           min_lr_ratio=0.0,
+                                                           warmup_style=None,
+                                                           lr_scheduler_type='constant',
+                                                           optimizer_type='adam',
+                                                           betas=[0.9, 0.999],
+                                                           weight_decay=0.01,
+                                                           clip_grad=1.0),
+                                 sample_strategy='default',
+                                 sample_strategy_args={},
+                                 advantage_fn='grpo',
+                                 advantage_fn_args={'duplicate_experiences': False,
+                                                    'epsilon': 1e-06,
+                                                    'rank_penalty': None,
+                                                    'std_cal_level': 'group',
+                                                    'std_threshold': None},
+                                 kl_penalty_fn='none',
+                                 kl_penalty_fn_args={'adaptive': False,
+                                                     'kl_coef': 0.001},
+                                 policy_loss_fn='ppo',
+                                 policy_loss_fn_args={'clip_range': 0.2,
+                                                      'clip_ratio_c': 3.0,
+                                                      'delta_sequence_masking': 0.1,
+                                                      'enable_sequence_masking': False,
+                                                      'fallback_to_policy_gradient': False,
+                                                      'loss_agg_mode': 'token-mean'},
+                                 kl_loss_fn='k2',
+                                 kl_loss_fn_args={'adaptive': False,
+                                                  'kl_coef': 0.001},
+                                 entropy_loss_fn='default',
+                                 entropy_loss_fn_args={'entropy_coef': 0.0},
+                                 loss_agg_mode='token-mean'),
+       data_processor=DataProcessorConfig(task_pipeline=None,
+                                          experience_pipeline=ExperiencePipelineConfig(operators=[],
+                                                                                       save_input=True,
+                                                                                       input_save_path=None,
+                                                                                       inputs={},
+                                                                                       output=None)),
+       model=ModelConfig(model_path='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200',
+                         critic_model_path='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200',
+                         custom_chat_template=None,
+                         chat_template_path=None,
+                         temperature=1.0,
+                         top_p=1.0,
+                         top_k=-1,
+                         logprobs=0,
+                         max_model_len=10752,
+                         max_prompt_tokens=10240,
+                         max_response_tokens=512,
+                         min_response_tokens=0,
+                         enable_prompt_truncation=True,
+                         repetition_penalty=1.0,
+                         lora_configs=None,
+                         fully_sharded_loras=False,
+                         max_cpu_loras=None,
+                         rope_scaling=None,
+                         rope_theta=None,
+                         tinker=TinkerConfig(enable=False,
+                                             rank=32,
+                                             seed=None,
+                                             train_mlp=True,
+                                             train_attn=True,
+                                             train_unembed=True)),
+       cluster=ClusterConfig(ray_address='auto',
+                             node_num=1,
+                             gpu_per_node=5,
+                             total_gpu_num=5,
+                             rollout_gpu_num=5,
+                             auxiliary_model_gpu_num=0,
+                             explorer_gpu_num=5,
+                             trainer_gpu_num=0,
+                             trainer_node_num=0,
+                             trainer_gpu_num_per_node=0),
+       buffer=BufferConfig(batch_size=4,
+                           train_batch_size=4,
+                           total_epochs=1,
+                           total_steps=None,
+                           explorer_input=ExplorerInput(taskset=None,
+                                                        tasksets=[TasksetConfig(name='unused_train_set',
+                                                                                storage_type='file',
+                                                                                path='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/eval_manifests/full_valid_seen.jsonl',
+                                                                                default_workflow_type='TCOD_eval_alfworld_workflow',
+                                                                                default_reward_fn_type=None,
+                                                                                rollout_args=GenerationConfig(temperature=1.0,
+                                                                                                              top_p=1.0,
+                                                                                                              top_k=-1,
+                                                                                                              logprobs=0,
+                                                                                                              max_tokens=512,
+                                                                                                              n=1),
+                                                                                workflow_args={},
+                                                                                reward_fn_args={},
+                                                                                task_selector=TaskSelectorConfig(selector_type='sequential',
+                                                                                                                 seed=42,
+                                                                                                                 feature_keys=[],
+                                                                                                                 kwargs={}),
+                                                                                split='train',
+                                                                                subset_name=None,
+                                                                                format=FormatConfig(prompt_type=<PromptType.MESSAGES: 'messages'>,
+                                                                                                    prompt_key='game_file',
+                                                                                                    response_key='response',
+                                                                                                    system_prompt_key=None,
+                                                                                                    system_prompt=None,
+                                                                                                    messages_key='message',
+                                                                                                    tools_key='tools',
+                                                                                                    image_key=None,
+                                                                                                    video_key=None,
+                                                                                                    reply_prefix=None,
+                                                                                                    workflow_key='',
+                                                                                                    reward_fn_key='',
+                                                                                                    chosen_key='chosen',
+                                                                                                    rejected_key='rejected',
+                                                                                                    enable_concatenated_multi_turn=False,
+                                                                                                    chat_template=None,
+                                                                                                    teacher_hint_key=None),
+                                                                                max_retry_times=3,
+                                                                                max_retry_interval=1,
+                                                                                enable_progress_bar=False,
+                                                                                repeat_times=1,
+                                                                                index=0,
+                                                                                is_eval=False,
+                                                                                batch_size=4,
+                                                                                total_epochs=1,
+                                                                                total_steps=None,
+                                                                                ray_namespace='TCOD-ALL-CHECKPOINT-FULL274/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu')],
+                                                        eval_tasksets=[TasksetConfig(name='allckpt_tcod_f2b_step200_full_seen',
+                                                                                     storage_type='file',
+                                                                                     path='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/eval_manifests/full_valid_seen.jsonl',
+                                                                                     default_workflow_type='TCOD_eval_alfworld_workflow',
+                                                                                     default_reward_fn_type=None,
+                                                                                     rollout_args=GenerationConfig(temperature=0.4,
+                                                                                                                   top_p=1.0,
+                                                                                                                   top_k=-1,
+                                                                                                                   logprobs=0,
+                                                                                                                   max_tokens=512,
+                                                                                                                   n=1),
+                                                                                     workflow_args={'accumulate_memory': True,
+                                                                                                    'checkpoint_label': 'allckpt_tcod_f2b_step200',
+                                                                                                    'evaluation_id': 'allckpt_tcod_f2b_step200_full274_seed42',
+                                                                                                    'max_env_steps': 30,
+                                                                                                    'result_dir': '/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/task_records',
+                                                                                                    'strict_action_parser': True},
+                                                                                     reward_fn_args={},
+                                                                                     task_selector=TaskSelectorConfig(selector_type='sequential',
+                                                                                                                      seed=42,
+                                                                                                                      feature_keys=[],
+                                                                                                                      kwargs={}),
+                                                                                     split='test',
+                                                                                     subset_name=None,
+                                                                                     format=FormatConfig(prompt_type=<PromptType.MESSAGES: 'messages'>,
+                                                                                                         prompt_key='game_file',
+                                                                                                         response_key='response',
+                                                                                                         system_prompt_key=None,
+                                                                                                         system_prompt=None,
+                                                                                                         messages_key='message',
+                                                                                                         tools_key='tools',
+                                                                                                         image_key=None,
+                                                                                                         video_key=None,
+                                                                                                         reply_prefix=None,
+                                                                                                         workflow_key='',
+                                                                                                         reward_fn_key='',
+                                                                                                         chosen_key='chosen',
+                                                                                                         rejected_key='rejected',
+                                                                                                         enable_concatenated_multi_turn=False,
+                                                                                                         chat_template=None,
+                                                                                                         teacher_hint_key=None),
+                                                                                     max_retry_times=3,
+                                                                                     max_retry_interval=1,
+                                                                                     enable_progress_bar=False,
+                                                                                     repeat_times=1,
+                                                                                     index=0,
+                                                                                     is_eval=True,
+                                                                                     batch_size=4,
+                                                                                     total_epochs=1,
+                                                                                     total_steps=None,
+                                                                                     ray_namespace='TCOD-ALL-CHECKPOINT-FULL274/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu'),
+                                                                       TasksetConfig(name='allckpt_tcod_f2b_step200_full_unseen',
+                                                                                     storage_type='file',
+                                                                                     path='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/data/eval_manifests/full_valid_unseen.jsonl',
+                                                                                     default_workflow_type='TCOD_eval_alfworld_workflow',
+                                                                                     default_reward_fn_type=None,
+                                                                                     rollout_args=GenerationConfig(temperature=0.4,
+                                                                                                                   top_p=1.0,
+                                                                                                                   top_k=-1,
+                                                                                                                   logprobs=0,
+                                                                                                                   max_tokens=512,
+                                                                                                                   n=1),
+                                                                                     workflow_args={'accumulate_memory': True,
+                                                                                                    'checkpoint_label': 'allckpt_tcod_f2b_step200',
+                                                                                                    'evaluation_id': 'allckpt_tcod_f2b_step200_full274_seed42',
+                                                                                                    'max_env_steps': 30,
+                                                                                                    'result_dir': '/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/task_records',
+                                                                                                    'strict_action_parser': True},
+                                                                                     reward_fn_args={},
+                                                                                     task_selector=TaskSelectorConfig(selector_type='sequential',
+                                                                                                                      seed=42,
+                                                                                                                      feature_keys=[],
+                                                                                                                      kwargs={}),
+                                                                                     split='test',
+                                                                                     subset_name=None,
+                                                                                     format=FormatConfig(prompt_type=<PromptType.MESSAGES: 'messages'>,
+                                                                                                         prompt_key='game_file',
+                                                                                                         response_key='response',
+                                                                                                         system_prompt_key=None,
+                                                                                                         system_prompt=None,
+                                                                                                         messages_key='message',
+                                                                                                         tools_key='tools',
+                                                                                                         image_key=None,
+                                                                                                         video_key=None,
+                                                                                                         reply_prefix=None,
+                                                                                                         workflow_key='',
+                                                                                                         reward_fn_key='',
+                                                                                                         chosen_key='chosen',
+                                                                                                         rejected_key='rejected',
+                                                                                                         enable_concatenated_multi_turn=False,
+                                                                                                         chat_template=None,
+                                                                                                         teacher_hint_key=None),
+                                                                                     max_retry_times=3,
+                                                                                     max_retry_interval=1,
+                                                                                     enable_progress_bar=False,
+                                                                                     repeat_times=1,
+                                                                                     index=0,
+                                                                                     is_eval=True,
+                                                                                     batch_size=4,
+                                                                                     total_epochs=1,
+                                                                                     total_steps=None,
+                                                                                     ray_namespace='TCOD-ALL-CHECKPOINT-FULL274/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu')],
+                                                        default_workflow_type='TCOD_eval_alfworld_workflow',
+                                                        default_eval_workflow_type=None,
+                                                        default_reward_fn_type=None),
+                           trainer_input=TrainerInput(experience_buffer=None,
+                                                      auxiliary_buffers={}),
+                           explorer_output=None,
+                           tokenizer_path=None,
+                           pad_token_id=151643,
+                           cache_dir='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/trinity_output/TCOD-ALL-CHECKPOINT-FULL274/all-checkpoint-full274-seed42/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu/buffer'),
+       explorer=ExplorerConfig(name='explorer',
+                               runner_per_model=16,
+                               max_timeout=7200,
+                               max_retry_times=2,
+                               env_vars={},
+                               concurrent_mode='sequential',
+                               max_repeat_times_per_runner=None,
+                               runner_num=None,
+                               rollout_model=InferenceModelConfig(model_path='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200',
+                                                                  name=None,
+                                                                  engine_type='vllm',
+                                                                  engine_num=5,
+                                                                  tensor_parallel_size=1,
+                                                                  use_v1=False,
+                                                                  enforce_eager=False,
+                                                                  enable_prefix_caching=False,
+                                                                  enable_chunked_prefill=True,
+                                                                  gpu_memory_utilization=0.45,
+                                                                  dtype='bfloat16',
+                                                                  seed=42,
+                                                                  temperature=1.0,
+                                                                  top_p=1.0,
+                                                                  top_k=-1,
+                                                                  logprobs=0,
+                                                                  max_model_len=10752,
+                                                                  max_prompt_tokens=10240,
+                                                                  max_response_tokens=512,
+                                                                  min_response_tokens=0,
+                                                                  enable_prompt_truncation=True,
+                                                                  repetition_penalty=1.0,
+                                                                  ignore_eos=False,
+                                                                  chat_template=None,
+                                                                  enable_thinking=False,
+                                                                  enable_history=False,
+                                                                  enable_openai_api=False,
+                                                                  enable_log_requests=False,
+                                                                  enable_auto_tool_choice=False,
+                                                                  tool_call_parser=None,
+                                                                  reasoning_parser=None,
+                                                                  bundle_indices='',
+                                                                  ray_namespace=None,
+                                                                  enable_lora=False,
+                                                                  enable_runtime_lora_updating=False,
+                                                                  lora_modules=None,
+                                                                  lora_kwargs={},
+                                                                  rope_scaling=None,
+                                                                  rope_theta=None),
+                               auxiliary_models=[],
+                               eval_interval=100,
+                               eval_on_startup=True,
+                               bench_on_latest_checkpoint=False,
+                               proxy_port=8010,
+                               listen_address='0.0.0.0',
+                               service_status_check_interval=60,
+                               min_running_model_num=1,
+                               db_url=None,
+                               over_rollout=OverRolloutConfig(ratio=0.0,
+                                                              wait_after_min=30.0),
+                               dynamic_timeout=DynamicTimeoutConfig(enable=False,
+                                                                    ratio=3.0),
+                               runner_state_report_interval=0),
+       trainer=TrainerConfig(name='trainer',
+                             trainer_type='verl',
+                             trainer_strategy='fsdp',
+                             save_interval=0,
+                             enable_preview=True,
+                             total_steps=None,
+                             save_hf_checkpoint='last',
+                             grad_clip=1.0,
+                             use_dynamic_bsz=True,
+                             max_token_len_per_gpu=21504,
+                             ulysses_sequence_parallel_size=1,
+                             fix_actor_microbatch_loss_scale=False,
+                             save_strategy=<SaveStrategy.UNRESTRICTED: 'unrestricted'>,
+                             max_checkpoints_to_keep=None,
+                             trainer_config=veRLConfig(data=Data(train_batch_size=4,
+                                                                 trust_remote_code=False),
+                                                       actor_rollout_ref=ActorRolloutRef(hybrid_engine=True,
+                                                                                         model=ActorModel(path='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200',
+                                                                                                          external_lib=None,
+                                                                                                          override_config={},
+                                                                                                          enable_gradient_checkpointing=True,
+                                                                                                          use_remove_padding=True,
+                                                                                                          use_fused_kernels=False,
+                                                                                                          fused_kernel_options=FusedKernelOptions(impl_backend=None),
+                                                                                                          custom_chat_template=None,
+                                                                                                          enable_activation_offload=False,
+                                                                                                          use_shm=False,
+                                                                                                          trust_remote_code=False,
+                                                                                                          lora_rank=0,
+                                                                                                          lora_alpha=32,
+                                                                                                          target_modules='all-linear',
+                                                                                                          exclude_modules=None,
+                                                                                                          lora_adapter_path=None,
+                                                                                                          rope_scaling=None,
+                                                                                                          rope_theta=None),
+                                                                                         actor=Actor(strategy='fsdp',
+                                                                                                     ppo_mini_batch_size=4,
+                                                                                                     ppo_micro_batch_size=None,
+                                                                                                     ppo_micro_batch_size_per_gpu=1,
+                                                                                                     use_dynamic_bsz=True,
+                                                                                                     ppo_max_token_len_per_gpu=21504,
+                                                                                                     fix_actor_microbatch_loss_scale=False,
+                                                                                                     grad_clip=1.0,
+                                                                                                     ppo_epochs=1,
+                                                                                                     shuffle=False,
+                                                                                                     ulysses_sequence_parallel_size=1,
+                                                                                                     entropy_from_logits_with_chunking=False,
+                                                                                                     entropy_checkpointing=False,
+                                                                                                     checkpoint=Checkpoint(load_contents=['model',
+                                                                                                                                          'optimizer',
+                                                                                                                                          'extra'],
+                                                                                                                           save_contents=['model',
+                                                                                                                                          'optimizer',
+                                                                                                                                          'extra'],
+                                                                                                                           async_save=False),
+                                                                                                     optim=Optim(optimizer='AdamW',
+                                                                                                                 optimizer_impl='torch.optim',
+                                                                                                                 lr=1e-06,
+                                                                                                                 lr_warmup_steps=-1,
+                                                                                                                 lr_warmup_steps_ratio=0.0,
+                                                                                                                 min_lr_ratio=0.0,
+                                                                                                                 warmup_style=None,
+                                                                                                                 lr_scheduler_type='constant',
+                                                                                                                 total_training_steps=9223372036854775807,
+                                                                                                                 betas=[0.9,
+                                                                                                                        0.999],
+                                                                                                                 clip_grad=1.0,
+                                                                                                                 lr_warmup_init=0.0,
+                                                                                                                 lr_decay_steps=9223372036854775807,
+                                                                                                                 lr_decay_style='constant',
+                                                                                                                 min_lr=0.0,
+                                                                                                                 weight_decay=0.01,
+                                                                                                                 weight_decay_incr_style='constant',
+                                                                                                                 lr_wsd_decay_style='exponential',
+                                                                                                                 lr_wsd_decay_steps=None,
+                                                                                                                 use_checkpoint_opt_param_scheduler=False,
+                                                                                                                 override_optimizer_config=None),
+                                                                                                     fsdp_config=FSDPConfig(_target_='verl.workers.config.FSDPEngineConfig',
+                                                                                                                            param_offload=False,
+                                                                                                                            optimizer_offload=False,
+                                                                                                                            offload_policy=False,
+                                                                                                                            reshard_after_forward=True,
+                                                                                                                            wrap_policy=WrapPolicy(min_num_params=0),
+                                                                                                                            fsdp_size=-1,
+                                                                                                                            forward_prefetch=False,
+                                                                                                                            model_dtype=None),
+                                                                                                     megatron=MegatronConfig(param_offload=False,
+                                                                                                                             grad_offload=False,
+                                                                                                                             optimizer_offload=False,
+                                                                                                                             tensor_model_parallel_size=1,
+                                                                                                                             expert_model_parallel_size=1,
+                                                                                                                             expert_tensor_parallel_size=None,
+                                                                                                                             pipeline_model_parallel_size=1,
+                                                                                                                             virtual_pipeline_model_parallel_size=None,
+                                                                                                                             context_parallel_size=1,
+                                                                                                                             sequence_parallel=True,
+                                                                                                                             use_distributed_optimizer=True,
+                                                                                                                             use_dist_checkpointing=False,
+                                                                                                                             dist_checkpointing_path=None,
+                                                                                                                             seed=42,
+                                                                                                                             override_ddp_config={},
+                                                                                                                             override_transformer_config=OverrideTransformerConfig(recompute_granularity='full',
+                                                                                                                                                                                   recompute_modules=['core_attn'],
+                                                                                                                                                                                   recompute_method='uniform',
+                                                                                                                                                                                   recompute_num_layers=1),
+                                                                                                                             use_mbridge=False,
+                                                                                                                             dtype='bfloat16',
+                                                                                                                             use_remove_padding=True),
+                                                                                                     profile=ProfileConfig(use_profile=False,
+                                                                                                                           profile_ranks=None,
+                                                                                                                           step_start=-1,
+                                                                                                                           step_end=-1,
+                                                                                                                           save_path=None),
+                                                                                                     data_loader_seed=None,
+                                                                                                     load_weight=True,
+                                                                                                     policy_loss=PolicyLossConfig(_target_='',
+                                                                                                                                  loss_mode='vanilla',
+                                                                                                                                  clip_cov_ratio=0.0002,
+                                                                                                                                  clip_cov_lb=1.0,
+                                                                                                                                  clip_cov_ub=5.0,
+                                                                                                                                  kl_cov_ratio=0.0002,
+                                                                                                                                  ppo_kl_coef=0.1),
+                                                                                                     profiler={},
+                                                                                                     router_replay=RouterReplayConfig(_target_='',
+                                                                                                                                      mode='disabled',
+                                                                                                                                      record_file=None,
+                                                                                                                                      replay_file=None),
+                                                                                                     loss_agg_mode='token-mean',
+                                                                                                     clip_ratio=0.2,
+                                                                                                     clip_ratio_low=None,
+                                                                                                     clip_ratio_high=None,
+                                                                                                     entropy_coeff=0.001,
+                                                                                                     use_kl_loss=True),
+                                                                                         ref=Ref(fsdp_config=FSDPConfig(_target_='verl.workers.config.FSDPEngineConfig',
+                                                                                                                        param_offload=False,
+                                                                                                                        optimizer_offload=False,
+                                                                                                                        offload_policy=False,
+                                                                                                                        reshard_after_forward=True,
+                                                                                                                        wrap_policy=WrapPolicy(min_num_params=0),
+                                                                                                                        fsdp_size=-1,
+                                                                                                                        forward_prefetch=False,
+                                                                                                                        model_dtype=None),
+                                                                                                 log_prob_micro_batch_size=None,
+                                                                                                 log_prob_micro_batch_size_per_gpu=1,
+                                                                                                 log_prob_use_dynamic_bsz=True,
+                                                                                                 log_prob_max_token_len_per_gpu=21504,
+                                                                                                 ulysses_sequence_parallel_size=1,
+                                                                                                 entropy_from_logits_with_chunking=False,
+                                                                                                 entropy_checkpointing=False,
+                                                                                                 checkpoint=Checkpoint(load_contents=['model'],
+                                                                                                                       save_contents=['model'],
+                                                                                                                       async_save=False),
+                                                                                                 megatron=MegatronConfig(param_offload=False,
+                                                                                                                         grad_offload=False,
+                                                                                                                         optimizer_offload=False,
+                                                                                                                         tensor_model_parallel_size=1,
+                                                                                                                         expert_model_parallel_size=1,
+                                                                                                                         expert_tensor_parallel_size=None,
+                                                                                                                         pipeline_model_parallel_size=1,
+                                                                                                                         virtual_pipeline_model_parallel_size=None,
+                                                                                                                         context_parallel_size=1,
+                                                                                                                         sequence_parallel=True,
+                                                                                                                         use_distributed_optimizer=True,
+                                                                                                                         use_dist_checkpointing=False,
+                                                                                                                         dist_checkpointing_path=None,
+                                                                                                                         seed=42,
+                                                                                                                         override_ddp_config={},
+                                                                                                                         override_transformer_config=OverrideTransformerConfig(recompute_granularity='full',
+                                                                                                                                                                               recompute_modules=['core_attn'],
+                                                                                                                                                                               recompute_method='uniform',
+                                                                                                                                                                               recompute_num_layers=1),
+                                                                                                                         use_mbridge=False,
+                                                                                                                         dtype='bfloat16',
+                                                                                                                         use_remove_padding=True),
+                                                                                                 profile=ProfileConfig(use_profile=False,
+                                                                                                                       profile_ranks=None,
+                                                                                                                       step_start=-1,
+                                                                                                                       step_end=-1,
+                                                                                                                       save_path=None),
+                                                                                                 load_weight=True,
+                                                                                                 profiler={},
+                                                                                                 router_replay=RouterReplayConfig(_target_='',
+                                                                                                                                  mode='disabled',
+                                                                                                                                  record_file=None,
+                                                                                                                                  replay_file=None)),
+                                                                                         rollout=Rollout(val_kwargs=_ValKwargs(do_sample=False),
+                                                                                                         multi_turn=_MultiTurn(enable=False),
+                                                                                                         temperature=1.0,
+                                                                                                         n=1,
+                                                                                                         log_prob_use_dynamic_bsz=True,
+                                                                                                         log_prob_micro_batch_size=None,
+                                                                                                         log_prob_micro_batch_size_per_gpu=1,
+                                                                                                         log_prob_max_token_len_per_gpu=21504),
+                                                                                         nccl_timeout=7200,
+                                                                                         synchronizer=SynchronizerConfig(sync_method=<SyncMethod.CHECKPOINT: 'checkpoint'>,
+                                                                                                                         sync_style=<SyncStyle.FIXED: 'fixed'>,
+                                                                                                                         sync_interval=1,
+                                                                                                                         sync_offset=0,
+                                                                                                                         sync_timeout=7200,
+                                                                                                                         wait_for_checkpoint=False,
+                                                                                                                         explorer_world_size=5,
+                                                                                                                         ray_namespace='TCOD-ALL-CHECKPOINT-FULL274/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu'),
+                                                                                         explorer_name='explorer'),
+                                                       critic=Critic(enable=False,
+                                                                     strategy='fsdp',
+                                                                     optim=Optim(optimizer='AdamW',
+                                                                                 optimizer_impl='torch.optim',
+                                                                                 lr=1e-06,
+                                                                                 lr_warmup_steps=-1,
+                                                                                 lr_warmup_steps_ratio=0.0,
+                                                                                 min_lr_ratio=0.0,
+                                                                                 warmup_style=None,
+                                                                                 lr_scheduler_type='constant',
+                                                                                 total_training_steps=9223372036854775807,
+                                                                                 betas=[0.9,
+                                                                                        0.999],
+                                                                                 clip_grad=1.0,
+                                                                                 lr_warmup_init=0.0,
+                                                                                 lr_decay_steps=9223372036854775807,
+                                                                                 lr_decay_style='constant',
+                                                                                 min_lr=0.0,
+                                                                                 weight_decay=0.01,
+                                                                                 weight_decay_incr_style='constant',
+                                                                                 lr_wsd_decay_style='exponential',
+                                                                                 lr_wsd_decay_steps=None,
+                                                                                 use_checkpoint_opt_param_scheduler=False,
+                                                                                 override_optimizer_config=None),
+                                                                     model=CriticModel(path='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200',
+                                                                                       tokenizer_path='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200',
+                                                                                       override_config={},
+                                                                                       external_lib=None,
+                                                                                       trust_remote_code=False,
+                                                                                       enable_gradient_checkpointing=True,
+                                                                                       use_remove_padding=True,
+                                                                                       fsdp_config=FSDPConfig(_target_='verl.workers.config.FSDPEngineConfig',
+                                                                                                              param_offload=False,
+                                                                                                              optimizer_offload=False,
+                                                                                                              offload_policy=False,
+                                                                                                              reshard_after_forward=True,
+                                                                                                              wrap_policy=WrapPolicy(min_num_params=0),
+                                                                                                              fsdp_size=-1,
+                                                                                                              forward_prefetch=False,
+                                                                                                              model_dtype=None),
+                                                                                       rope_scaling=None,
+                                                                                       rope_theta=None),
+                                                                     ppo_mini_batch_size=4,
+                                                                     ppo_micro_batch_size=None,
+                                                                     ppo_micro_batch_size_per_gpu=1,
+                                                                     forward_micro_batch_size=None,
+                                                                     forward_micro_batch_size_per_gpu=None,
+                                                                     use_dynamic_bsz=True,
+                                                                     ppo_max_token_len_per_gpu=21504,
+                                                                     forward_max_token_len_per_gpu=21504,
+                                                                     ulysses_sequence_parallel_size=1,
+                                                                     ppo_epochs=1,
+                                                                     shuffle=False,
+                                                                     grad_clip=1.0,
+                                                                     cliprange_value=0.0,
+                                                                     checkpoint=Checkpoint(load_contents=['model',
+                                                                                                          'optimizer',
+                                                                                                          'extra'],
+                                                                                           save_contents=['model',
+                                                                                                          'optimizer',
+                                                                                                          'extra'],
+                                                                                           async_save=False),
+                                                                     rollout_n=1,
+                                                                     loss_agg_mode='token-mean',
+                                                                     megatron=MegatronConfig(param_offload=False,
+                                                                                             grad_offload=False,
+                                                                                             optimizer_offload=False,
+                                                                                             tensor_model_parallel_size=1,
+                                                                                             expert_model_parallel_size=1,
+                                                                                             expert_tensor_parallel_size=None,
+                                                                                             pipeline_model_parallel_size=1,
+                                                                                             virtual_pipeline_model_parallel_size=None,
+                                                                                             context_parallel_size=1,
+                                                                                             sequence_parallel=True,
+                                                                                             use_distributed_optimizer=True,
+                                                                                             use_dist_checkpointing=False,
+                                                                                             dist_checkpointing_path=None,
+                                                                                             seed=42,
+                                                                                             override_ddp_config={},
+                                                                                             override_transformer_config=OverrideTransformerConfig(recompute_granularity='full',
+                                                                                                                                                   recompute_modules=['core_attn'],
+                                                                                                                                                   recompute_method='uniform',
+                                                                                                                                                   recompute_num_layers=1),
+                                                                                             use_mbridge=False,
+                                                                                             dtype='bfloat16',
+                                                                                             use_remove_padding=True),
+                                                                     profile=ProfileConfig(use_profile=False,
+                                                                                           profile_ranks=None,
+                                                                                           step_start=-1,
+                                                                                           step_end=-1,
+                                                                                           save_path=None),
+                                                                     data_loader_seed=None,
+                                                                     load_weight=True,
+                                                                     nccl_timeout=7200,
+                                                                     ray_namespace='TCOD-ALL-CHECKPOINT-FULL274/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu',
+                                                                     profiler={}),
+                                                       reward_model=RewardModel(enable=False,
+                                                                                strategy=None,
+                                                                                model=_RewardModel(input_tokenizer=None,
+                                                                                                   path='',
+                                                                                                   external_lib=None,
+                                                                                                   use_remove_padding=False,
+                                                                                                   fsdp_config=FSDPConfig(_target_='verl.workers.config.FSDPEngineConfig',
+                                                                                                                          param_offload=False,
+                                                                                                                          optimizer_offload=False,
+                                                                                                                          offload_policy=False,
+                                                                                                                          reshard_after_forward=True,
+                                                                                                                          wrap_policy=WrapPolicy(min_num_params=0),
+                                                                                                                          fsdp_size=-1,
+                                                                                                                          forward_prefetch=False,
+                                                                                                                          model_dtype=None)),
+                                                                                micro_batch_size_per_gpu=1,
+                                                                                max_length=None,
+                                                                                ulysses_sequence_parallel_size=1,
+                                                                                use_dynamic_bsz=False,
+                                                                                forward_max_token_len_per_gpu=0,
+                                                                                reward_manager='naive',
+                                                                                use_reward_loop=True),
+                                                       custom_reward_function=CustomRewardFunction(path=None,
+                                                                                                   name='compute_score'),
+                                                       algorithm=Algorithm(rollout_correction=RolloutCorrection(rollout_is=None,
+                                                                                                                rollout_is_threshold=2.0,
+                                                                                                                rollout_rs=None,
+                                                                                                                rollout_rs_threshold=None,
+                                                                                                                rollout_rs_threshold_lower=None,
+                                                                                                                rollout_token_veto_threshold=None,
+                                                                                                                bypass_mode=True,
+                                                                                                                loss_type='ppo_clip'[36m(Explorer pid=3455303)[0m Using blocking ray.get inside async actor. This blocks the event loop. Please use `await` on object ref with asyncio.gather if you want to yield execution to the event loop instead.
+[36m(vLLMRolloutModel pid=3455614)[0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[36m(vLLMRolloutModel pid=3455614)[0m `torch_dtype` is deprecated! Use `dtype` instead!
+[36m(vLLMRolloutModel pid=3455617)[0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.[32m [repeated 4x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)[0m
+,
+                                                                                                                rollout_is_batch_normalize=False),
+                                                                           gamma=1.0,
+                                                                           lam=1.0,
+                                                                           adv_estimator='gae',
+                                                                           norm_adv_by_std_in_grpo=True,
+                                                                           use_kl_in_reward=False,
+                                                                           kl_penalty='kl',
+                                                                           kl_ctrl=KL_Ctrl(type='fixed',
+                                                                                           kl_coef=0.001,
+                                                                                           horizon=10000,
+                                                                                           target_kl=0.1)),
+                                                       trainer=Trainer(balance_batch=True,
+                                                                       total_epochs=30,
+                                                                       total_training_steps=9223372036854775807,
+                                                                       project_name='TCOD-ALL-CHECKPOINT-FULL274',
+                                                                       group_name='all-checkpoint-full274-seed42',
+                                                                       experiment_name='allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu',
+                                                                       logger=[],
+                                                                       val_generations_to_log_to_wandb=0,
+                                                                       nnodes=0,
+                                                                       n_gpus_per_node=0,
+                                                                       save_freq=0,
+                                                                       resume_mode='disable',
+                                                                       resume_from_path='',
+                                                                       test_freq=0,
+                                                                       critic_warmup=0,
+                                                                       default_hdfs_dir=None,
+                                                                       remove_previous_ckpt_in_save=False,
+                                                                       del_local_ckpt_after_load=False,
+                                                                       default_local_dir='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/trinity_output/TCOD-ALL-CHECKPOINT-FULL274/all-checkpoint-full274-seed42/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu',
+                                                                       val_before_train=False,
+                                                                       training_rollout_mode='parallel',
+                                                                       enable_exp_buffer=True,
+                                                                       sync_freq=1,
+                                                                       max_actor_ckpt_to_keep=None,
+                                                                       max_critic_ckpt_to_keep=None,
+                                                                       device='cuda'),
+                                                       global_profiler={},
+                                                       synchronizer=SynchronizerConfig(sync_method=<SyncMethod.CHECKPOINT: 'checkpoint'>,
+                                                                                       sync_style=<SyncStyle.FIXED: 'fixed'>,
+                                                                                       sync_interval=1,
+                                                                                       sync_offset=0,
+                                                                                       sync_timeout=7200,
+                                                                                       wait_for_checkpoint=False,
+                                                                                       explorer_world_size=5,
+                                                                                       ray_namespace='TCOD-ALL-CHECKPOINT-FULL274/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu'),
+                                                       enable_preview=True),
+                             trainer_config_path=''),
+       monitor=MonitorConfig(monitor_type='tensorboard',
+                             monitor_args={},
+                             detailed_stats=False,
+                             enable_ray_timeline=False,
+                             cache_dir='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/trinity_output/TCOD-ALL-CHECKPOINT-FULL274/all-checkpoint-full274-seed42/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu/monitor'),
+       synchronizer=SynchronizerConfig(sync_method=<SyncMethod.CHECKPOINT: 'checkpoint'>,
+                                       sync_style=<SyncStyle.FIXED: 'fixed'>,
+                                       sync_interval=1,
+                                       sync_offset=0,
+                                       sync_timeout=7200,
+                                       wait_for_checkpoint=False,
+                                       explorer_world_size=5,
+                                       ray_namespace='TCOD-ALL-CHECKPOINT-FULL274/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu'),
+       service=ServiceConfig(data_juicer=None),
+       log=LogConfig(level='INFO',
+                     group_by_node=False,
+                     save_dir='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/trinity_output/TCOD-ALL-CHECKPOINT-FULL274/all-checkpoint-full274-seed42/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu/log'),
+       stages=[])
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:22:44 [__init__.py:29] Allocate bundles [0] on node 14dae66fe430ecab7a28bceaba31c07231add075a888c6fa1bf01bd7.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:22:44 [__init__.py:29] Allocate bundles [1] on node 14dae66fe430ecab7a28bceaba31c07231add075a888c6fa1bf01bd7.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:22:44 [__init__.py:29] Allocate bundles [2] on node 14dae66fe430ecab7a28bceaba31c07231add075a888c6fa1bf01bd7.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:22:44 [__init__.py:29] Allocate bundles [3] on node 14dae66fe430ecab7a28bceaba31c07231add075a888c6fa1bf01bd7.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:22:45 [__init__.py:29] Allocate bundles [4] on node 14dae66fe430ecab7a28bceaba31c07231add075a888c6fa1bf01bd7.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:22:45 [explorer.py:97] Finished initializing Explorer.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:22:45 [explorer.py:383] Experience pipeline is ready.
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:22:51 [vllm_model.py:78] Using vLLM v0 engine
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:22:51 [__init__.py:216] Automatically detected platform cuda.
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:22:59 [__init__.py:742] Resolved architecture: Qwen2ForCausalLM
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:22:59 [__init__.py:1815] Using max model len 10752
+[36m(vLLMRolloutModel pid=3455614)[0m The tokenizer you are loading from '/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+[36m(vLLMRolloutModel pid=3455614)[0m [W813 08:23:02.245762942 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[36m(vLLMRolloutModel pid=3455614)[0m Loading safetensors checkpoint shards:   0% Completed | 0/2 [00:00<?, ?it/s]
+[36m(vLLMRolloutModel pid=3455647)[0m `torch_dtype` is deprecated! Use `dtype` instead![32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455616)[0m Loading safetensors checkpoint shards:  50% Completed | 1/2 [00:02<00:02,  2.76s/it]
+[36m(vLLMRolloutModel pid=3455647)[0m The tokenizer you are loading from '/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455616)[0m 
+[36m(vLLMRolloutModel pid=3455647)[0m [W813 08:23:03.442191336 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m Loading safetensors checkpoint shards:   0% Completed | 0/2 [00:00<?, ?it/s][32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455616)[0m Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:09<00:00,  4.78s/it][32m [repeated 6x across cluster][0m
+[36m(vLLMRolloutModel pid=3455615)[0m 
+[36m(vLLMRolloutModel pid=3455614)[0m 
+[36m(vLLMRolloutModel pid=3455647)[0m 
+[36m(vLLMRolloutModel pid=3455617)[0m 
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:22:59 [arg_utils.py:1208] Using ray runtime env: {'env_vars': {'TRINITY_LOG_DIR': '/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/trinity_output/TCOD-ALL-CHECKPOINT-FULL274/all-checkpoint-full274-seed42/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu/log', 'TRINITY_LOG_LEVEL': 'INFO', 'TRINITY_LOG_NODE_IP': '0', 'TRINITY_PLUGIN_DIRS': ''}}
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:22:59 [scheduler.py:222] Chunked prefill is enabled with max_num_batched_tokens=2048.
+[36m(vLLMRolloutModel pid=3455617)[0m INFO 08-13 08:22:51 [vllm_model.py:78] Using vLLM v0 engine[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455617)[0m INFO 08-13 08:22:52 [__init__.py:216] Automatically detected platform cuda.[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:22:59 [llm_engine.py:221] Initializing a V0 LLM engine (v0.10.2) with config: model='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200', speculative_config=None, tokenizer='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=10752, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=42, served_model_name=/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200, enable_prefix_caching=False, chunked_prefill_enabled=True, use_async_output_proc=False, pooler_config=None, compilation_config={"level":0,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":null,"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":0,"use_cudagraph":true,"cudagraph_num_of_warmups":0,"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":256,"local_cache_dir":null}, use_cached_outputs=False, 
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:23:02 [worker_base.py:595] Injected <class 'trinity.common.models.vllm_worker.WorkerExtension'> into <class 'vllm.worker.worker.Worker'> for extended collective_rpc calls ['apply_patches', 'init_process_group', 'update_weight']
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:23:02 [cuda.py:456] Using Flash Attention backend.
+[36m(vLLMRolloutModel pid=3455614)[0m [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[36m(vLLMRolloutModel pid=3455614)[0m [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[36m(vLLMRolloutModel pid=3455614)[0m [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[36m(vLLMRolloutModel pid=3455614)[0m [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[36m(vLLMRolloutModel pid=3455614)[0m [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[36m(vLLMRolloutModel pid=3455614)[0m [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:23:02 [parallel_state.py:1165] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+[36m(vLLMRolloutModel pid=3455614)[0m INFO 08-13 08:23:02 [model_runner.py:1051] Starting to load model /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200...
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:13 [default_loader.py:268] Loading weights took 9.69 seconds
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:00 [__init__.py:742] Resolved architecture: Qwen2ForCausalLM[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:00 [__init__.py:1815] Using max model len 10752[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:00 [arg_utils.py:1208] Using ray runtime env: {'env_vars': {'TRINITY_LOG_DIR': '/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/experiments/all_checkpoint_full274_seed42/tcod_f2b/step_200_seed42/trinity_output/TCOD-ALL-CHECKPOINT-FULL274/all-checkpoint-full274-seed42/allckpt_tcod_f2b_step200-full274-seed42-h30-5gpu/log', 'TRINITY_LOG_LEVEL': 'INFO', 'TRINITY_LOG_NODE_IP': '0', 'TRINITY_PLUGIN_DIRS': ''}}[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:00 [scheduler.py:222] Chunked prefill is enabled with max_num_batched_tokens=2048.[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:00 [llm_engine.py:221] Initializing a V0 LLM engine (v0.10.2) with config: model='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200', speculative_config=None, tokenizer='/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=10752, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=42, served_model_name=/vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200, enable_prefix_caching=False, chunked_prefill_enabled=True, use_async_output_proc=False, pooler_config=None, compilation_config={"level":0,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":null,"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":0,"use_cudagraph":true,"cudagraph_num_of_warmups":0,"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":256,"local_cache_dir":null}, use_cached_outputs=False, [32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:03 [worker_base.py:595] Injected <class 'trinity.common.models.vllm_worker.WorkerExtension'> into <class 'vllm.worker.worker.Worker'> for extended collective_rpc calls ['apply_patches', 'init_process_group', 'update_weight'][32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:03 [cuda.py:456] Using Flash Attention backend.[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m [Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0[32m [repeated 24x across cluster][0m
+[36m(vLLMRolloutModel pid=3455616)[0m Capturing CUDA graph shapes:   0%|          | 0/35 [00:00<?, ?it/s]
+[36m(vLLMRolloutModel pid=3455616)[0m Capturing CUDA graph shapes:   3%|▎         | 1/35 [00:00<00:21,  1.59it/s]
+[36m(vLLMRolloutModel pid=3455617)[0m Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:09<00:00,  4.54s/it][32m [repeated 8x across cluster][0m
+[36m(vLLMRolloutModel pid=3455617)[0m Capturing CUDA graph shapes:   0%|          | 0/35 [00:00<?, ?it/s][32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455616)[0m Capturing CUDA graph shapes:  29%|██▊       | 10/35 [00:05<00:13,  1.85it/s][32m [repeated 44x across cluster][0m
+[36m(vLLMRolloutModel pid=3455615)[0m Capturing CUDA graph shapes:  54%|█████▍    | 19/35 [00:10<00:08,  1.84it/s][32m [repeated 45x across cluster][0m
+[36m(vLLMRolloutModel pid=3455616)[0m Capturing CUDA graph shapes:  83%|████████▎ | 29/35 [00:15<00:03,  1.88it/s][32m [repeated 45x across cluster][0m
+[36m(vLLMRolloutModel pid=3455616)[0m Capturing CUDA graph shapes:  91%|█████████▏| 32/35 [00:17<00:01,  1.86it/s]
+[36m(vLLMRolloutModel pid=3455616)[0m Capturing CUDA graph shapes:  94%|█████████▍| 33/35 [00:17<00:01,  1.86it/s]
+[36m(vLLMRolloutModel pid=3455616)[0m Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:18<00:00,  1.86it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:18<00:00,  1.85it/s]
+[36m(vLLMRolloutModel pid=3455647)[0m Capturing CUDA graph shapes:  89%|████████▊ | 31/35 [00:19<00:02,  1.62it/s][32m [repeated 20x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:04 [parallel_state.py:1165] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:04 [model_runner.py:1051] Starting to load model /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/runs/exports/all_checkpoint_curve/tcod_f2b/step_200...[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:13 [model_runner.py:1083] Model loading took 5.7916 GiB and 10.018180 seconds
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:14 [worker.py:290] Memory profiling takes 0.66 seconds
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:14 [worker.py:290] the current vLLM instance can use total_gpu_memory (79.15GiB) x gpu_memory_utilization (0.45) = 35.62GiB
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:14 [worker.py:290] model weights take 5.79GiB; non_torch_memory takes 0.09GiB; PyTorch activation peak memory takes 1.39GiB; the rest of the memory reserved for KV Cache is 28.34GiB.
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:15 [executor_base.py:114] # cuda blocks: 51593, # CPU blocks: 7281
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:15 [executor_base.py:119] Maximum concurrency for 10752 tokens per request: 76.78x
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:17 [model_runner.py:1355] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:36 [model_runner.py:1507] Graph capturing finished in 19 secs, took 1.08 GiB
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:36 [worker.py:467] Free memory on device (77.95/79.15 GiB) on startup. Desired GPU memory utilization is (0.45, 35.62 GiB). Actual usage is 5.79 GiB for weight, 1.39 GiB for peak activation, 0.09 GiB for non-torch memory, and 1.08 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=29118511104` to fit into requested memory, or `--kv-cache-memory=74571102208` to fully utilize gpu memory. Current kv cache memory in use is 30431328256 bytes.
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:36 [llm_engine.py:420] init engine (profile, create kv cache, warmup model) took 22.18 seconds
+[36m(vLLMRolloutModel pid=3455617)[0m INFO 08-13 08:23:13 [default_loader.py:268] Loading weights took 9.22 seconds[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:14 [model_runner.py:1083] Model loading took 5.7916 GiB and 9.212214 seconds[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:15 [worker.py:290] Memory profiling takes 0.73 seconds[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:15 [worker.py:290] the current vLLM instance can use total_gpu_memory (79.15GiB) x gpu_memory_utilization (0.45) = 35.62GiB[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:15 [worker.py:290] model weights take 5.79GiB; non_torch_memory takes 0.09GiB; PyTorch activation peak memory takes 1.39GiB; the rest of the memory reserved for KV Cache is 28.34GiB.[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:15 [executor_base.py:114] # cuda blocks: 51593, # CPU blocks: 7281[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:15 [executor_base.py:119] Maximum concurrency for 10752 tokens per request: 76.78x[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:17 [model_runner.py:1355] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:37 [vllm_model.py:685] OpenAI API server is not enabled. Skipping...
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:23:40 [explorer.py:390] All models are ready.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:23:40 [explorer.py:225] Initialize process group for weight synchronization, master_address=192.168.6.251, master_port=45137, world_size=5, rank_offset=0
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:40 [vllm_worker.py:42] vLLM starting init_process_group:
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:40 [vllm_worker.py:42]   > address=192.168.6.251:45137
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:40 [vllm_worker.py:42]   > rank=0
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:40 [vllm_worker.py:42]   > rank_offset=2
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:40 [vllm_worker.py:42]   > world_size=5
+[36m(vLLMRolloutModel pid=3455616)[0m INFO 08-13 08:23:49 [vllm_worker.py:60] vLLM init_process_group finished.
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:39 [model_runner.py:1507] Graph capturing finished in 22 secs, took 1.07 GiB[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:39 [worker.py:467] Free memory on device (78.73/79.15 GiB) on startup. Desired GPU memory utilization is (0.45, 35.62 GiB). Actual usage is 5.79 GiB for weight, 1.39 GiB for peak activation, 0.09 GiB for non-torch memory, and 1.07 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=29120608256` to fit into requested memory, or `--kv-cache-memory=75415795712` to fully utilize gpu memory. Current kv cache memory in use is 30431328256 bytes.[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:39 [llm_engine.py:420] init engine (profile, create kv cache, warmup model) took 25.26 seconds[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m INFO 08-13 08:23:40 [vllm_model.py:685] OpenAI API server is not enabled. Skipping...[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455617)[0m INFO 08-13 08:23:40 [vllm_worker.py:42] vLLM starting init_process_group:[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455617)[0m INFO 08-13 08:23:40 [vllm_worker.py:42]   > world_size=5[32m [repeated 16x across cluster][0m
+[33m(raylet)[0m WARNING: 161 PYTHON worker processes have been started on node: 14dae66fe430ecab7a28bceaba31c07231add075a888c6fa1bf01bd7 with address: 192.168.6.251. This could be a result of using a large number of actors, or due to tasks blocked in ray.get() calls (see https://github.com/ray-project/ray/issues/3644 for some discussion of workarounds).
+[36m(WorkflowRunner pid=3457128)[0m INFO 08-13 08:23:59 [model.py:307] API server is not enabled for inference model.
+[36m(vLLMRolloutModel pid=3455617)[0m INFO 08-13 08:23:49 [vllm_worker.py:60] vLLM init_process_group finished.[32m [repeated 4x across cluster][0m
+[36m(WorkflowRunner pid=3457726)[0m INFO 08-13 08:24:04 [model.py:307] API server is not enabled for inference model.[32m [repeated 21x across cluster][0m
+[36m(WorkflowRunner pid=3458020)[0m INFO 08-13 08:24:09 [model.py:307] API server is not enabled for inference model.[32m [repeated 39x across cluster][0m
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:24:10 [scheduler.py:333] Scheduler loop started.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:24:10 [scheduler.py:446] Starting Scheduler with 80 runners
+[36m(vLLMRolloutModel pid=3455616)[0m /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/.venv_tcod/lib/python3.10/site-packages/vllm/model_executor/layers/sampler.py:876: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)
+[36m(vLLMRolloutModel pid=3455616)[0m   selected_logprobs = logprobs[[
+[36m(vLLMRolloutModel pid=3455647)[0m Capturing CUDA graph shapes:  97%|█████████▋| 34/35 [00:21<00:00,  1.64it/s][32m [repeated 13x across cluster][0m
+[36m(vLLMRolloutModel pid=3455647)[0m Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:21<00:00,  1.65it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:21<00:00,  1.60it/s][32m [repeated 4x across cluster][0m
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:24:10 [explorer.py:502] Evaluation at step 0 started.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:24:10 [explorer.py:510] Evaluation on allckpt_tcod_f2b_step200_full_seen at step 0 started.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:24:11 [registry.py:78] Empty module key, return None
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:24:11 [explorer.py:510] Evaluation on allckpt_tcod_f2b_step200_full_unseen at step 0 started.
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:24:12 [registry.py:78] Empty module key, return None
+[36m(Explorer pid=3455303)[0m INFO 08-13 08:24:12 [scheduler.py:346] Runner state monitoring loop disabled.
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:47 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3458893)[0m INFO 08-13 08:24:10 [model.py:307] API server is not enabled for inference model.[32m [repeated 19x across cluster][0m
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:47 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:47 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:48 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:48 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:48 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:48 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:49 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:49 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:49 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:49 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:49 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:50 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:50 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:50 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:51 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:51 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:24:51 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3457118)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:24:52 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:24:52 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:24:52 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:24:53 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:24:53 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:24:53 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:24:54 [model.py:146] Prompt was truncated to 10240 tokens
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3459567)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3457168)[0m Error parsing action: list index out of range, response = 2
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3457168)[0m Error parsing action: list index out of range, response = 2
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3457168)[0m Error parsing action: list index out of range, response = 2
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3457168)[0m Error parsing action: list index out of range, response = 2
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3457168)[0m Error parsing action: list index out of range, response = 2
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3457168)[0m Error parsing action: list index out of range, response = 2
+[36m(WorkflowRunner pid=3457168)[0m Error parsing action: list index out of range, response = 2
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3457168)[0m Error parsing action: list index out of range, response = 2
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(WorkflowRunner pid=3458020)[0m Error parsing action: list index out of range, response =  have
+[36m(WorkflowRunner pid=3457148)[0m Error parsing action: list index out of range, response = table
+[36m(vLLMRolloutModel pid=3455615)[0m WARNING 08-13 08:25:01 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 49x across cluster][0m
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3457189)[0m Error parsing action: list index out of range, response = :
+[36m(WorkflowRunner pid=3458115)[0m Error parsing action: list index out of range, response = 've
+[36m(WorkflowRunner pid=3458115)[0m Error parsing action: list index out of range, response = 've
+[36m(WorkflowRunner pid=3458115)[0m Error parsing action: list index out of range, response = 've
+[36m(WorkflowRunner pid=3458115)[0m Error parsing action: list index out of range, response = 've
+[36m(WorkflowRunner pid=3458115)[0m Error parsing action: list index out of range, response = 've
+[36m(WorkflowRunner pid=3458115)[0m Error parsing action: list index out of range, response = 've
+[36m(WorkflowRunner pid=3458115)[0m Error parsing action: list index out of range, response = 've
+[36m(WorkflowRunner pid=3458115)[0m Error parsing action: list index out of range, response = 've
+[36m(WorkflowRunner pid=3458115)[0m Error parsing action: list index out of range, response = 've
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:25:08 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 22x across cluster][0m
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(WorkflowRunner pid=3457197)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3457197)[0m 
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:25:14 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 15x across cluster][0m
+[36m(WorkflowRunner pid=3457121)[0m Error parsing action: list index out of range, response =  examined
+[36m(WorkflowRunner pid=3457121)[0m Error parsing action: list index out of range, response =  examined
+[36m(WorkflowRunner pid=3457121)[0m Error parsing action: list index out of range, response =  examined
+[36m(WorkflowRunner pid=3457121)[0m Error parsing action: list index out of range, response =  examined
+[36m(WorkflowRunner pid=3457121)[0m Error parsing action: list index out of range, response =  examined
+[36m(WorkflowRunner pid=3457121)[0m Error parsing action: list index out of range, response =  examined
+[36m(WorkflowRunner pid=3457121)[0m Error parsing action: list index out of range, response =  examined
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3458888)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = ,
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:25:20 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 29x across cluster][0m
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457122)[0m Error parsing action: list index out of range, response =  drawer
+[36m(WorkflowRunner pid=3457139)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457122)[0m Error parsing action: list index out of range, response =  drawer
+[36m(WorkflowRunner pid=3457122)[0m Error parsing action: list index out of range, response =  drawer
+[36m(WorkflowRunner pid=3457122)[0m Error parsing action: list index out of range, response =  drawer
+[36m(WorkflowRunner pid=3457122)[0m Error parsing action: list index out of range, response =  drawer
+[36m(WorkflowRunner pid=3457122)[0m Error parsing action: list index out of range, response =  drawer
+[36m(vLLMRolloutModel pid=3455615)[0m WARNING 08-13 08:25:26 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 16x across cluster][0m
+[36m(WorkflowRunner pid=3458031)[0m Error parsing action: list index out of range, response =  drawer[32m [repeated 2x across cluster][0m
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3457806)[0m Error parsing action: list index out of range, response =  recent
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3457806)[0m Error parsing action: list index out of range, response =  recent
+[36m(WorkflowRunner pid=3459654)[0m Error parsing action: list index out of range, response =  ensure
+[36m(WorkflowRunner pid=3457806)[0m Error parsing action: list index out of range, response =  recent
+[36m(WorkflowRunner pid=3457806)[0m Error parsing action: list index out of range, response =  recent
+[36m(WorkflowRunner pid=3457806)[0m Error parsing action: list index out of range, response =  recent
+[36m(WorkflowRunner pid=3457806)[0m Error parsing action: list index out of range, response =  recent
+[36m(WorkflowRunner pid=3457806)[0m Error parsing action: list index out of range, response =  recent
+[36m(WorkflowRunner pid=3457806)[0m Error parsing action: list index out of range, response =  recent
+[36m(vLLMRolloutModel pid=3455615)[0m WARNING 08-13 08:25:31 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 33x across cluster][0m
+[36m(WorkflowRunner pid=3457806)[0m Error parsing action: list index out of range, response =  recent
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3458031)[0m Error parsing action: list index out of range, response =  drawer[32m [repeated 13x across cluster][0m
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457169)[0m Error parsing action: list index out of range, response =  ['
+[36m(WorkflowRunner pid=3457127)[0m Error parsing action: list index out of range, response = 8
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457141)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(vLLMRolloutModel pid=3455617)[0m WARNING 08-13 08:25:36 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 43x across cluster][0m
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457147)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(vLLMRolloutModel pid=3455614)[0m WARNING 08-13 08:25:41 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 15x across cluster][0m
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457123)[0m Error parsing action: list index out of range, response = er
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(vLLMRolloutModel pid=3455616)[0m WARNING 08-13 08:25:46 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 13x across cluster][0m
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3459058)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3459058)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3459058)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3459058)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3457173)[0m Error parsing action: list index out of range, response =  you
+[36m(WorkflowRunner pid=3459058)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3459058)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3459058)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3459058)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3459058)[0m Error parsing action: list index out of range, response =  
+[36m(WorkflowRunner pid=3458592)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3458592)[0m 
+[36m(WorkflowRunner pid=3458592)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3458592)[0m 
+[36m(WorkflowRunner pid=3458592)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3458592)[0m 
+[36m(WorkflowRunner pid=3458592)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3458592)[0m 
+[36m(WorkflowRunner pid=3458592)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3458592)[0m 
+[36m(WorkflowRunner pid=3458592)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3458592)[0m 
+[36m(WorkflowRunner pid=3458592)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3458592)[0m 
+[36m(WorkflowRunner pid=3458592)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3458592)[0m 
+[36m(WorkflowRunner pid=3458592)[0m Error parsing action: list index out of range, response = '
+[36m(WorkflowRunner pid=3458592)[0m 
+[36m(vLLMRolloutModel pid=3455615)[0m WARNING 08-13 08:25:52 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 42x across cluster][0m
+[36m(WorkflowRunner pid=3457131)[0m Error parsing action: list index out of range, response =  [32m [repeated 16x across cluster][0m
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458117)[0m Error parsing action: list index out of range, response =  enclosed
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3458332)[0m Error parsing action: list index out of range, response = go
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(WorkflowRunner pid=3459216)[0m Error parsing action: list index out of range, response =  to
+[36m(vLLMRolloutModel pid=3455615)[0m WARNING 08-13 08:25:57 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 41x across cluster][0m
+[36m(WorkflowRunner pid=3459617)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3459617)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457126)[0m Error parsing action: list index out of range, response =  need
+[36m(WorkflowRunner pid=3459617)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457126)[0m Error parsing action: list index out of range, response =  need
+[36m(WorkflowRunner pid=3459617)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457126)[0m Error parsing action: list index out of range, response =  need
+[36m(WorkflowRunner pid=3459617)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457126)[0m Error parsing action: list index out of range, response =  need
+[36m(WorkflowRunner pid=3459617)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457126)[0m Error parsing action: list index out of range, response =  need
+[36m(WorkflowRunner pid=3459617)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457126)[0m Error parsing action: list index out of range, response =  need
+[36m(WorkflowRunner pid=3459617)[0m Error parsing action: list index out of range, response =  '
+[36m(WorkflowRunner pid=3457126)[0m Error parsing action: list index out of range, response =  need
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457184)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457184)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457137)[0m Error parsing action: list index out of range, response = owel
+[36m(WorkflowRunner pid=3457137)[0m Error parsing action: list index out of range, response = owel
+[36m(WorkflowRunner pid=3457184)[0m Error parsing action: list index out of range, response =  a
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3457137)[0m 
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457137)[0m Error parsing action: list index out of range, response = owel
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457137)[0m Error parsing action: list index out of range, response = owel
+[36m(WorkflowRunner pid=3457137)[0m Error parsing action: list index out of range, response = owel
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457137)[0m Error parsing action: list index out of range, response = owel
+[36m(WorkflowRunner pid=3459413)[0m Error parsing action: list index out of range, response =  is
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3457137)[0m Error parsing action: list index out of range, response = owel
+[36m(WorkflowRunner pid=3457137)[0m Error parsing action: list index out of range, response = owel
+[36m(WorkflowRunner pid=3457188)[0m Error parsing action: list index out of range, response =  the
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(WorkflowRunner pid=3457124)[0m 
+[36m(vLLMRolloutModel pid=3455647)[0m WARNING 08-13 08:26:02 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 91x across cluster][0m
+[36m(WorkflowRunner pid=3457124)[0m Error parsing action: list index out of range, response = '[32m [repeated 18x across cluster][0m
+[36m(WorkflowRunner pid=3457603)[0m Error parsing action: list index out of range, response =  a[32m [repeated 23x across cluster][0m
+[36m(vLLMRolloutModel pid=3455615)[0m WARNING 08-13 08:26:09 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 2x across cluster][0m
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457136)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457136)[0m 
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457136)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457136)[0m 
+[36m(WorkflowRunner pid=3457136)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457136)[0m 
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457136)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457136)[0m 
+[36m(WorkflowRunner pid=3457117)[0m Error parsing action: list index out of range, response =  shelf
+[36m(WorkflowRunner pid=3457136)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457136)[0m 
+[36m(WorkflowRunner pid=3457136)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457136)[0m 
+[36m(WorkflowRunner pid=3457136)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457136)[0m 
+[36m(WorkflowRunner pid=3457136)[0m Error parsing action: list index out of range, response = .
+[36m(WorkflowRunner pid=3457136)[0m 
+[36m(vLLMRolloutModel pid=3455617)[0m WARNING 08-13 08:26:16 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 20x across cluster][0m
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+[36m(WorkflowRunner pid=3458305)[0m Error parsing action: list index out of range, response = Prior
+INFO 08-13 08:26:18 [launcher.py:34] Benchmark finished.
+[36m(vLLMRolloutModel pid=3455614)[0m /vepfs-mlp2/mlp-public/252302025/sjx/opd-workspaces/tcod-baseline/.venv_tcod/lib/python3.10/site-packages/vllm/model_executor/layers/sampler.py:876: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:306.)[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455614)[0m   selected_logprobs = logprobs[[[32m [repeated 4x across cluster][0m
+[36m(vLLMRolloutModel pid=3455617)[0m WARNING 08-13 08:26:18 [model.py:146] Prompt was truncated to 10240 tokens[32m [repeated 11x across cluster][0m

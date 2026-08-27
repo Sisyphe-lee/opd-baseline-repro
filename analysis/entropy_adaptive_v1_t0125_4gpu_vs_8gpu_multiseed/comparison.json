@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "comparison": "adaptive_v1_tau_0.125_train_layout_4gpu_vs_8gpu",
+  "evaluation_seeds": [42, 43, 44],
+  "evaluation_protocol": {
+    "task_count_per_seed": 274,
+    "seen_count_per_seed": 140,
+    "unseen_count_per_seed": 134,
+    "max_env_steps": 30,
+    "accumulate_memory": true,
+    "strict_action_parser": true,
+    "max_response_tokens": 512,
+    "temperature": 0.4,
+    "top_p": 1.0,
+    "top_k": -1,
+    "evaluation_gpu_count": 4,
+    "frozen_protocol_validated": true
+  },
+  "per_seed": [
+    {"seed": 42, "train_8gpu_success": 222, "train_4gpu_success": 226, "difference_tasks": 4, "difference_rate": 0.014598540145985401, "mcnemar_4gpu_only": 19, "mcnemar_8gpu_only": 15, "mcnemar_exact_p": 0.6075913612730801},
+    {"seed": 43, "train_8gpu_success": 223, "train_4gpu_success": 227, "difference_tasks": 4, "difference_rate": 0.014598540145985401, "mcnemar_4gpu_only": 22, "mcnemar_8gpu_only": 18, "mcnemar_exact_p": 0.6358280026288412},
+    {"seed": 44, "train_8gpu_success": 219, "train_4gpu_success": 227, "difference_tasks": 8, "difference_rate": 0.029197080291970802, "mcnemar_4gpu_only": 22, "mcnemar_8gpu_only": 14, "mcnemar_exact_p": 0.2429849540349096}
+  ],
+  "three_seed_descriptive": {
+    "train_8gpu_success_total": 664,
+    "train_8gpu_success_rate": 0.8077858880778589,
+    "train_4gpu_success_total": 680,
+    "train_4gpu_success_rate": 0.8272506082725061,
+    "difference_rate_4gpu_minus_8gpu": 0.019464720194647202
+  },
+  "task_clustered_inference": {
+    "cluster_unit": "game_file; all three evaluation-seed outcomes retained within each resampled or sign-flipped task",
+    "bootstrap_replicates": 200000,
+    "bootstrap_rng_seed": 20260812,
+    "overall": {"difference_rate": 0.019464720194647202, "bootstrap_95_ci": [-0.01094890510948905, 0.04987834549878345], "exact_cluster_signflip_p": 0.23702616696480866},
+    "seen": {"difference_rate": 0.02857142857142857, "bootstrap_95_ci": [-0.014285714285714285, 0.07142857142857142], "exact_cluster_signflip_p": 0.23260821585427038},
+    "unseen": {"difference_rate": 0.009950248756218905, "bootstrap_95_ci": [-0.03233830845771144, 0.05223880597014925], "exact_cluster_signflip_p": 0.7341067492961884}
+  },
+  "conclusion": "The 4-GPU-trained checkpoint is higher on all three evaluation seeds, but the task-clustered confidence interval includes zero and the exact cluster sign-flip test is not significant. These evaluation seeds quantify inference-sampling variation for two fixed checkpoints; they do not replace independent training seeds."
+}
